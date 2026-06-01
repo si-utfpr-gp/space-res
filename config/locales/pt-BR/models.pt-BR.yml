@@ -1,0 +1,12 @@
+pt-BR:
+  activerecord:
+    models:
+      user: Usuário
+    attributes:
+      defaults: &defaults
+        created_at: Criado em
+        updated_at: Atualizado em
+        name: Nome
+        email_address: E-mail
+      user:
+        <<: *defaults

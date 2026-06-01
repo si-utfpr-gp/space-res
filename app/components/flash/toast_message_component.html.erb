@@ -1,0 +1,8 @@
+<div id="<%= @id %>" data-turbo-stream="true">
+  <% messages.each do |type, message| %>
+    <div data-controller="ui--toast"
+         data-ui--toast-message-type-value="<%= type %>"
+         data-ui--toast-message-text-value="<%= helpers.sanitize_text message %>">
+    </div>
+  <% end %>
+</div>

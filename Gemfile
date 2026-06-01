@@ -42,6 +42,11 @@ gem "thruster", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 gem "image_processing", "~> 1.2"
 
+gem "rails-i18n", "~> 8.1.0"
+gem "view_component", "~> 4.0"
+# Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
+gem "bcrypt", "~> 3.1.22"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
@@ -54,6 +59,10 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+  gem "factory_bot_rails"
+  gem "faker"
+  # erb_lint is a tool to help lint your ERB or HTML files
+  gem "erb_lint", require: false
 end
 
 group :development do
@@ -65,4 +74,7 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  gem "shoulda-context", "~> 3.0.0.rc1"
+  gem "shoulda-matchers", "~> 7.0"
+  gem "mocha"
 end

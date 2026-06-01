@@ -1,0 +1,5 @@
+pt-BR:
+  mailer:
+    greetings:
+      hello: Olá
+      goodbye: Até logo
