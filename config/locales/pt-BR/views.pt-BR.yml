@@ -1,0 +1,32 @@
+pt-BR:
+  app:
+    name: Sistema de Reservas de Espaços Institucionais
+    short_name: Sistema de Reservas de Espaços Institucionais
+    title: Sistema de Reservas de Espaços Institucionais
+    description: Sistema de Reservas de Espaços Institucionais
+  prompt:
+    confirm: Tem certeza?
+  actions:
+    destroy: Excluir
+    edit: Editar
+    new: Novo
+    save: Salvar
+    back: Voltar
+    cancel: Cancelar
+    all:
+      f: Todas
+      m: Todos
+  form:
+    fields:
+      email_address: E-mail
+      password: Senha
+  helpers:
+    placeholder:
+      email_address: Digite seu e-mail
+      title: Digite o título
+    search:
+      no_results: Nenhum resultado para "%{term}"
+  users:
+    home:
+      dashboard:
+        title: Dashboard

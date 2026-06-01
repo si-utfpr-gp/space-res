@@ -1,0 +1,13 @@
+<% provide :head_title, t("sessions.titles.sign_in") %>
+<% provide :title, t("sessions.titles.sign_in") %>
+
+<%= form_with url: session_url, html: { novalidate: true } do |f| %>
+
+  <%= f.input :email_address, type: :email, value: params[:email_address] %>
+  <%= f.input :password, type: :password %>
+
+  <div class="mt-4 flex items-center justify-between">
+    <%= f.submit t("sessions.actions.sign_in") %>
+  </div>
+
+<% end %>

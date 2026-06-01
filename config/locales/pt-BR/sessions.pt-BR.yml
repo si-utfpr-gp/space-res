@@ -1,0 +1,14 @@
+pt-BR:
+  sessions:
+    titles:
+      sign_in: Entrar
+    actions:
+      sign_in: Entrar
+      sign_out: Sair
+    flash:
+      error: E-mail e/ou senha incorretos!
+      signed_in: Login realizado com sucesso.
+      signed_out: Logout realizado com sucesso.
+      already_signed_out: Logout realizado com sucesso.
+      already_signed_in: Você já está logado.
+      rate_limit: Muitas tentativas de login. Por favor, aguarde alguns minutos antes de tentar novamente.
