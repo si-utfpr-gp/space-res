@@ -1,24 +1,23 @@
-# README
+# SR-UTFPR(GP)
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Space Reservation – Federal University of Technology - Paraná (Guarapuava Campus). (From portuguese Brazil: Reserva de espaço - Universidade Tecnológica Federal do Paraná (Campus Guarapuava))
 
-Things you may want to cover:
+## What is the FARMA?
 
-* Ruby version
+SR-UTFPR is an academic environment management and scheduling system. The platform simplifies and centralizes the organization of institutional spaces, replacing decentralized controls with an intuitive digital workflow to optimize time and communication among students, faculty, and administration.
 
-* System dependencies
+### Maintainers
 
-* Configuration
+- Diego Marczal (https://github.com/dmarczal)
+- Renata Luiza Stange 
+- Denis Lucas Silva 
 
-* Database creation
+### Main Contributors
 
-* Database initialization
+- Gabriel Henrique Ribas (https://github.com/GabrielHenriqueRibas)
 
-* How to run the test suite
+### License
 
-* Services (job queues, cache servers, search engines, etc.)
+MIT License. Copyright 2026 SR-UTFPR(GP).
 
-* Deployment instructions
-
-* ...
+You are not granted rights or licenses to the trademarks of the SR-UTFPR(GP), including without limitation the SR-UTFPR(GP) name or logo.
