@@ -2,7 +2,7 @@
 
 Space Reservation – Federal University of Technology - Paraná (Guarapuava Campus). (From portuguese Brazil: Reserva de espaço - Universidade Tecnológica Federal do Paraná (Campus Guarapuava))
 
-## What is the FARMA?
+## What is the SR-UTFPR?
 
 SR-UTFPR is an academic environment management and scheduling system. The platform simplifies and centralizes the organization of institutional spaces, replacing decentralized controls with an intuitive digital workflow to optimize time and communication among students, faculty, and administration.
 
@@ -14,6 +14,7 @@ SR-UTFPR is an academic environment management and scheduling system. The platfo
 
 ### Main Contributors
 
+- Ana Clara Novak 
 - Gabriel Henrique Ribas (https://github.com/GabrielHenriqueRibas)
 
 ### License
