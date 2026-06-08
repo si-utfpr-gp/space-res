@@ -3,8 +3,31 @@ pt-BR:
     titles:
       sign_in: Entrar
     actions:
+      access_dashboard: Acessar dashboard
       sign_in: Entrar
       sign_out: Sair
+    layout:
+      contact: Contato
+      copyright: © 2024 Universidade Tecnológica Federal do Paraná. Instituição Federal de Ensino Superior.
+      help: Ajuda
+      help_popover:
+        example: "Exemplo: exemplo@professores.utfpr.edu.br"
+        student_instruction: "acesse o sistema com suas credenciais já cadastradas com e-mail institucional e senha."
+        student_label: "Atenção:"
+      logo_alt: UTFPR
+      terms: Termos de Uso
+    new:
+      campus: Câmpus Guarapuava
+      campus_image_alt: Campus Guarapuava UTFPR
+      fields:
+        email:
+          label: E-mail institucional
+          placeholder: email@utfpr.edu.br
+        password:
+          label: Senha
+          placeholder: ••••••••••
+      subtitle: Acesse sua conta institucional para continuar!
+      title: Seja bem-vindo!
     flash:
       error: E-mail e/ou senha incorretos!
       signed_in: Login realizado com sucesso.

@@ -8,17 +8,13 @@ class Form::Input::SubmitComponent < ViewComponent::Base
   end
 
   def submit
-    classes = "btn-primary text-xs md:text-sm py-2 px-4 rounded-md cursor-pointer"
+    icon_name = @options.delete(:icon)
+    icon_class = @options.delete(:icon_class) || "h-3.5 w-3.5"
+    classes = "btn-primary inline-flex items-center justify-center gap-2 rounded-md px-4 py-2 text-xs md:text-sm font-semibold cursor-pointer"
     @options[:class] = "#{classes} #{@options[:class]}"
-    @options[:value] = @value if @value.present?
 
-    call_parent_method(@form, :submit, **@options)
-  end
-
-  private
-
-    # this is necessary to avoid infinite recursion in submit method
-    def call_parent_method(instance, method, *)
-      instance.class.superclass.instance_method(method).bind(instance).call(*)
+    content_tag(:button, type: "submit", name: "commit", value: @value, **@options) do
+      safe_join([ @value, (helpers.icon(icon_name, class: icon_class) if icon_name) ].compact, " ")
     end
+  end
 end

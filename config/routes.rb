@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "auth/sessions#new"
 
+  get "/termos-de-uso", to: "legal#terms", as: "terms"
+
   namespace :auth, as: "", path: "" do
     get "/login", to: "sessions#new", as: "new_session"
     post "/login", to: "sessions#create", as: "session"
