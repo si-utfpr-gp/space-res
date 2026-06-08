@@ -43,7 +43,7 @@ gem "thruster", require: false
 gem "image_processing", "~> 2.0"
 
 gem "rails-i18n", "~> 8.1.0"
-gem "view_component", "~> 4.0"
+gem "view_component", "~> 4.12"
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "~> 3.1.22"
 
