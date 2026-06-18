@@ -5,18 +5,18 @@
 </head>
 
 <body>
-<main class="min-h-screen bg-white text-slate-700">
+<main class="min-h-screen bg-neutral text-slate-700">
     <div class="flex min-h-screen flex-col">
         <header class="flex items-center justify-between px-6 py-6 sm:px-14 lg:px-16">
             <%= link_to root_path, class: "inline-flex items-center" do %>
                 <%= image_tag "session/new/logo.png",
                     alt: t("sessions.layout.logo_alt"),
-                    class: "h-10 w-auto sm:h-12" %>
+                    class: "h-14 w-auto sm:h-18" %>
             <% end %>
 
             <nav class="flex items-center gap-8 text-sm">
                 <details class="group relative">
-                    <summary class="list-none cursor-pointer text-sm font-medium text-amber-500 hover:text-amber-600 [&::-webkit-details-marker]:hidden">
+                    <summary class="list-none cursor-pointer text-sm font-medium text-secondary hover:text-secondary-hover [&::-webkit-details-marker]:hidden">
                         <%= t("sessions.layout.help") %>
                     </summary>
 
@@ -30,7 +30,9 @@
                         </p>
                     </div>
                 </details>
-                <%= link_to t("sessions.actions.sign_in"), new_session_path, class: "!text-[#6f559b] font-semibold underline decoration-2 underline-offset-4" %>
+                <p class="text-primary font-semibold underline decoration-2 underline-offset-4">
+                    <%= t("sessions.actions.sign_in") %>
+                </p>
             </nav>
         </header>
 
@@ -39,12 +41,12 @@
             <%= yield %>
         </section>
 
-        <footer class="flex flex-col gap-4 px-6 pb-8 text-[11px] text-gray-400 sm:flex-row sm:items-center sm:justify-between sm:px-14 lg:px-16">
+        <footer class="flex flex-col gap-4 px-6 pb-8 text-[11px] text-dark sm:flex-row sm:items-center sm:justify-between sm:px-14 lg:px-16">
             <p><%= t("sessions.layout.copyright") %></p>
 
             <div class="flex gap-12">
-                <%= link_to t("sessions.layout.terms"), terms_path, class: "!text-gray-500 !text-[11px] !font-medium hover:!text-gray-700 !no-underline" %>
-                <%= link_to t("sessions.layout.contact"), "https://www.utfpr.edu.br/contato", class: "!text-gray-500 !text-[11px] !font-medium hover:!text-gray-700 !no-underline" %>
+                <%= link_to t("sessions.layout.terms"), terms_path, class: "!text-dark !text-[11px] !font-medium hover:!text-gray-700 !no-underline" %>
+                <%= link_to t("sessions.layout.contact"), "https://www.utfpr.edu.br/contato", class: "!text-dark !text-[11px] !font-medium hover:!text-gray-700 !no-underline" %>
             </div>
         </footer>
     </div>
