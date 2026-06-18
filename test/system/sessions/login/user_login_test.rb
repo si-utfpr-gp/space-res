@@ -9,7 +9,7 @@ class UserLoginTest < ApplicationSystemTestCase
   test "user can log in" do
     fill_in :email_address, with: @user.email_address
     fill_in :password, with: "password"
-    click_on I18n.t("sessions.actions.sign_in")
+    click_on I18n.t("sessions.actions.access_dashboard")
 
     assert_current_path users_root_path
   end
@@ -17,7 +17,7 @@ class UserLoginTest < ApplicationSystemTestCase
   test "user cannot log in with invalid credentials" do
     fill_in :email_address, with: @user.email_address
     fill_in :password, with: "wrongpassword"
-    click_on I18n.t("sessions.actions.sign_in")
+    click_on I18n.t("sessions.actions.access_dashboard")
 
     assert_flash_message I18n.t("sessions.flash.error")
 
