@@ -1,0 +1,27 @@
+<aside class="w-48 flex flex-col bg-white shadow-lg shrink-0">
+  <nav class="flex flex-col flex-1 px-3 py-4 overflow-y-auto">
+    <ul class="space-y-1 text-sm">
+      <% [
+        { label: t("dashboard.nav.home"),         path: users_root_path, icon: :home },
+        { label: t("dashboard.nav.reservations"), path: "#",             icon: :calender }
+      ].each do |item| %>
+        <li>
+          <%= link_to item[:path],
+                class: "flex items-center mb-2  gap-2 px-3 py-2 rounded-lg no-underline
+                        #{ current_page?(item[:path]) ?
+                          'bg-secondary-pastel text-secondary font-semibold' :
+                          'text-dark hover:bg-neutral' }" do %>
+            <%= icon(item[:icon], class: "w-4 h-4") %>
+            <%= item[:label] %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+
+    <div class="mt-auto">
+      <%= link_to t("sessions.actions.sign_out"), destroy_session_path,
+            data: { turbo_method: :delete },
+            class: "flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-error" %>
+    </div>
+  </nav>
+</aside>

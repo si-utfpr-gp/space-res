@@ -1,0 +1,20 @@
+<nav class="flex items-center justify-between px-8 py-3 bg-dark">
+    <button data-action="click->sidebar#toggle" type="button" class="inline-flex items-center text-white lg:hidden">
+        <%= icon(:burger)%>
+    </button>
+    <div>
+        <%= image_tag('users/dashboard/logo.png', alt: 'Logo', class: "h-10 sm:h-12") %>
+    </div>
+
+    <div class="flex items-center gap-4 text-white">
+        <div>
+            <h1 class="font-semibold">Olá, <%= Current.user.name %></h1>
+            <p class="text-xs font-medium text-secondary">Seja bem vindo!</p>    
+        </div>
+        
+
+        <div>
+            <%= image_tag(Current.user.avatar_url, alt: Current.user.name, class: "w-8 h-8 rounded-full border-2 bg-white border-secondary") %>
+        </div>
+    </div>
+</nav>
