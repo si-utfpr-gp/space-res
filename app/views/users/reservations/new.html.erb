@@ -1,0 +1,6 @@
+<% content_for :page_title, t("dashboard.nav.reservations") %>
+
+<div class="max-w-xl">
+  <h2 class="text-lg font-medium text-gray-800 mb-6">Novo agendamento</h2>
+  <%= render "form", reservation: @reservation %>
+</div>
