@@ -26,7 +26,7 @@ class Users::ReservationsController < Users::BaseController
         status:       "draft",
         user:         Current.user
       )
-      
+
       if @reservation.save
         session.delete(:reservation)
         redirect_to users_root_path, notice: t("reservations.created")
