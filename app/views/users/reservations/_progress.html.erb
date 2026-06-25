@@ -1,13 +1,13 @@
 <div class="flex items-start justify-start gap-2 mb-8">
-  <% [["1", "Espaço"], ["2", "Datas"], ["3", "Resumo"]].each do |n, label| %>
+  <% [ [ "1", "Espaço" ], [ "2", "Datas" ], [ "3", "Resumo" ] ].each do |n, label| %>
     <div class="flex items-center gap-2">
       <div>
         <%= n.to_i < @step ? "✓" : n %>
       </div>
-      <span >
+      <span>
         <%= label %>
       </span>
     </div>
-    <%= raw("&rarr;") unless n == "3" %>
+    <% unless n == "3" %>→<% end %>
   <% end %>
 </div>
