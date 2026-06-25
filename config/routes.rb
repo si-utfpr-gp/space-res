@@ -22,6 +22,5 @@ Rails.application.routes.draw do
 
   namespace :users do
     root "home#dashboard"
-    resources :reservations, only: [ :new, :create ]
   end
 end

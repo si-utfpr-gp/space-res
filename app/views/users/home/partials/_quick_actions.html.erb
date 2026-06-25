@@ -5,7 +5,7 @@
 
   <div class="grid grid-cols-3 gap-12">
     <% [
-      { icon: :add, color: "text-white", bg: "bg-primary", label: t("users.home.dashboard.new_scheduling"),  desc: t("users.home.dashboard.new_scheduling_description"), path: new_users_reservation_path }
+      { icon: :add, color: "text-white", bg: "bg-primary", label: t("users.home.dashboard.new_scheduling"),  desc: t("users.home.dashboard.new_scheduling_description"), path: "#" }
     ].each do |item| %>
       <%= link_to item[:path], class: "flex flex-col items-center gap-2 p-4 bg-white border border-neutral rounded-xl hover:shadow-sm transition text-center no-underline" do %>
         <div class="flex items-center justify-center w-10 h-10 rounded-lg <%= item[:bg] %> ">
