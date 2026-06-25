@@ -2,12 +2,12 @@
   <head>
     <%= render "layouts/shared/head" %>
   </head>
-  <body class="h-screen overflow-hidden flex flex-col">
+  <body class="h-screen overflow-hidden flex flex-col bg-neutral">
 
-    <%= render 'layouts/users/header' %>
+    <%= render 'layouts/users/partials/header' %>
 
     <div class="flex flex-1 overflow-hidden">
-      <%= render 'layouts/users/sidebar' %>
+      <%= render 'layouts/users/partials/sidebar' %>
 
       <main class="flex-1 overflow-y-auto p-16">
         <%= yield %>

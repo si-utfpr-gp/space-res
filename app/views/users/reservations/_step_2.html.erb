@@ -1,0 +1,21 @@
+<%= form_with url: users_reservations_path do |f| %>
+  <%= hidden_field_tag :step, 2 %>
+
+  <div class="space-y-4">
+    <div>
+      <label >Tipo de reserva</label>
+      <%= select_tag :tipo_reserva,
+            options_for_select([["Única", "unica"], ["Recorrente", "recorrente"]]) %>
+    </div>
+
+    <div>
+      <label >Data</label>
+      <%= date_field_tag "datas[]", nil %>
+    </div>
+  </div>
+
+  <div >
+    <%= link_to "← Voltar", new_users_reservation_path(step: 1) %>
+    <%= f.submit "Próximo →"%>
+  </div>
+<% end %>

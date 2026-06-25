@@ -1,6 +1,16 @@
-<% content_for :page_title, t("dashboard.nav.reservations") %>
+<% content_for :page_title, t(".title") %>
 
-<div class="max-w-xl">
-  <h2 class="text-lg font-medium text-gray-800 mb-6">Novo agendamento</h2>
-  <%= render "form", reservation: @reservation %>
+<div class="flex flex-col h-full items-center justify-center">
+  <%= render 'users/reservations/progress'%>
+
+  <section class="bg-white h-1/2 w-1/2 flex items-center justify-center rounded-md ">
+    <% case @step %>
+      <% when 1 %>
+        <%= render "step_1" %>
+      <% when 2 %>
+        <%= render "step_2" %>
+      <% when 3 %>
+        <%= render "step_3" %>
+      <% end %>
+  </section>
 </div>
