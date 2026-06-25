@@ -1,18 +1,18 @@
 <section>
   <h2 class="text-sm font-semibold text-secondary tracking-widest uppercase mb-4">
-    Ações rápidas
+    <%= t("users.home.dashboard.quick_actions") %>
   </h2>
 
   <div class="grid grid-cols-3 gap-12">
     <% [
-      { icon: :add, color: "text-white", bg: "bg-primary", label: "Novo Agendamento",  desc: "Reserve salas ou labs", path: "#" }
+      { icon: :add, color: "text-white", bg: "bg-primary", label: t("users.home.dashboard.new_scheduling"),  desc: t("users.home.dashboard.new_scheduling_description"), path: "#" }
     ].each do |item| %>
-      <%= link_to item[:path], class: "flex flex-col items-center gap-2 p-4 bg-white border border-gray-100 rounded-xl hover:shadow-sm transition text-center" do %>
+      <%= link_to item[:path], class: "flex flex-col items-center gap-2 p-4 bg-white border border-neutral rounded-xl hover:shadow-sm transition text-center no-underline" do %>
         <div class="flex items-center justify-center w-10 h-10 rounded-lg <%= item[:bg] %> ">
-          <i class="<%= item[:color] %>" aria-hidden="true"><%= icon(item[:icon], class: "w-6 h-6") %></i>
+          <i class="<%= item[:color] %>"><%= icon(item[:icon], class: "w-6 h-6") %></i>
         </div>
-        <span class="text-sm font-medium text-blue-600 no-underline"><%= item[:label] %></span>
-        <span class="text-xs text-gray-400 leading-snug no-underline"><%= item[:desc] %></span>
+        <span class="text-sm font-medium text-primary no-underline"><%= item[:label] %></span>
+        <span class="text-xs text-dark leading-snug no-underline"><%= item[:desc] %></span>
       <% end %>
     <% end %>
   </div>

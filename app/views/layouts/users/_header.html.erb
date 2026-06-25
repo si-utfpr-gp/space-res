@@ -8,8 +8,8 @@
 
     <div class="flex items-center gap-4 text-white">
         <div>
-            <h1 class="font-semibold">Olá, <%= Current.user.name %></h1>
-            <p class="text-xs font-medium text-secondary">Seja bem vindo!</p>    
+            <h1 class="font-semibold"><%= t("users.home.layouts.header.hi", name: Current.user.name) %></h1>
+            <p class="text-xs font-medium text-secondary"><%= t("users.home.layouts.header.welcome") %></p>    
         </div>
         
 

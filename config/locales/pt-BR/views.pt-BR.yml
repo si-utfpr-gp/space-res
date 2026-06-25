@@ -28,8 +28,18 @@ pt-BR:
       no_results: Nenhum resultado para "%{term}"
   users:
     home:
+      layouts:
+        sidebar:
+          home: Dashboard
+          reservations: Minhas reservas
+        header:
+          hi: Olá, %{name}
+          welcome: Seja bem-vindo!
       dashboard:
         title: Dashboard
+        quick_actions: Ações rápidas
+        new_scheduling: Novo Agendamento
+        new_scheduling_description: Reserve salas ou laboratorios
   legal:
     terms:
       eyebrow: Documentos legais

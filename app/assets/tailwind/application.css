@@ -31,13 +31,15 @@
     /* ------------------------------------------------------------------------------------*/
     --color-primary: #0169CD;
     --color-primary-hover: #00468C;
+    --color-primary-pastel: #A9C7FF;
     --color-secondary: #FCBC00;
     --color-secondary-hover: #DAA200;
     --color-secondary-pastel: #FFF8DF;
 
     --color-neutral: #8D9199;
     --color-dark: #5A5F66;
-    --color-    : #FFFFFF;
+    --color-gray: #73777F;
+    --color-white: #FFFFFF;
 
     --color-error: #FF4848;
 
