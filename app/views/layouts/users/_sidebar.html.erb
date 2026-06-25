@@ -2,8 +2,8 @@
   <nav class="flex flex-col flex-1 px-3 py-4 overflow-y-auto">
     <ul class="space-y-1 text-sm">
       <% [
-        { label: t("dashboard.nav.home"),         path: users_root_path, icon: :home },
-        { label: t("dashboard.nav.reservations"), path: "#",             icon: :calender }
+        { label: t("dashboard.nav.home"), path: users_root_path, icon: :home },
+        { label: t("dashboard.nav.reservations"), path: "#", icon: :calender }
       ].each do |item| %>
         <li>
           <%= link_to item[:path],
