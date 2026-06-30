@@ -7,6 +7,7 @@ pt-BR:
   prompt:
     confirm: Tem certeza?
   actions:
+    loading: Carregando...
     destroy: Excluir
     edit: Editar
     new: Novo

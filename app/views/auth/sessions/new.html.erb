@@ -39,9 +39,8 @@
           class: "p-2 h-11 rounded bg-neutral border-0 text-sm text-dark placeholder:text-dark shadow-none focus:bg-white focus:ring-2 focus:ring-primary/30 focus:border-primary" %>
 
         <%= f.submit t("sessions.actions.access_dashboard"),
-          icon: :arrow_right,
-          icon_class: "h-4 w-4",
-          class: "h-11 w-full rounded bg-primary text-white shadow-sm hover:bg-primary-hover focus:ring-primary/40" %>
+                     icon: {name: :arrow_right, position: :end, class: "h-4 w-4"},
+                     class: "btn btn-md btn-primary w-full" %>
       <% end %>
     </div>
   </div>
