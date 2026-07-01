@@ -7,6 +7,7 @@ pt-BR:
   prompt:
     confirm: Tem certeza?
   actions:
+    loading: Carregando...
     destroy: Excluir
     edit: Editar
     new: Novo
@@ -30,3 +31,27 @@ pt-BR:
     home:
       dashboard:
         title: Dashboard
+  legal:
+    terms:
+      eyebrow: Documentos legais
+      title: Termos de Uso
+      updated_at: Última atualização em 06 de junho de 2026.
+      sections:
+        - title: 1. Aceitação dos termos
+          body: Ao acessar ou utilizar o Sistema de Reservas de Espaços Institucionais, o usuário declara que leu, compreendeu e concorda com estes Termos de Uso.
+        - title: 2. Finalidade do sistema
+          body: O sistema tem como finalidade apoiar a solicitação, análise, organização e acompanhamento de reservas de espaços institucionais vinculados à universidade.
+        - title: 3. Responsabilidades do usuário
+          body: O usuário deve fornecer informações verdadeiras, utilizar sua conta de forma individual e zelar pelo uso adequado dos espaços, equipamentos e recursos reservados.
+        - title: 4. Uso adequado
+          body: É proibido utilizar o sistema para fins ilícitos, para prejudicar terceiros, para inserir informações falsas ou para comprometer a disponibilidade, integridade ou segurança da aplicação.
+        - title: 5. Conta e credenciais
+          body: O usuário é responsável pela guarda de suas credenciais de acesso e deve comunicar imediatamente qualquer suspeita de uso indevido da conta.
+        - title: 6. Reservas e cancelamentos
+          body: As reservas podem estar sujeitas à análise administrativa, regras internas, disponibilidade dos espaços e prazos definidos pela instituição.
+        - title: 7. Tratamento de dados
+          body: Os dados informados no sistema serão utilizados para identificação do usuário, processamento das reservas, comunicação institucional e registro das operações necessárias ao serviço.
+        - title: 8. Alterações dos termos
+          body: Estes Termos de Uso podem ser atualizados para refletir mudanças legais, institucionais ou operacionais. A versão vigente ficará disponível nesta página.
+        - title: 9. Contato
+          body: Dúvidas sobre estes Termos de Uso ou sobre o funcionamento do sistema devem ser encaminhadas pelos canais oficiais de atendimento da instituição.

@@ -1,13 +1,42 @@
 <% provide :head_title, t("sessions.titles.sign_in") %>
 <% provide :title, t("sessions.titles.sign_in") %>
 
-<%= form_with url: session_url, html: { novalidate: true } do |f| %>
+<div class="grid w-full max-w-[960px] overflow-hidden rounded-lg bg-white shadow-[0_10px_30px_rgba(15,23,42,0.18)] md:grid-cols-[0.9fr_1.1fr]">
+  <div class="relative hidden min-h-[500px] md:block">
+    <%= image_tag "campus/guarapuava.png",
+                  alt: t("sessions.new.campus_image_alt"),
+                  class: "h-full w-full object-cover" %>
 
-  <%= f.input :email_address, type: :email, value: params[:email_address] %>
-  <%= f.input :password, type: :password %>
-
-  <div class="mt-4 flex items-center justify-between">
-    <%= f.submit t("sessions.actions.sign_in") %>
+    <div class="absolute inset-x-0 top-0 flex justify-end bg-gradient-to-b from-black/35 to-transparent p-5">
+      <span class="inline-flex items-center gap-1.5 text-[11px] font-medium text-white">
+        <%= t("sessions.new.campus") %>
+        <%= icon :location_dot, class: "h-3 w-3" %>
+      </span>
+    </div>
   </div>
 
-<% end %>
+  <div class="px-8 py-10 sm:px-14 md:px-16 md:py-20">
+    <div class="mx-auto max-w-[390px]">
+      <h1 class="text-3xl font-bold tracking-normal text-primary"><%= t("sessions.new.title") %></h1>
+      <p class="mt-2 text-base text-dark"><%= t("sessions.new.subtitle") %></p>
+
+      <%= form_with url: session_url, html: { novalidate: true, class: "mt-10" } do |f| %>
+        <%= f.input :email_address,
+                    type: :email,
+                    value: params[:email_address],
+                    label: t("sessions.new.fields.email.label"),
+                    placeholder: t("sessions.new.fields.email.placeholder") %>
+
+        <%= f.input :password,
+                    type: :password,
+                    label: t("sessions.new.fields.password.label"),
+                    placeholder: t("sessions.new.fields.password.placeholder") %>
+
+        <%= f.submit t("sessions.actions.access_dashboard"),
+                     loading_text: t("sessions.actions.loading.sign_in"),
+                     icon: { name: :arrow_right, position: :end, class: "h-4 w-4" },
+                     class: "btn btn-md btn-primary w-full" %>
+      <% end %>
+    </div>
+  </div>
+</div>

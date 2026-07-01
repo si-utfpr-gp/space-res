@@ -17,22 +17,23 @@ class Form::Input::BaseComponent < ViewComponent::Base
   end
 
   def input
-    classes = "text-xs md:text-base mt-1 block w-full rounded-md border border-gray-300 py-2 px-3 shadow-sm"
+    input_options = @options.except(:hint, :label, :label_class, :wrapper_class)
+    classes = "mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-xs md:text-base shadow-sm"
     classes += " focus:border-blue-500 focus:outline-none focus:ring-blue-500"
     classes += " #{error_input_class}"
 
     # Extract and remove :class from options safely
-    custom_class = @options.delete(:class)
+    custom_class = input_options.delete(:class)
     classes += " #{custom_class}" if custom_class.present?
 
-    @form.send(input_type, @attribute, class: classes, id: id, **@options) + error_message
+    @form.send(input_type, @attribute, class: classes, id: id, **input_options) + error_message
   end
 
   def label
     return if @options[:label] === false
 
-    content_tag :label, class: "block text-xs md:text-sm font-medium text-gray-700", for: id do
-      @object&.class&.human_attribute_name(@attribute) || I18n.t("form.fields.#{@attribute}")
+    content_tag :label, class: label_class, for: id do
+      label_text
     end
   end
 
@@ -46,6 +47,19 @@ class Form::Input::BaseComponent < ViewComponent::Base
       return "textarea" if @type.eql?(:textarea)
 
       "#{@type}_field"
+    end
+
+    def label_text
+      return @options[:label] if @options[:label].is_a?(String)
+
+      @object&.class&.human_attribute_name(@attribute) || I18n.t("form.fields.#{@attribute}")
+    end
+
+    def label_class
+      classes = "block text-xs md:text-sm font-medium text-gray-700"
+      custom_class = @options[:label_class]
+      classes += " #{custom_class}" if custom_class.present?
+      classes
     end
 
     # Errors

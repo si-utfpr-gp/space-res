@@ -5,27 +5,51 @@
 </head>
 
 <body>
-<main>
+<main class="min-h-screen bg-neutral text-slate-700">
+    <div class="flex min-h-screen flex-col">
+        <header class="flex items-center justify-between px-6 pt-6 sm:px-14 lg:px-16">
+            <%= link_to root_path, class: "inline-flex items-center" do %>
+                <%= image_tag "logos/logo-utfpr.png",
+                    alt: t("sessions.layout.logo_alt"),
+                    class: "h-14 w-auto sm:h-18" %>
+            <% end %>
 
-    <div class="flex items-center justify-center min-h-screen">
-        <div class="max-w-sm w-full">
+            <nav class="flex items-center gap-8 text-sm">
+                <details class="group relative">
+                    <summary class="list-none cursor-pointer text-sm font-medium text-secondary hover:text-secondary-hover [&::-webkit-details-marker]:hidden">
+                        <%= t("sessions.layout.help") %>
+                    </summary>
 
-            <div class="px-6 py-4">
-                <div class="flex justify-center mb-6">
-                    <%= link_to image_tag("avatars/default_avatar.png", class: "w-auto h-24 rounded-xl"), root_path %>
-                </div>
+                    <div class="absolute right-0 top-8 z-20 w-72 rounded-md border border-amber-100 bg-white p-4 text-xs leading-5 text-dark shadow-[0_10px_30px_rgba(15,23,42,0.16)]">
+                        <p>
+                            <span class="font-semibold"><%= t("sessions.layout.help_popover.student_label") %></span>
+                            <%= t("sessions.layout.help_popover.student_instruction") %>
+                        </p>
+                        <p class="mt-2 text-secondary">
+                            <%= t("sessions.layout.help_popover.example") %>
+                        </p>
+                    </div>
+                </details>
+                <p class="text-primary font-semibold underline decoration-2 underline-offset-4">
+                    <%= t("sessions.actions.sign_in") %>
+                </p>
+            </nav>
+        </header>
 
-                <h2 class="m-3 text-2xl font-medium text-center text-gray-600">
-                    <%= yield(:head_title) %>
-                </h2>
+        <section class="flex flex-1 items-center justify-center px-4 py-10 sm:px-6 lg:px-8">
+            <%= render Flash::ToastMessageComponent.new %>
+            <%= yield %>
+        </section>
 
-                <%= render Flash::ToastMessageComponent.new %>
+        <footer class="flex flex-col gap-4 px-6 pb-8 text-[11px] text-dark sm:flex-row sm:items-center sm:justify-between sm:px-14 lg:px-16">
+            <p><%= t("sessions.layout.copyright") %></p>
 
-                <%= yield %>
+            <div class="flex gap-12">
+                <%= link_to t("sessions.layout.terms"), terms_path, class: "!text-dark !text-[11px] !font-medium hover:!text-gray-700 !no-underline" %>
+                <%= link_to t("sessions.layout.contact"), "https://www.utfpr.edu.br/contato", class: "!text-dark !text-[11px] !font-medium hover:!text-gray-700 !no-underline" %>
             </div>
-        </div>
+        </footer>
     </div>
-
 </main>
 </body>
 </html>
