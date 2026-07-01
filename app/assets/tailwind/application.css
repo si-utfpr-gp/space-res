@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+@source "../app/views";
+@source "../app/helpers";
+@source "../app/javascript";
+@source "../app/components";
+@source "../public";
+
 @plugin "@tailwindcss/forms";
 @plugin "@tailwindcss/aspect-ratio";
 @plugin "@tailwindcss/typography";

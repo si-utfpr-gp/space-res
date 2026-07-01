@@ -31,7 +31,7 @@ class Form::Input::SubmitComponent < ViewComponent::Base
     label = content_tag(:span, @value)
     icon = build_icon(icon_options)
 
-    icon_options.fetch(:position, :start).to_sym == :end ? [label, icon].compact : [icon, label].compact
+    icon_options.fetch(:position, :start).to_sym == :end ? [ label, icon ].compact : [ icon, label ].compact
   end
 
   def build_icon(icon_options)
