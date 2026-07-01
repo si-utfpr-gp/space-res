@@ -2,10 +2,10 @@
 <% provide :title, t("sessions.titles.sign_in") %>
 
 <div class="grid w-full max-w-[960px] overflow-hidden rounded-lg bg-white shadow-[0_10px_30px_rgba(15,23,42,0.18)] md:grid-cols-[0.9fr_1.1fr]">
-  <div class="relative hidden min-h-[560px] md:block">
+  <div class="relative hidden min-h-[500px] md:block">
     <%= image_tag "campus/guarapuava.png",
-      alt: t("sessions.new.campus_image_alt"),
-      class: "h-full w-full object-cover" %>
+                  alt: t("sessions.new.campus_image_alt"),
+                  class: "h-full w-full object-cover" %>
 
     <div class="absolute inset-x-0 top-0 flex justify-end bg-gradient-to-b from-black/35 to-transparent p-5">
       <span class="inline-flex items-center gap-1.5 text-[11px] font-medium text-white">
@@ -22,24 +22,19 @@
 
       <%= form_with url: session_url, html: { novalidate: true, class: "mt-10" } do |f| %>
         <%= f.input :email_address,
-          type: :email,
-          value: params[:email_address],
-          label: t("sessions.new.fields.email.label"),
-          placeholder: t("sessions.new.fields.email.placeholder"),
-          wrapper_class: "mb-9",
-          label_class: "text-[13px] font-semibold text-dark",
-          class: "p-2 h-11 rounded bg-neutral border-0 text-sm text-dark placeholder:text-gray-400 shadow-none focus:bg-white focus:ring-2 focus:ring-primary/30 focus:border-primary" %>
+                    type: :email,
+                    value: params[:email_address],
+                    label: t("sessions.new.fields.email.label"),
+                    placeholder: t("sessions.new.fields.email.placeholder") %>
 
         <%= f.input :password,
-          type: :password,
-          label: t("sessions.new.fields.password.label"),
-          placeholder: t("sessions.new.fields.password.placeholder"),
-          wrapper_class: "mb-4",
-          label_class: "text-[13px] font-semibold text-dark",
-          class: "p-2 h-11 rounded bg-neutral border-0 text-sm text-dark placeholder:text-dark shadow-none focus:bg-white focus:ring-2 focus:ring-primary/30 focus:border-primary" %>
+                    type: :password,
+                    label: t("sessions.new.fields.password.label"),
+                    placeholder: t("sessions.new.fields.password.placeholder") %>
 
         <%= f.submit t("sessions.actions.access_dashboard"),
-                     icon: {name: :arrow_right, position: :end, class: "h-4 w-4"},
+                     loading_text: t("sessions.actions.loading.sign_in"),
+                     icon: { name: :arrow_right, position: :end, class: "h-4 w-4" },
                      class: "btn btn-md btn-primary w-full" %>
       <% end %>
     </div>
