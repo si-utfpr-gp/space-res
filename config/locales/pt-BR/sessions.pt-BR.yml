@@ -3,8 +3,6 @@ pt-BR:
     titles:
       sign_in: Entrar
     actions:
-      loading:
-        sign_in: Entrando...
       access_dashboard: Acessar dashboard
       sign_in: Entrar
       sign_out: Sair

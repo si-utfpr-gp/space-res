@@ -1,0 +1,17 @@
+<nav class="flex items-center justify-between gap-2 px-4 sm:px-8 py-3 bg-dark">
+    <button data-action="click->sidebar#toggle" type="button" class="inline-flex items-center text-white lg:hidden">
+        <%= icon(:burger) %>
+    </button>
+    <div>
+        <%= image_tag("users/dashboard/logo.png", alt: "Logo", class: "h-9 sm:h-12") %>
+    </div>
+
+    <div class="flex items-center gap-2 sm:gap-4 text-white">
+        <div class="hidden text-right sm:block">
+            <h1 class="font-semibold"><%= t("users.home.layouts.header.hi", name: Current.user.name) %></h1>
+            <p class="text-xs font-medium text-secondary"><%= t("users.home.layouts.header.welcome") %></p>
+        </div>
+
+        <%= render "layouts/users/partials/dropdown" %>
+    </div>
+</nav>

@@ -1,0 +1,23 @@
+<div data-sidebar-target="backdrop" class="fixed inset-0 z-20 hidden bg-dark/40 lg:hidden"></div>
+
+<aside data-sidebar-target="sidebar" class="absolute inset-y-0 left-0 z-30 w-64 -translate-x-full flex flex-col bg-white shadow-lg shrink-0 transition-transform duration-300 ease-in-out lg:relative lg:w-48 lg:translate-x-0">
+  <nav class="flex flex-col flex-1 px-3 py-4 overflow-y-auto">
+    <ul class="space-y-1 text-sm">
+      <% [
+        { label: t("users.home.layouts.sidebar.home"), path: users_root_path, icon: :home },
+        { label: t("users.home.layouts.sidebar.reservations"), path: "#", icon: :calender }
+      ].each do |item| %>
+        <li>
+          <%= link_to item[:path],
+                class: "flex items-center mb-2  gap-2 px-3 py-2 rounded-lg no-underline
+                        #{ current_page?(item[:path]) ?
+                          'bg-secondary/10 text-secondary font-semibold' :
+                          'text-dark hover:bg-dark/10' }" do %>
+            <%= icon(item[:icon], class: "w-4 h-4") %>
+            <%= item[:label] %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+</aside>
