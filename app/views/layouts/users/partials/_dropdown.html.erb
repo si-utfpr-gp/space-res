@@ -1,6 +1,6 @@
-<div class="relative" data-controller="dropdown" data-action="click@window->dropdown#close">
+<div class="relative" data-controller="ui--dropdown" data-action="click@window->ui--dropdown#close">
   <%= button_tag id: "user-menu-button",
-                 data: { action: "click->dropdown#toggle" },
+                 data: { action: "click->ui--dropdown#toggle" },
                  class: "flex items-center gap-2 p-1 rounded-full hover:opacity-80 transition",
                  type: "button" do %>
     <%= image_tag Current.user.avatar_url,
@@ -8,7 +8,7 @@
           class: "w-9 h-9 rounded-full border-2 border-secondary object-cover bg-white" %>
   <% end %>
 
-  <div data-dropdown-target="menu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg z-50 overflow-hidden">
+  <div data-ui--dropdown-target="menu" class="hidden absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg z-50 overflow-hidden">
     <div class="flex items-center gap-3 px-4 py-3 border-b border-neutral">
       <div class="min-w-0">
         <p class="text-sm font-medium text-dark truncate"><%= Current.user.name %></p>

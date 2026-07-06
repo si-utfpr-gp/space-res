@@ -26,7 +26,7 @@ export default class extends Controller {
     closeOnOutsideClick(event) {
         if (
             !this.sidebarTarget.contains(event.target) &&
-            !event.target.closest("[data-action='click->sidebar#toggle']")
+            !event.target.closest("[data-action='click->ui--sidebar#toggle']")
         ) {
             this.sidebarTarget.classList.add('-translate-x-full')
 
