@@ -35,6 +35,9 @@ pt-BR:
         header:
           hi: Olá, %{name}
           welcome: Seja bem-vindo!
+        dropdown:
+          profile: Meu perfil
+          sign_out: Sair
       dashboard:
         title: Dashboard
         quick_actions: Ações rápidas

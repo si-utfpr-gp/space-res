@@ -19,14 +19,14 @@
     <ul class="py-1">
       <li>
         <%= link_to "#", class: "flex items-center gap-2 px-4 py-2 text-sm text-primary hover:bg-primary/10 no-underline" do %>
-          <%= t("links.profile") %>
+          <%= t("users.home.layouts.dropdown.profile") %>
         <% end %>
       </li>
       <li class="border-t border-gray-100 mt-1 pt-1">
         <%= link_to destroy_session_path,
               data: { turbo_method: :delete },
               class: "flex items-center gap-2 px-4 py-2 text-sm text-error hover:bg-error/10 no-underline" do %>
-          <%= t("links.sign_out") %>
+          <%= t("users.home.layouts.dropdown.sign_out") %>
         <% end %>
       </li>
     </ul>
