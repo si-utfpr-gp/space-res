@@ -17,8 +17,8 @@ pt-BR:
       logo_alt: UTFPR
       terms: Termos de Uso
     new:
-      campus: Câmpus Guarapuava
-      campus_image_alt: Câmpus Guarapuava UTFPR
+      campus: Campus Guarapuava
+      campus_image_alt: Campus Guarapuava UTFPR
       fields:
         email:
           label: E-mail institucional
