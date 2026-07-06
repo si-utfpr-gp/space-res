@@ -3,8 +3,6 @@ pt-BR:
     titles:
       sign_in: Entrar
     actions:
-      loading:
-        sign_in: Entrando...
       access_dashboard: Acessar dashboard
       sign_in: Entrar
       sign_out: Sair
@@ -19,7 +17,7 @@ pt-BR:
       logo_alt: UTFPR
       terms: Termos de Uso
     new:
-      campus: Câmpus Guarapuava
+      campus: Campus Guarapuava
       campus_image_alt: Campus Guarapuava UTFPR
       fields:
         email:

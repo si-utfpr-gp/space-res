@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <%= render "layouts/shared/head" %>
+  </head>
+  <body class="h-screen overflow-hidden flex flex-col bg-neutral" data-controller="ui--sidebar">
+
+    <%= render "layouts/users/partials/header" %>
+
+    <div class="flex flex-1 relative">
+      <%= render "layouts/users/partials/sidebar" %>
+
+      <main class="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-8 lg:p-16">
+        <%= yield %>
+      </main>
+    </div>
+
+  </body>
+</html>

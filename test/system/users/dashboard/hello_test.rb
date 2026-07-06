@@ -9,6 +9,6 @@ class UserLoginTest < ApplicationSystemTestCase
     sign_in_as(@user)
     visit users_root_path
 
-    assert_selector "h1", text: "Olá #{@user.name}"
+    assert_selector "h1", text: "Olá, #{@user.name}"
   end
 end
