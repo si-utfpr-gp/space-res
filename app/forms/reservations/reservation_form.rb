@@ -1,7 +1,7 @@
 class Reservations::ReservationForm
   include ActiveModel::Model
 
-  STEPS = [:space, :schedule, :confirmation].freeze
+  STEPS = [ :space, :schedule, :confirmation ].freeze
 
   attr_reader :current_step
   attr_accessor :user

@@ -6,6 +6,6 @@ class Reservations::SpaceForm < BaseForm
   end
 
   def params
-    [:space_id]
+    [ :space_id ]
   end
 end

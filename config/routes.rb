@@ -22,7 +22,7 @@ Rails.application.routes.draw do
 
   namespace :users do
   root "home#dashboard"
-  resources :reservations, only: [:new, :create] do
+  resources :reservations, only: [ :new, :create ] do
     collection do
       post :previous
     end

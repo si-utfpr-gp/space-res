@@ -1,5 +1,5 @@
 class Users::ReservationsController < Users::BaseController
-  before_action :load_form, only: [:new, :create, :previous]
+  before_action :load_form, only: [ :new, :create, :previous ]
 
   def new; end
 
