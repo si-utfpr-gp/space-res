@@ -8,8 +8,8 @@
       </label>
       <%= select_tag "schedule[tipo_reserva]",
             options_for_select([
-              [t("users.reservations.tipo_reserva.unica"), "unica"],
-              [t("users.reservations.tipo_reserva.recorrente"), "recorrente"]
+              [ t("users.reservations.tipo_reserva.unica"), "unica" ],
+              [ t("users.reservations.tipo_reserva.recorrente"), "recorrente" ]
             ], form.tipo_reserva),
             class: "w-full border border-neutral rounded-lg px-3 py-2 text-sm",
             data: { action: "change->ui--schedule#toggleFields" } %>
@@ -18,7 +18,7 @@
     <%# Campos para reserva única %>
     <div data-ui--schedule-target="unica" class="space-y-4 hidden">
       <div>
-        <label class="block text-sm font-medium text-dark mb-1"> 
+        <label class="block text-sm font-medium text-dark mb-1">
           <%= t("users.reservations.fields.date") %>
         </label>
         <%= date_field_tag "schedule[datas][]", form.datas&.first,
@@ -49,17 +49,17 @@
         <label class="block text-sm font-medium text-dark mb-1">Repetir</label>
         <%= select_tag "schedule[frequencia]",
               options_for_select([
-                ["Toda semana", "weekly"],
-                ["A cada 15 dias", "biweekly"],
-                ["Todo mês", "monthly"]
+                [ "Toda semana", "weekly" ],
+                [ "A cada 15 dias", "biweekly" ],
+                [ "Todo mês", "monthly" ]
               ]),
               class: "w-full border border-neutral rounded-lg px-3 py-2 text-sm" %>
       </div>
       <div>
         <label class="block text-sm font-medium text-dark mb-1">Dias da semana</label>
         <div class="flex gap-2 flex-wrap">
-          <% [["Seg", "monday"], ["Ter", "tuesday"], ["Qua", "wednesday"],
-              ["Qui", "thursday"], ["Sex", "friday"], ["Sáb", "saturday"]].each do |label, value| %>
+          <% [ [ "Seg", "monday" ], [ "Ter", "tuesday" ], [ "Qua", "wednesday" ],
+              [ "Qui", "thursday" ], [ "Sex", "friday" ], [ "Sáb", "saturday" ] ].each do |label, value| %>
             <label class="flex items-center gap-1 px-3 py-1.5 border border-neutral rounded-lg cursor-pointer has-[:checked]:border-primary has-[:checked]:bg-primary/5 text-sm">
               <%= check_box_tag "schedule[dias][]", value, false %>
               <%= label %>

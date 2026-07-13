@@ -3,13 +3,13 @@
     <% steps.each do |step| %>
       <li class="flex items-center gap-2 shrink-0">
         <span class="flex items-center justify-center w-7 h-7 rounded-full text-xs font-medium border
-                     <%= current_step == step[:number] ? 'border-primary bg-primary text-white' :
-                         current_step > step[:number]  ? 'border-primary bg-primary/10 text-primary' :
-                                                         'border-dark text-dark' %>">
+                     <%= current_step == step[:number] ? "border-primary bg-primary text-white" :
+                         current_step > step[:number]  ? "border-primary bg-primary/10 text-primary" :
+                                                         "border-dark text-dark" %>">
           <%= current_step > step[:number] ? "✓" : step[:number] %>
         </span>
         <span class="text-sm font-medium
-                     <%= current_step == step[:number] ? 'text-dark' : 'text-secondary' %>">
+                     <%= current_step == step[:number] ? "text-dark" : "text-secondary" %>">
           <%= step[:label] %>
         </span>
         <% unless step[:number] == steps.last[:number] %>
