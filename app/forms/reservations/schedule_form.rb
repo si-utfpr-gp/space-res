@@ -11,8 +11,8 @@ class Reservations::ScheduleForm < BaseForm
 
   def tipo_reserva_options
     [
-      [I18n.t("reservations.tipo_reserva.unica")],
-      [I18n.t("reservations.tipo_reserva.recorrente")]
+      [I18n.t("reservations.tipo_reserva.unica"), "unica"],
+      [I18n.t("reservations.tipo_reserva.recorrente"), "recorrente"]
     ]
   end
 end

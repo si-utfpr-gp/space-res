@@ -46,6 +46,26 @@ pt-BR:
     reservations:
       new:
         title: Novo agendamento
+      steps:
+        space: "Espaço"
+        schedule: "Datas"
+        confirmation: "Confirmação"
+        next: "Próximo →"
+        back: "← Voltar"
+        confirm: "Confirmar reserva"
+      fields:
+        space: "Espaço"
+        reservation_type: "Tipo de reserva"
+        date: "Data do evento"
+      reservation_type:
+        single: "Reserva única"
+        recurring: "Reserva recorrente"
+      confirmation:
+        title: "Resumo da reserva"
+      schedule:
+        morning: "Manhã"
+        afternoon: "Tarde"
+        evening: "Noite"
   legal:
     terms:
       eyebrow: Documentos legais

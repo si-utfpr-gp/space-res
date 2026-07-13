@@ -28,11 +28,15 @@ class Reservations::ReservationForm
     @attributes[:current_step] = @current_step
   end
 
-  delegate :valid?, to: :current_form
+  def valid?
+    return true if current_form.nil?
+    current_form.valid?
+    end
 
   def update(attributes)
     @attributes[current_step] = attributes.to_h.symbolize_keys
-    current_form.assign_attributes(attributes)
+    @current_form = build_form(current_step)
+    @current_form&.assign_attributes(attributes)
     valid?
   end
 

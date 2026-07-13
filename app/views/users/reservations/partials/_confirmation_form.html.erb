@@ -1,0 +1,42 @@
+<% dados = session[:reservation_form]&.deep_symbolize_keys %>
+<% spaces = {
+  "1" => "Sala 101",
+  "2" => "Lab de Informática",
+  "3" => "Auditório"
+} %>
+<% space_nome = spaces[dados&.dig(:space, :space_id).to_s] %>
+
+<div class="p-6 bg-white rounded-xl border border-neutral space-y-4 mb-6">
+  <h3 class="text-base font-semibold text-dark border-b border-neutral pb-3">
+    <%= t("users.reservations.confirmation.title") %>
+  </h3>
+
+  <div class="space-y-2">
+    <div class="flex justify-between text-sm">
+      <span class="text-neutral"><%= t("users.reservations.fields.space") %></span>
+      <span class="font-medium text-dark"><%= space_nome %></span>
+    </div>
+    <div class="flex justify-between text-sm">
+      <span class="text-neutral"><%= t("users.reservations.fields.tipo_reserva") %></span>
+      <span class="font-medium text-dark"><%= dados&.dig(:schedule, :tipo_reserva) %></span>
+    </div>
+    <div class="flex justify-between text-sm">
+      <span class="text-neutral"><%= t("users.reservations.fields.date") %></span>
+      <span class="font-medium text-dark">
+        <%= Array(dados&.dig(:schedule, :datas)).join(", ") %>
+      </span>
+    </div>
+  </div>
+</div>
+
+<%= form_with url: users_reservations_path, data: { turbo: false } do |f| %>
+  <div class="flex gap-3">
+    <button type="submit" form="previous_form" class="flex-1 btn btn-md btn-outline text-center">
+      <%= t("users.reservations.steps.back") %>
+    </button>
+    <%= f.submit t("users.reservations.steps.confirm"), class: "flex-1 btn btn-md btn-primary" %>
+  </div>
+<% end %>
+
+<%= form_tag previous_users_reservations_path, id: "previous_form", data: { turbo: false } do %>
+<% end %>
