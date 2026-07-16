@@ -1,23 +1,38 @@
-<div class="mb-8 overflow-x-auto">
-  <ol class="flex items-center justify-center gap-4 p-4 bg-white rounded-xl">
-    <% steps.each do |step| %>
-      <li class="flex items-center gap-2 shrink-0">
-        <span class="flex items-center justify-center w-7 h-7 rounded-full text-xs font-medium border
-                     <%= current_step == step[:number] ? "border-primary bg-primary text-white" :
-                         current_step > step[:number]  ? "border-primary bg-primary/10 text-primary" :
-                                                         "border-dark text-dark" %>">
-          <%= current_step > step[:number] ? "✓" : step[:number] %>
-        </span>
-        <span class="text-sm font-medium
-                     <%= current_step == step[:number] ? "text-dark" : "text-secondary" %>">
-          <%= step[:label] %>
-        </span>
-        <% unless step[:number] == steps.last[:number] %>
-          <span class="text-dark mx-1">→</span>
-        <% end %>
-      </li>
+<div class="flex items-center justify-center gap-0 mb-2">
+  <% icons = { 1 => :home, 2 => :calendar, 3 => :check } %>
+
+  <% steps.each_with_index do |step, index| %>
+    <div class="flex flex-col items-center">
+      <div class="w-9 h-9 rounded-full flex items-center justify-center
+                  <%= current_step == step[:number] ? 'bg-primary' :
+                      current_step > step[:number]  ? 'bg-primary' :
+                                                      'bg-white border-2 border-neutral' %>">
+        <%= helpers.icon(icons[step[:number]], class: "w-4 h-4 #{current_step >= step[:number] ? 'text-white' : 'text-neutral'}") %>
+      </div>
+    </div>
+
+    <% unless index == steps.length - 1 %>
+      <div class="flex-1 max-w-20 h-0.5 mx-1
+                  <%= current_step > step[:number] ? 'bg-primary' : 'bg-neutral' %>">
+      </div>
     <% end %>
-  </ol>
+  <% end %>
+</div>
+
+<div class="flex justify-center gap-0 mb-8">
+  <% steps.each do |step| %>
+    <div class="w-9 flex justify-center mx-1">
+      <span class="text-xs font-medium
+                   <%= current_step == step[:number] ? 'text-primary' :
+                       current_step > step[:number]  ? 'text-primary' :
+                                                       'text-neutral' %>">
+        <%= step[:label] %>
+      </span>
+    </div>
+    <% unless step[:number] == steps.length %>
+      <div class="flex-1 max-w-20"></div>
+    <% end %>
+  <% end %>
 </div>
 
 <%= content %>

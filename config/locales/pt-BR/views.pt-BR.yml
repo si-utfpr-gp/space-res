@@ -50,13 +50,24 @@ pt-BR:
         space: "Espaço"
         schedule: "Datas"
         confirmation: "Confirmação"
-        next: "Próximo →"
-        back: "← Voltar"
+        next: "Próximo"
+        back: "Voltar"
         confirm: "Confirmar reserva"
       fields:
         space: "Espaço"
         reservation_type: "Tipo de reserva"
         date: "Data do evento"
+        schedule: "Horário"
+        start_date: "Data de início"
+        end_date: "Data de fim"
+        frequency: "Repetir"
+        week_days: "Dias da semana"
+        capacity: "pessoas"
+        requires_approval: "Requer aprovação"
+      frequency:
+        weekly: "Toda semana"
+        biweekly: "A cada 15 dias"
+        monthly: "Todo mês"
       reservation_type:
         single: "Reserva única"
         recurring: "Reserva recorrente"
@@ -66,6 +77,13 @@ pt-BR:
         morning: "Manhã"
         afternoon: "Tarde"
         evening: "Noite"
+      week_days:
+        mon: "Seg"
+        tue: "Ter"
+        wed: "Qua"
+        thu: "Qui"
+        fri: "Sex"
+        sat: "Sáb"
   legal:
     terms:
       eyebrow: Documentos legais

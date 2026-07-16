@@ -6,22 +6,22 @@
 } %>
 <% space_nome = spaces[dados&.dig(:space, :space_id).to_s] %>
 
-<div class="p-6 bg-white rounded-xl border border-neutral space-y-4 mb-6">
+<div class="p-4 sm:p-6 bg-white rounded-xl border border-neutral space-y-4 mb-6">
   <h3 class="text-base font-semibold text-dark border-b border-neutral pb-3">
     <%= t("users.reservations.confirmation.title") %>
   </h3>
 
   <div class="space-y-2">
     <div class="flex justify-between text-sm">
-      <span class="text-neutral"><%= t("users.reservations.fields.space") %></span>
+      <span class="text-dark"><%= t("users.reservations.fields.space") %></span>
       <span class="font-medium text-dark"><%= space_nome %></span>
     </div>
     <div class="flex justify-between text-sm">
-      <span class="text-neutral"><%= t("users.reservations.fields.tipo_reserva") %></span>
+      <span class="text-dark"><%= t("users.reservations.fields.tipo_reserva") %></span>
       <span class="font-medium text-dark"><%= dados&.dig(:schedule, :tipo_reserva) %></span>
     </div>
     <div class="flex justify-between text-sm">
-      <span class="text-neutral"><%= t("users.reservations.fields.date") %></span>
+      <span class="text-dark"><%= t("users.reservations.fields.date") %></span>
       <span class="font-medium text-dark">
         <%= Array(dados&.dig(:schedule, :datas)).join(", ") %>
       </span>
@@ -30,7 +30,7 @@
 </div>
 
 <%= form_with url: users_reservations_path, data: { turbo: false } do |f| %>
-  <div class="flex gap-3">
+  <div class="flex gap-3 mt-6">
     <button type="submit" form="previous_form" class="flex-1 btn btn-md btn-outline text-center">
       <%= t("users.reservations.steps.back") %>
     </button>

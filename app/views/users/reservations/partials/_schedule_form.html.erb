@@ -1,10 +1,9 @@
 <%= form_with model: form, url: users_reservations_path, data: { turbo: false } do |f| %>
-  <div class="space-y-4" data-controller="ui--schedule">
+  <div class="space-y-5" data-controller="ui--schedule">
 
-    <%# Tipo de reserva %>
     <div>
       <label class="block text-sm font-medium text-dark mb-1">
-        <%= t("reservations.fields.tipo_reserva") %>
+        <%= t("users.reservations.fields.tipo_reserva") %>
       </label>
       <%= select_tag "schedule[tipo_reserva]",
             options_for_select([
@@ -15,7 +14,6 @@
             data: { action: "change->ui--schedule#toggleFields" } %>
     </div>
 
-    <%# Campos para reserva única %>
     <div data-ui--schedule-target="unica" class="space-y-4 hidden">
       <div>
         <label class="block text-sm font-medium text-dark mb-1">
@@ -28,40 +26,58 @@
       <%= render "users/reservations/partials/hours" %>
     </div>
 
-    <%# Campos para reserva recorrente %>
     <div data-ui--schedule-target="recorrente" class="space-y-4 hidden">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-dark mb-1">
+            <%= t("users.reservations.fields.start_date") %>
+          </label>
+          <%= date_field_tag "schedule[data_inicio]", nil,
+                autocomplete: "off",
+                class: "w-full border border-neutral rounded-lg px-3 py-2 text-sm" %>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-dark mb-1">
+            <%= t("users.reservations.fields.end_date") %>
+          </label>
+          <%= date_field_tag "schedule[data_fim]", nil,
+                autocomplete: "off",
+                class: "w-full border border-neutral rounded-lg px-3 py-2 text-sm" %>
+        </div>
+      </div>
+
+      <%= render "users/reservations/partials/hours" %>
+
       <div>
         <label class="block text-sm font-medium text-dark mb-1">
-          <%= t("users.reservations.fields.date") %>
+          <%= t("users.reservations.fields.frequency") %>
         </label>
-        <%= date_field_tag "schedule[data_inicio]", nil,
-              autocomplete: "off",
-              class: "w-full border border-neutral rounded-lg px-3 py-2 text-sm" %>
-      </div>
-      <div>
-        <label class="block text-sm font-medium text-dark mb-1">Data de fim</label>
-        <%= date_field_tag "schedule[data_fim]", nil,
-              autocomplete: "off",
-              class: "w-full border border-neutral rounded-lg px-3 py-2 text-sm" %>
-      </div>
-      <%= render "users/reservations/partials/hours" %>
-      <div>
-        <label class="block text-sm font-medium text-dark mb-1">Repetir</label>
         <%= select_tag "schedule[frequencia]",
               options_for_select([
-                [ "Toda semana", "weekly" ],
-                [ "A cada 15 dias", "biweekly" ],
-                [ "Todo mês", "monthly" ]
+                [ t("users.reservations.frequency.weekly"), "weekly" ],
+                [ t("users.reservations.frequency.biweekly"), "biweekly" ],
+                [ t("users.reservations.frequency.monthly"), "monthly" ]
               ]),
               class: "w-full border border-neutral rounded-lg px-3 py-2 text-sm" %>
       </div>
+
       <div>
-        <label class="block text-sm font-medium text-dark mb-1">Dias da semana</label>
+        <label class="block text-sm font-medium text-dark mb-1">
+          <%= t("users.reservations.fields.week_days") %>
+        </label>
         <div class="flex gap-2 flex-wrap">
-          <% [ [ "Seg", "monday" ], [ "Ter", "tuesday" ], [ "Qua", "wednesday" ],
-              [ "Qui", "thursday" ], [ "Sex", "friday" ], [ "Sáb", "saturday" ] ].each do |label, value| %>
-            <label class="flex items-center gap-1 px-3 py-1.5 border border-neutral rounded-lg cursor-pointer has-[:checked]:border-primary has-[:checked]:bg-primary/5 text-sm">
-              <%= check_box_tag "schedule[dias][]", value, false %>
+          <% [
+            [ t("users.reservations.week_days.mon"), "monday" ],
+            [ t("users.reservations.week_days.tue"), "tuesday" ],
+            [ t("users.reservations.week_days.wed"), "wednesday" ],
+            [ t("users.reservations.week_days.thu"), "thursday" ],
+            [ t("users.reservations.week_days.fri"), "friday" ],
+            [ t("users.reservations.week_days.sat"), "saturday" ]
+          ].each do |label, value| %>
+            <label class="flex items-center gap-2 px-3 py-1.5 border border-neutral rounded-lg cursor-pointer
+              hover:border-primary hover:bg-primary/5
+              has-[:checked]:border-primary has-[:checked]:bg-primary/5 text-sm text-dark">
+              <%= check_box_tag "schedule[dias][]", value, false, class: "hidden" %>
               <%= label %>
             </label>
           <% end %>
@@ -72,10 +88,10 @@
   </div>
 
   <div class="flex gap-3 mt-6">
-    <button type="submit" form="previous_form" class="flex-1 btn btn-md btn-outline text-center">
-      <%= t("users.reservations.steps.back") %>
+    <button type="submit" form="previous_form" class="flex-1 btn btn-md btn-outline text-center min-w-0">
+     <%= t("users.reservations.steps.back") %>
     </button>
-    <%= f.submit t("users.reservations.steps.next"), class: "flex-1 btn btn-md btn-primary" %>
+    <%= f.submit t("users.reservations.steps.next"), class: "flex-1 btn btn-md btn-primary min-w-0" %>
   </div>
 <% end %>
 
