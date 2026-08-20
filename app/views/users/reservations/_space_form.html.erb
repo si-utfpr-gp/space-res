@@ -1,0 +1,26 @@
+<%= form_with model: form, url: users_reservation_step_path(:space), method: :patch, data: { turbo: false } do |f| %>
+  <fieldset>
+    <legend class="sr-only"><%= t("users.reservations.fields.space") %></legend>
+    <div class="space-y-5">
+      <% form.spaces.each do |space| %>
+        <label class="flex cursor-pointer items-start gap-3 rounded-xl border border-neutral p-4 hover:border-primary has-[:checked]:border-primary has-[:checked]:bg-primary/5">
+          <%= f.radio_button :space_id, space[:id], class: "mt-1 shrink-0 accent-primary" %>
+          <span class="min-w-0">
+            <span class="block text-sm font-semibold text-dark"><%= space[:name] %></span>
+            <span class="block text-xs text-dark"><%= space[:kind] %> · <%= space[:capacity] %> <%= t("users.reservations.fields.capacity") %></span>
+            <% if space[:requires_approval] %>
+              <span class="text-xs font-medium text-secondary"><%= t("users.reservations.fields.requires_approval") %></span>
+            <% end %>
+          </span>
+        </label>
+      <% end %>
+    </div>
+    <% form.errors.full_messages_for(:space_id).each do |message| %>
+      <p class="mt-2 text-sm text-error"><%= message %></p>
+    <% end %>
+  </fieldset>
+
+  <div class="mt-6">
+    <%= f.submit t("users.reservations.steps.next"), class: "btn btn-md btn-primary w-full" %>
+  </div>
+<% end %>

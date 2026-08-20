@@ -1,0 +1,6 @@
+<% content_for :page_title, t(".title") %>
+
+<div class="w-full mx-2 sm:mx-4 bg-white rounded-xl shadow-sm p-4 sm:p-8">
+  <%= render "step_indicator", reservation_form: @form %>
+  <%= render "#{@form.current_step}_form", reservation_form: @form, form: @form.current_form %>
+</div>

@@ -1,4 +1,16 @@
 pt-BR:
+  activemodel:
+    attributes:
+      space:
+        space_id: Espaço
+      schedule:
+        tipo_reserva: Tipo de reserva
+        datas: Data do evento
+        data_inicio: Data de início
+        data_fim: Data de fim
+        frequencia: Frequência
+        dias: Dias da semana
+        horarios: Horários
   activerecord:
     models:
       user: Usuário

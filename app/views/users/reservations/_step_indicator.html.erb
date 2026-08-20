@@ -1,0 +1,25 @@
+<% icons = { space: :home, schedule: :calendar, confirmation: :check } %>
+<% current_index = Reservations::ReservationForm::STEPS.index(reservation_form.current_step) %>
+
+<nav aria-label="<%= t("users.reservations.steps.navigation") %>" class="mb-8">
+  <ol class="flex items-start justify-center gap-0">
+    <% Reservations::ReservationForm::STEPS.each_with_index do |step, index| %>
+      <% active = step == reservation_form.current_step %>
+      <% complete = index < current_index %>
+      <li class="contents"<% if active %> aria-current="step"<% end %>>
+        <div class="flex w-14 flex-col items-center gap-2 text-center">
+          <div class="flex h-9 w-9 items-center justify-center rounded-full <%= active || complete ? "bg-primary" : "border-2 border-neutral bg-white" %>">
+            <%= icon(icons.fetch(step), class: "h-4 w-4 #{active || complete ? 'text-white' : 'text-neutral'}") %>
+          </div>
+          <span class="text-xs font-medium <%= active || complete ? "text-primary" : "text-neutral" %>">
+            <%= t("users.reservations.steps.#{step}") %>
+          </span>
+        </div>
+
+        <% unless step == Reservations::ReservationForm::STEPS.last %>
+          <div class="mx-1 mt-[1.1rem] h-0.5 max-w-20 flex-1 <%= complete ? "bg-primary" : "bg-neutral" %>" aria-hidden="true"></div>
+        <% end %>
+      </li>
+    <% end %>
+  </ol>
+</nav>

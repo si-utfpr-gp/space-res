@@ -23,4 +23,14 @@ Rails.application.routes.draw do
   namespace :users do
     root "home#dashboard"
   end
+
+  get "/users/reservations", to: "users/reservations#index", as: :users_reservations_path
+  get "/users/reservations/new", to: "users/reservations#new", as: :new_users_reservation
+  get "/users/reservations/new/space", to: "users/reservations#step", defaults: { step: "space" }, as: :new_users_reservation_space
+  get "/users/reservations/new/schedule", to: "users/reservations#step", defaults: { step: "schedule" }, as: :new_users_reservation_schedule
+  get "/users/reservations/new/confirmation", to: "users/reservations#step", defaults: { step: "confirmation" }, as: :new_users_reservation_confirmation
+  patch "/users/reservations/new/:step", to: "users/reservations#update", constraints: {
+    step: Regexp.union(Reservations::ReservationForm::STEPS.map(&:to_s))
+  }, as: :users_reservation_step
+  post "/users/reservations", to: "users/reservations#create", as: :users_reservations
 end
