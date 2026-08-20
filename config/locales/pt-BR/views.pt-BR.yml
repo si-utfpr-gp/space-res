@@ -7,6 +7,7 @@ pt-BR:
   prompt:
     confirm: Tem certeza?
   actions:
+    loading: Carregando...
     destroy: Excluir
     edit: Editar
     new: Novo
@@ -47,6 +48,7 @@ pt-BR:
       new:
         title: Novo agendamento
       steps:
+        navigation: "Etapas da reserva"
         space: "Espaço"
         schedule: "Datas"
         confirmation: "Confirmação"
@@ -60,6 +62,7 @@ pt-BR:
         schedule: "Horário"
         start_date: "Data de início"
         end_date: "Data de fim"
+        date_range: "Período"
         frequency: "Repetir"
         week_days: "Dias da semana"
         capacity: "pessoas"
@@ -78,12 +81,12 @@ pt-BR:
         afternoon: "Tarde"
         evening: "Noite"
       week_days:
-        mon: "Seg"
-        tue: "Ter"
-        wed: "Qua"
-        thu: "Qui"
-        fri: "Sex"
-        sat: "Sáb"
+        monday: "Seg"
+        tuesday: "Ter"
+        wednesday: "Qua"
+        thursday: "Qui"
+        friday: "Sex"
+        saturday: "Sáb"
   legal:
     terms:
       eyebrow: Documentos legais

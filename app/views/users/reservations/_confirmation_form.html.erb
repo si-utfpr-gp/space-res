@@ -1,0 +1,51 @@
+<% schedule = reservation_form.schedule %>
+
+<div class="mb-6 space-y-4 rounded-xl border border-neutral bg-white p-4 sm:p-6">
+  <h3 class="border-b border-neutral pb-3 text-base font-semibold text-dark">
+    <%= t("users.reservations.confirmation.title") %>
+  </h3>
+
+  <dl class="space-y-2">
+    <div class="flex justify-between text-sm">
+      <dt class="text-dark"><%= t("users.reservations.fields.space") %></dt>
+      <dd class="font-medium text-dark"><%= reservation_form.selected_space[:name] %></dd>
+    </div>
+    <div class="flex justify-between text-sm">
+      <dt class="text-dark"><%= t("users.reservations.fields.reservation_type") %></dt>
+      <dd class="font-medium text-dark">
+        <%= t("users.reservations.reservation_type.#{schedule.single? ? 'single' : 'recurring'}") %>
+      </dd>
+    </div>
+    <% if schedule.single? %>
+      <div class="flex justify-between text-sm">
+        <dt class="text-dark"><%= t("users.reservations.fields.date") %></dt>
+        <dd class="font-medium text-dark"><%= Array(schedule.datas).reject(&:blank?).join(", ") %></dd>
+      </div>
+    <% else %>
+      <div class="flex justify-between text-sm">
+        <dt class="text-dark"><%= t("users.reservations.fields.date_range") %></dt>
+        <dd class="font-medium text-dark"><%= schedule.data_inicio %> – <%= schedule.data_fim %></dd>
+      </div>
+      <div class="flex justify-between text-sm">
+        <dt class="text-dark"><%= t("users.reservations.fields.frequency") %></dt>
+        <dd class="font-medium text-dark"><%= t("users.reservations.frequency.#{schedule.frequencia}") %></dd>
+      </div>
+      <div class="flex justify-between text-sm">
+        <dt class="text-dark"><%= t("users.reservations.fields.week_days") %></dt>
+        <dd class="font-medium text-dark"><%= Array(schedule.dias).reject(&:blank?).map { |day| t("users.reservations.week_days.#{day}") }.join(", ") %></dd>
+      </div>
+    <% end %>
+    <div class="flex justify-between text-sm">
+      <dt class="text-dark"><%= t("users.reservations.fields.schedule") %></dt>
+      <dd class="font-medium text-dark"><%= Array(schedule.horarios).reject(&:blank?).join(", ") %></dd>
+    </div>
+  </dl>
+</div>
+
+<%= form_with url: users_reservations_path, data: { turbo: false } do |f| %>
+  <div class="mt-6 flex gap-3">
+    <%= link_to t("users.reservations.steps.back"), new_users_reservation_schedule_path,
+          class: "btn btn-md btn-outline flex-1 text-center" %>
+    <%= f.submit t("users.reservations.steps.confirm"), class: "btn btn-md btn-primary flex-1" %>
+  </div>
+<% end %>

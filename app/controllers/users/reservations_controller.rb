@@ -1,20 +1,41 @@
 class Users::ReservationsController < Users::BaseController
-  before_action :load_form, only: [ :new, :create, :previous ]
+  before_action :load_form, only: [ :new, :step, :update, :create ]
 
-  def new; end
+  def index
+    redirect_to new_users_reservation_path
+  end
+  def new
+    redirect_to step_path(@form.earliest_incomplete_step)
+  end
 
-  def create
-    if @form.update(form_params)
-      handle_form_success
+  def step
+    if (prerequisite = @form.prerequisite_for(current_step))
+      redirect_to step_path(prerequisite)
     else
+      render :new
+    end
+  end
+
+  def update
+    return head :not_found unless Reservations::ReservationForm::EDITABLE_STEPS.include?(current_step)
+
+    if (prerequisite = @form.prerequisite_for(current_step))
+      redirect_to step_path(prerequisite)
+    elsif @form.update_step(current_step, form_params)
+      session[:reservation_form] = @form.to_session
+      redirect_to step_path(@form.next_step)
+    else
+      session[:reservation_form] = @form.to_session
       render :new, status: :unprocessable_entity
     end
   end
 
-  def previous
-    @form.move_to_previous_step
-    session[:reservation_form] = @form.to_session
-    redirect_to new_users_reservation_path
+  def create
+    if (prerequisite = @form.prerequisite_for(:confirmation))
+      redirect_to step_path(prerequisite)
+    else
+      redirect_to new_users_reservation_confirmation_path
+    end
   end
 
   private
@@ -22,25 +43,22 @@ class Users::ReservationsController < Users::BaseController
   def load_form
     @form = Reservations::ReservationForm.new(
       user: Current.user,
+      current_step: params[:step],
       attributes: session[:reservation_form] || {}
     )
   end
 
   def form_params
-    return {} if @form.current_form.nil?
-    params.expect(@form.current_step => @form.current_form.params)
+    params.expect(current_step => @form.current_form.params)
   rescue ActionController::ParameterMissing
     {}
   end
 
-  def handle_form_success
-    @form.move_to_next_step
-    session[:reservation_form] = @form.to_session
+  def current_step
+    params[:step].to_sym
+  end
 
-    if @form.completed?
-      render :new
-    else
-      redirect_to new_users_reservation_path
-    end
+  def step_path(step)
+    public_send("new_users_reservation_#{step}_path")
   end
 end

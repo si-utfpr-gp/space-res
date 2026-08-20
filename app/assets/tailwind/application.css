@@ -80,5 +80,16 @@
     .btn-icon-lg {
         @apply h-5 w-5;
     }
+
+    .sidebar {
+        a {
+            @apply text-dark hover:bg-dark/10;
+        }
+
+        a.active {
+            @apply bg-secondary/70 text-dark font-semibold;
+        }
+
+    }
 }
 
