@@ -22,3 +22,4 @@ pt-BR:
         email_address: E-mail
       user:
         <<: *defaults
+        super_admin: Super admin
