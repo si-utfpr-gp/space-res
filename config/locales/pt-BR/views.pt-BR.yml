@@ -33,6 +33,7 @@ pt-BR:
         sidebar:
           home: Dashboard
           reservations: Minhas reservas
+          admin: Administração
         header:
           hi: Olá, %{name}
           welcome: Seja bem-vindo!
