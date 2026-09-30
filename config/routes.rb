@@ -24,6 +24,10 @@ Rails.application.routes.draw do
     root "home#dashboard"
   end
 
+  namespace :admin do
+    root "home#dashboard"
+  end
+
   get "/users/reservations", to: "users/reservations#index", as: :users_reservations_path
   get "/users/reservations/new", to: "users/reservations#new", as: :new_users_reservation
   get "/users/reservations/new/space", to: "users/reservations#step", defaults: { step: "space" }, as: :new_users_reservation_space

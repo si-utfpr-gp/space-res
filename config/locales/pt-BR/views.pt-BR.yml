@@ -87,6 +87,11 @@ pt-BR:
         thursday: "Qui"
         friday: "Sex"
         saturday: "Sáb"
+  admin:
+    home:
+      dashboard:
+        title: Administração
+        description: Área restrita a super admins. Os cadastros do sistema ficarão disponíveis aqui.
   legal:
     terms:
       eyebrow: Documentos legais
