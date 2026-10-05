@@ -9,6 +9,7 @@ module Db
 
     def call
       reset_records
+      run_seeds
       setup_users
       setup_campi
       puts "Database populated"
@@ -20,7 +21,7 @@ module Db
         [ Building, Campus, User ].each(&:destroy_all)
       end
 
-      def seed_plans
+      def run_seeds
         Rake::Task["db:seed"].reenable
         Rake::Task["db:seed"].invoke
       end
