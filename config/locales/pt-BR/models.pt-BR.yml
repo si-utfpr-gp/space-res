@@ -13,6 +13,9 @@ pt-BR:
         horarios: Horários
   activerecord:
     models:
+      department:
+        one: Departamento
+        other: Departamentos
       user: Usuário
     attributes:
       defaults: &defaults
@@ -20,5 +23,7 @@ pt-BR:
         updated_at: Atualizado em
         name: Nome
         email_address: E-mail
+      department:
+        <<: *defaults
       user:
         <<: *defaults
