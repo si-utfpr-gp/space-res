@@ -25,5 +25,7 @@ pt-BR:
         email_address: E-mail
       department:
         <<: *defaults
+        users: Usuários
       user:
         <<: *defaults
+        department: Departamento

@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   include Avatarable
 
+  belongs_to :department, optional: true
   has_many :sessions, dependent: :destroy
 
   has_secure_password
