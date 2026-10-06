@@ -1,6 +1,11 @@
 require "test_helper"
 
 class SeedsTest < ActiveSupport::TestCase
+  setup do
+    # bin/ci runs db:seed:replant in the test database and leaves the seeded campus behind
+    Campus.delete_all
+  end
+
   test "creates the Guarapuava campus when there are no campi" do
     Rails.application.load_seed
 
