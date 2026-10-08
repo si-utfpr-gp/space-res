@@ -44,6 +44,24 @@ Before drafting or creating a PR, verify:
    ```
 3. **Working Tree Cleanliness:** Ensure all intended changes are committed and no untracked or unwanted files are left behind (`git status`).
 
+### 2.1 GitHub Account and Repository Discovery
+
+Before any GitHub action:
+
+1. Discover the repository owner and name from `git remote -v`.
+2. Inspect all authenticated GitHub CLI accounts with `gh auth status`.
+3. Verify the active identity:
+   ```bash
+   gh api user --jq .login
+   ```
+4. Confirm repository access:
+   ```bash
+   gh repo view <owner>/<repo>
+   ```
+5. If multiple accounts can access the repository and the correct account is ambiguous, ask the user before continuing.
+
+Prefer GitHub CLI when explicit account selection is required. Use MCP only when its connected account and permissions are confirmed.
+
 ---
 
 ## 3. Pull Request Title Convention
