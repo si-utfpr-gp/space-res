@@ -22,6 +22,9 @@ module Db
       def setup_users
         User.create_with(name: "User Demo", password: "123456", password_confirmation: "123456")
             .find_or_create_by!(email_address: "demo@utfpr.edu.br")
+
+        User.create_with(name: "Admin Demo", password: "123456", password_confirmation: "123456", admin: true)
+            .find_or_create_by!(email_address: "admin@utfpr.edu.br")
       end
   end
 end
