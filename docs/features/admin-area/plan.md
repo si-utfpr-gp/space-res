@@ -9,11 +9,11 @@ Status: aprovado em 2026-10-16.
 1. **Perfil no banco.** Uma migration adiciona `users.admin` (`boolean`, `default: false`,
    `null: false`). O modelo valida `inclusion: { in: [ true, false ] }`, então um perfil vazio vira
    erro de validação (e não só exceção do banco). O predicado `admin?` vem do Active Record.
-2. **Decisão de autorização em um Policy Object.** `AdminAreaPolicy` (`app/policies/`) recebe o
-   usuário e expõe `access?`. Hoje é `user.admin?`. Esse é o único lugar que decide quem entra na
+2. **Decisão de autorização em um Policy Object.** `AdminPolicy` (`app/policies/`) recebe o
+   usuário e expõe `access_area?`. Hoje é `user.admin?`. Esse é o único lugar que decide quem entra na
    área, como pede a skill `rails-domain-and-queries` ("Use a Policy Object for authorization").
 3. **Ponte para controllers e views.** `Users::BaseController` ganha o método privado
-   `admin_area_access?` (exposto com `helper_method`), que delega para a policy. O controller
+   `can_access_admin_area?` (exposto com `helper_method`), que delega para a policy. O controller
    administrativo e o menu lateral usam o mesmo método.
 4. **Namespace administrativo.** `Admin::BaseController < Users::BaseController` herda autenticação,
    layout `users/application` e flash types, e adiciona `before_action :require_admin_area_access`.
@@ -25,7 +25,7 @@ Status: aprovado em 2026-10-16.
 6. **Rota.** `namespace :admin { root "home#index" }` gera `admin_root_path` em `/admin`, atendido por
    `Admin::HomeController#index` (página simples com título e descrição).
 7. **Menu lateral.** O array de itens de `_sidebar.html.erb` recebe o item "Área administrativa"
-   (ícone `:shield_check`) somente quando `admin_area_access?`.
+   (ícone `:shield_check`) somente quando `can_access_admin_area?`.
 8. **Populate.** `Db::Populator#setup_users` também cria `admin@utfpr.edu.br` com `admin: true`. O
    `demo@utfpr.edu.br` continua comum.
 
@@ -35,7 +35,7 @@ Status: aprovado em 2026-10-16.
 GET /admin
   └─ Admin::HomeController (herda Admin::BaseController < Users::BaseController)
        1. require_authentication     → visitante: redirect /login            (RF4)
-       2. require_admin_area_access  → AdminAreaPolicy#access? falso: 403     (RF3)
+       2. require_admin_area_access  → AdminPolicy#access_area? falso: 403     (RF3)
        3. index                      → página administrativa                 (RF2)
 ```
 
@@ -49,8 +49,8 @@ A ordem é garantida: o `before_action :require_authentication` é registrado no
 | `db/migrate/<timestamp>_add_admin_to_users.rb` | Novo: `add_column :users, :admin, :boolean, default: false, null: false` |
 | `db/schema.rb` | Regenerado pela migration (não editar à mão) |
 | `app/models/user.rb` | `validates :admin, inclusion: { in: [ true, false ] }` |
-| `app/policies/admin_area_policy.rb` | Novo: `initialize(user)` e `access?` |
-| `app/controllers/users/base_controller.rb` | `helper_method :admin_area_access?` + método privado delegando à policy |
+| `app/policies/admin_policy.rb` | Novo: `initialize(user)` e `access_area?` |
+| `app/controllers/users/base_controller.rb` | `helper_method :can_access_admin_area?` + método privado delegando à policy |
 | `app/controllers/admin/base_controller.rb` | Novo: herda `Users::BaseController`, `before_action :require_admin_area_access` |
 | `app/controllers/admin/home_controller.rb` | Novo: action `index` vazia |
 | `config/routes.rb` | `namespace :admin do root "home#index" end` |
@@ -89,7 +89,7 @@ A ordem é garantida: o `before_action :require_authentication` é registrado no
 | Arquivo | Tipo | O que verifica | CA |
 | --- | --- | --- | --- |
 | `test/models/user/user_admin_test.rb` | Modelo | Usuário novo não é admin; `admin: nil` é inválido com mensagem i18n | CA1 |
-| `test/policies/admin_area_policy_test.rb` | Unidade | `access?` verdadeiro para admin e falso para comum | CA3, CA4 |
+| `test/policies/admin_policy_test.rb` | Unidade | `access_area?` verdadeiro para admin e falso para comum | CA3, CA4 |
 | `test/controllers/admin/home_controller_access_test.rb` | Integração | Visitante → redirect `/login`; comum → 403 com "Acesso negado" e link para o Dashboard; admin → 200 com o título | CA2–CA5 |
 | `test/controllers/users/home_controller_test.rb` | Integração | Admin vê `a[href="/admin"]` no menu lateral; comum não vê | CA6 |
 | `test/lib/tasks/db/populate/populator_test.rb` | Unidade | Após o populate, `admin@` é admin e `demo@` é comum | CA7 |

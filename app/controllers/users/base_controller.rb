@@ -7,11 +7,11 @@ class Users::BaseController < ActionController::Base
 
   add_flash_types :success, :warning
 
-  helper_method :admin_area_access?
+  helper_method :can_access_admin_area?
 
   private
 
-    def admin_area_access?
-      AdminAreaPolicy.new(Current.user).access?
+    def can_access_admin_area?
+      AdminPolicy.new(Current.user).access_area?
     end
 end

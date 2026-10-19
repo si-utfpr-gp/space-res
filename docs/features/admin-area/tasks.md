@@ -17,9 +17,9 @@ Legenda: `[ ]` pendente · `[~]` em andamento · `[x]` concluída
 ## T2 — Policy de acesso à área administrativa
 
 - [x] Status
-- **Objetivo:** `AdminAreaPolicy#access?` concentra a decisão de acesso.
+- **Objetivo:** `AdminPolicy#access_area?` concentra a decisão de acesso.
 - **Requisitos:** regra "verificação no servidor" · base para CA3/CA4
-- **Passos:** teste da policy → `app/policies/admin_area_policy.rb`.
+- **Passos:** teste da policy → `app/policies/admin_policy.rb`.
 - **Verificação:** `bin/rails test test/policies`
 - **Depende de:** T1
 
@@ -29,7 +29,7 @@ Legenda: `[ ]` pendente · `[~]` em andamento · `[x]` concluída
 - **Objetivo:** admin acessa `/admin`; comum recebe 403 com página no layout; visitante vai para o
   login.
 - **Requisitos:** RF2, RF3, RF4 · CA2, CA3, CA4, CA5
-- **Passos:** teste de integração → rota `namespace :admin` → `helper_method :admin_area_access?` em
+- **Passos:** teste de integração → rota `namespace :admin` → `helper_method :can_access_admin_area?` em
   `Users::BaseController` → `Admin::BaseController` e `Admin::HomeController` → views
   `admin/home/index` e `shared/forbidden` → textos em `views.pt-BR.yml`.
 - **Verificação:** `bin/rails test test/controllers/admin`
@@ -70,7 +70,7 @@ Legenda: `[ ]` pendente · `[~]` em andamento · `[x]` concluída
 | --- | --- |
 | CA1 | `test/models/user/user_admin_test.rb` (padrão `false`, `nil` inválido) |
 | CA2 | `test/controllers/admin/home_controller_access_test.rb` — admin recebe 200 |
-| CA3, CA4 | mesmo arquivo — usuário comum recebe 403 com "Acesso negado"; `test/policies/admin_area_policy_test.rb` |
+| CA3, CA4 | mesmo arquivo — usuário comum recebe 403 com "Acesso negado"; `test/policies/admin_policy_test.rb` |
 | CA5 | mesmo arquivo — visitante é redirecionado para `/login` |
 | CA6 | `test/controllers/users/home_controller_test.rb` — link só para admin |
 | CA7 | `test/lib/tasks/db/populate/populator_test.rb` |

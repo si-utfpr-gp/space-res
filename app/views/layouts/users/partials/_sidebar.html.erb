@@ -7,7 +7,7 @@
            { label: t("users.home.layouts.sidebar.home"), path: users_root_path, icon: :home, active: :exclusive },
            { label: t("users.home.layouts.sidebar.reservations"), path: users_reservations_path, icon: :calendar }
          ] %>
-      <% items << { label: t("users.home.layouts.sidebar.admin"), path: admin_root_path, icon: :shield_check } if admin_area_access? %>
+      <% items << { label: t("users.home.layouts.sidebar.admin"), path: admin_root_path, icon: :shield_check } if can_access_admin_area? %>
       <% items.each do |item| %>
         <li>
           <%= active_link_to item[:path], active: item[:active],
