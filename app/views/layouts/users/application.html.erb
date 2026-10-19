@@ -5,6 +5,8 @@
   </head>
   <body class="h-screen flex flex-col bg-neutral" data-controller="ui--sidebar">
 
+    <%= render Flash::ToastMessageComponent.new %>
+
     <%= render "layouts/users/partials/header" %>
 
     <div class="flex flex-1 relative">

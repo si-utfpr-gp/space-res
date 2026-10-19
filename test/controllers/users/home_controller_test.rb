@@ -10,6 +10,16 @@ class Users::HomeControllerTest < ActionDispatch::IntegrationTest
     assert_no_match(/translation missing/i, response.body)
   end
 
+  test "shows flash messages as a toast in the layout" do
+    sign_in create(:user)
+
+    get new_session_path
+    follow_redirect!
+
+    assert_select "[data-controller='ui--toast'][data-ui--toast-message-type-value='warning']" \
+                  "[data-ui--toast-message-text-value='Você já está logado.']"
+  end
+
   test "hides the admin area shortcut from regular users" do
     sign_in create(:user)
 
