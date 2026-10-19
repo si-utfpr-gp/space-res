@@ -3,10 +3,12 @@
 <aside data-ui--sidebar-target="sidebar" class="sidebar absolute inset-y-0 left-0 z-30 w-64 -translate-x-full flex flex-col bg-white shadow-lg shrink-0 transition-transform duration-300 ease-in-out lg:relative lg:w-48 lg:translate-x-0">
   <nav class="flex flex-col flex-1 px-3 py-4 overflow-y-auto">
     <ul class="space-y-1 text-sm">
-      <% [
+      <% items = [
            { label: t("users.home.layouts.sidebar.home"), path: users_root_path, icon: :home, active: :exclusive },
            { label: t("users.home.layouts.sidebar.reservations"), path: users_reservations_path, icon: :calendar }
-         ].each do |item| %>
+         ] %>
+      <% items << { label: t("users.home.layouts.sidebar.admin"), path: admin_root_path, icon: :shield_check } if can_access_admin_area? %>
+      <% items.each do |item| %>
         <li>
           <%= active_link_to item[:path], active: item[:active],
                              class: "flex items-center mb-2  gap-2 px-3 py-2 rounded-lg no-underline" do %>

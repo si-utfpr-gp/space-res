@@ -33,6 +33,7 @@ pt-BR:
         sidebar:
           home: Dashboard
           reservations: Minhas reservas
+          admin: Área administrativa
         header:
           hi: Olá, %{name}
           welcome: Seja bem-vindo!
@@ -87,6 +88,16 @@ pt-BR:
         thursday: "Qui"
         friday: "Sex"
         saturday: "Sáb"
+  admin:
+    home:
+      index:
+        title: Área administrativa
+        description: Os cadastros e configurações do sistema ficarão disponíveis aqui.
+  shared:
+    forbidden:
+      title: Acesso negado
+      message: Você não tem permissão para acessar esta página.
+      back: Voltar ao Dashboard
   legal:
     terms:
       eyebrow: Documentos legais
