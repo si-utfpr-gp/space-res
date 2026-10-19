@@ -1,4 +1,12 @@
 pt-BR:
+  activerecord:
+    errors:
+      models:
+        campus:
+          attributes:
+            name:
+              blank: Informe o nome do campus.
+              taken: Já existe um campus cadastrado com este nome.
   errors:
     messages:
       email: não é válido
