@@ -1,0 +1,9 @@
+<%# locals: (campus:) %>
+<%= form_with model: [ :admin, campus ], class: "max-w-xl rounded-xl border border-neutral bg-white p-4 sm:p-6" do |f| %>
+  <%= f.input :name, autofocus: true %>
+
+  <div class="flex items-center justify-end gap-3">
+    <%= link_to t("actions.cancel"), admin_campi_path, class: "btn btn-md btn-outline no-underline" %>
+    <%= f.submit t("actions.save") %>
+  </div>
+<% end %>

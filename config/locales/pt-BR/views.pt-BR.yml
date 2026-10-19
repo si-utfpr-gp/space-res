@@ -92,7 +92,27 @@ pt-BR:
     home:
       index:
         title: Área administrativa
-        description: Os cadastros e configurações do sistema ficarão disponíveis aqui.
+        description: Gerencie os cadastros e as configurações do sistema.
+        registrations: Cadastros
+        campi: Campi
+        campi_description: Cadastre os campi da UTFPR
+    campi:
+      index:
+        title: Campi
+        new: Novo campus
+        empty: Nenhum campus cadastrado.
+        actions: Ações
+        confirm_destroy: Excluir o campus %{name}?
+      new:
+        title: Novo campus
+      edit:
+        title: Editar campus
+      create:
+        success: Campus cadastrado com sucesso.
+      update:
+        success: Campus atualizado com sucesso.
+      destroy:
+        success: Campus excluído com sucesso.
   shared:
     forbidden:
       title: Acesso negado

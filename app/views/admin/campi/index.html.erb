@@ -1,0 +1,33 @@
+<% provide :title, t(".title") %>
+<% provide :head_title, t(".title") %>
+
+<div class="p-2 sm:p-6 space-y-6 sm:space-y-8">
+  <h1 class="font-bold text-2xl sm:text-3xl lg:text-4xl text-dark"><%= t(".title") %></h1>
+
+  <div class="flex items-center justify-between gap-3">
+    <%= link_to t("actions.back"), admin_root_path, class: "btn btn-md btn-outline no-underline" %>
+
+    <%= link_to new_admin_campus_path, class: "btn btn-md btn-primary no-underline" do %>
+      <%= icon(:add, class: "btn-icon") %>
+      <span><%= t(".new") %></span>
+    <% end %>
+  </div>
+
+  <% if @campi.any? %>
+    <div class="overflow-x-auto rounded-xl border border-neutral bg-white">
+      <table class="w-full text-left text-sm text-dark">
+        <thead class="bg-neutral/50 text-xs font-semibold uppercase tracking-wider">
+          <tr>
+            <th scope="col" class="px-4 py-3"><%= Campus.human_attribute_name(:name) %></th>
+            <th scope="col" class="px-4 py-3 text-right"><%= t(".actions") %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <%= render @campi %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <p class="text-dark"><%= t(".empty") %></p>
+  <% end %>
+</div>
