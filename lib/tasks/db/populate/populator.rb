@@ -5,13 +5,14 @@ module Db
     def call
       reset_records
       setup_users
+      setup_campi
       puts "Database populated"
     end
 
     private
 
       def reset_records
-        [ User ].each(&:destroy_all)
+        [ Campus, User ].each(&:destroy_all)
       end
 
       def seed_plans
@@ -25,6 +26,10 @@ module Db
 
         User.create_with(name: "Admin Demo", password: "123456", password_confirmation: "123456", admin: true)
             .find_or_create_by!(email_address: "admin@utfpr.edu.br")
+      end
+
+      def setup_campi
+        Campus.find_or_create_by!(name: "Guarapuava")
       end
   end
 end
