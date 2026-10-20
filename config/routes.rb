@@ -26,6 +26,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root "home#index"
+    resources :campi, except: :show
   end
 
   get "/users/reservations", to: "users/reservations#index", as: :users_reservations_path

@@ -1,5 +1,6 @@
 class Users::BaseController < ActionController::Base
   include Authentication
+  include Breadcrumbs
 
   layout "users/application"
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
@@ -13,5 +14,9 @@ class Users::BaseController < ActionController::Base
 
     def can_access_admin_area?
       AdminPolicy.new(Current.user).access_area?
+    end
+
+    def default_breadcrumbs
+      add_breadcrumb t("users.home.dashboard.breadcrumb"), users_root_path
     end
 end

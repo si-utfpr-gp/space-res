@@ -8,4 +8,12 @@ class Db::PopulatorTest < ActiveSupport::TestCase
     assert User.find_by!(email_address: "admin@utfpr.edu.br").admin?
     assert_not User.find_by!(email_address: "demo@utfpr.edu.br").admin?
   end
+
+  test "replaces the campi with the Guarapuava campus" do
+    create(:campus, name: "Pato Branco")
+
+    assert_output(/Database populated/) { Db::Populator.new.call }
+
+    assert_equal [ "Guarapuava" ], Campus.pluck(:name)
+  end
 end
