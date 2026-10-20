@@ -1,0 +1,18 @@
+<% provide :title, t(".title") %>
+<% provide :head_title, t(".title") %>
+<% provide :head_subtitle, t(".subtitle") %>
+
+<div class="space-y-4 sm:space-y-6">
+  <div class="flex sm:justify-end">
+    <%= link_to new_admin_campus_path, class: "btn btn-md btn-primary w-full no-underline sm:w-auto" do %>
+      <%= icon(:add, class: "btn-icon") %>
+      <span><%= t(".new") %></span>
+    <% end %>
+  </div>
+
+  <% if @campi.any? %>
+    <%= render "table", campi: @campi %>
+  <% else %>
+    <%= render "shared/empty_state", icon_name: :location_dot, message: t(".empty") %>
+  <% end %>
+</div>

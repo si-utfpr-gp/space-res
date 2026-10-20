@@ -3,7 +3,15 @@ class Admin::BaseController < Users::BaseController
 
   private
 
+    def default_breadcrumbs
+      super
+      add_breadcrumb t("admin.home.index.breadcrumb"), admin_root_path
+    end
+
     def require_admin_area_access
-      render "shared/forbidden", status: :forbidden unless can_access_admin_area?
+      return if can_access_admin_area?
+
+      clear_breadcrumbs
+      render "shared/forbidden", status: :forbidden
     end
 end

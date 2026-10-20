@@ -1,8 +1,5 @@
 <% provide :title, t(".title") %>
 <% provide :head_title, t(".title") %>
+<% provide :head_subtitle, t(".subtitle") %>
 
-<div class="p-2 sm:p-6 space-y-6 sm:space-y-8">
-  <h1 class="font-bold text-2xl sm:text-3xl lg:text-4xl text-dark"><%= t(".title") %></h1>
-
-  <p class="text-dark"><%= t(".description") %></p>
-</div>
+<%= render "admin/home/partials/registrations" %>
