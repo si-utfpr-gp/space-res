@@ -68,6 +68,10 @@
         @apply border border-primary text-primary hover:bg-primary/10 focus:ring-primary/40;
     }
 
+    .btn-delete {
+        @apply border border-error text-error hover:bg-error/10 focus:ring-error/40;
+    }
+
     /* Icon */
     .btn-icon {
         @apply h-4 w-4 shrink-0;

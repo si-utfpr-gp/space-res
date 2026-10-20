@@ -29,6 +29,8 @@ pt-BR:
     placeholder:
       email_address: Digite seu e-mail
       title: Digite o título
+      campus:
+        name: "Ex.: Guarapuava"
     search:
       no_results: Nenhum resultado para "%{term}"
   users:

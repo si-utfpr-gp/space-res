@@ -53,7 +53,7 @@ class Admin::CampiControllerTest < ActionDispatch::IntegrationTest
     assert_select "main h1", count: 1, text: "Novo campus"
     assert_select "header p", text: "Preencha as informações do novo campus."
     assert_breadcrumbs(campi_breadcrumbs, current: "Novo")
-    assert_select "form[action='#{admin_campi_path}'] input[name='campus[name]']"
+    assert_select "form[action='#{admin_campi_path}'] input[name='campus[name]'][placeholder='Ex.: Guarapuava']"
     assert_select "form a[href='#{admin_campi_path}']", text: "Cancelar"
     assert_no_match(/translation missing/i, response.body)
   end
