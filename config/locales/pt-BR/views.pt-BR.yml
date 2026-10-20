@@ -21,10 +21,16 @@ pt-BR:
     fields:
       email_address: E-mail
       password: Senha
+  components:
+    page:
+      breadcrumbs:
+        label: Trilha de navegação
   helpers:
     placeholder:
       email_address: Digite seu e-mail
       title: Digite o título
+      campus:
+        name: "Ex.: Guarapuava"
     search:
       no_results: Nenhum resultado para "%{term}"
   users:
@@ -42,6 +48,7 @@ pt-BR:
           sign_out: Sair
       dashboard:
         title: Dashboard
+        breadcrumb: Dashboard
         quick_actions: Ações rápidas
         new_scheduling: Novo Agendamento
         new_scheduling_description: Reserve salas ou laboratórios
@@ -92,7 +99,34 @@ pt-BR:
     home:
       index:
         title: Área administrativa
-        description: Os cadastros e configurações do sistema ficarão disponíveis aqui.
+        subtitle: Gerencie os cadastros e as configurações do sistema.
+        breadcrumb: Área administrativa
+        registrations: Cadastros
+        campi: Campi
+        campi_description: Cadastre os campi da UTFPR
+    campi:
+      index:
+        title: Campi
+        subtitle: Gerencie os campi da UTFPR que organizam os blocos e os espaços.
+        breadcrumb: Campi
+        new: Novo campus
+        empty: Nenhum campus cadastrado.
+        actions: Ações
+        confirm_destroy: Excluir o campus %{name}?
+      new:
+        title: Novo campus
+        subtitle: Preencha as informações do novo campus.
+        breadcrumb: Novo
+      edit:
+        title: Editar campus
+        subtitle: Altere as informações do campus.
+        breadcrumb: Editar
+      create:
+        success: Campus cadastrado com sucesso.
+      update:
+        success: Campus atualizado com sucesso.
+      destroy:
+        success: Campus excluído com sucesso.
   shared:
     forbidden:
       title: Acesso negado

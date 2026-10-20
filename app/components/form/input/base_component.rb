@@ -18,7 +18,7 @@ class Form::Input::BaseComponent < ViewComponent::Base
 
   def input
     input_options = @options.except(:hint, :label, :label_class, :wrapper_class)
-    classes = "mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-xs md:text-base shadow-sm"
+    classes = "mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-base shadow-sm"
     classes += " focus:border-blue-500 focus:outline-none focus:ring-blue-500"
     classes += " #{error_input_class}"
 
@@ -56,7 +56,7 @@ class Form::Input::BaseComponent < ViewComponent::Base
     end
 
     def label_class
-      classes = "block text-xs md:text-sm font-medium text-gray-700"
+      classes = "block text-sm font-medium text-gray-700"
       custom_class = @options[:label_class]
       classes += " #{custom_class}" if custom_class.present?
       classes
@@ -71,7 +71,7 @@ class Form::Input::BaseComponent < ViewComponent::Base
     def error_message
       return unless errors?
 
-      content_tag(:p, sanitize(@object.errors[@attribute].join("<br>")), class: "text-red-600 text-xs md:text-sm mt-1")
+      content_tag(:p, sanitize(@object.errors[@attribute].join("<br>")), class: "text-red-600 text-sm mt-1")
     end
 
     def errors?

@@ -5,12 +5,18 @@
   </head>
   <body class="h-screen flex flex-col bg-neutral" data-controller="ui--sidebar">
 
+    <%= render Flash::ToastMessageComponent.new %>
+
     <%= render "layouts/users/partials/header" %>
 
     <div class="flex flex-1 relative">
       <%= render "layouts/users/partials/sidebar" %>
 
-      <main class="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-8 lg:p-16">
+      <main class="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 lg:p-10">
+        <%= render Page::HeaderComponent.new(title: content_for(:head_title),
+                                             subtitle: content_for(:head_subtitle),
+                                             breadcrumbs: breadcrumbs) %>
+
         <%= yield %>
       </main>
     </div>
