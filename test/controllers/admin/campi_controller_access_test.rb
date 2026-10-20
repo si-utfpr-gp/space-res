@@ -1,6 +1,9 @@
 require "test_helper"
+require "support/helpers/breadcrumb_assertions"
 
 class Admin::CampiControllerAccessTest < ActionDispatch::IntegrationTest
+  include BreadcrumbAssertions
+
   setup do
     @campus = create(:campus, name: "Guarapuava")
   end
@@ -25,6 +28,15 @@ class Admin::CampiControllerAccessTest < ActionDispatch::IntegrationTest
     end
 
     assert_campi_unchanged
+  end
+
+  test "hides the admin breadcrumbs from regular users" do
+    sign_in create(:user)
+
+    get edit_admin_campus_path(@campus)
+
+    assert_response :forbidden
+    assert_no_breadcrumbs
   end
 
   test "denies regular users before looking up the campus" do

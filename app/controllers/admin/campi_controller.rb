@@ -44,4 +44,10 @@ class Admin::CampiController < Admin::BaseController
     def campus_params
       params.expect(campus: [ :name ])
     end
+
+    def set_breadcrumbs
+      add_breadcrumb t("admin.campi.index.breadcrumb"), admin_campi_path
+      add_breadcrumb t("admin.campi.new.breadcrumb") if action_name.in?(%w[ new create ])
+      add_breadcrumb t("admin.campi.edit.breadcrumb") if action_name.in?(%w[ edit update ])
+    end
 end

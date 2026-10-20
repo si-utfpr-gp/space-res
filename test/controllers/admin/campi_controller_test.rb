@@ -1,6 +1,9 @@
 require "test_helper"
+require "support/helpers/breadcrumb_assertions"
 
 class Admin::CampiControllerTest < ActionDispatch::IntegrationTest
+  include BreadcrumbAssertions
+
   setup do
     sign_in create(:user, :admin)
   end
@@ -17,6 +20,14 @@ class Admin::CampiControllerTest < ActionDispatch::IntegrationTest
     assert_equal [ "Guarapuava", "Medianeira", "Pato Branco" ], listed_campus_names
     assert_select "a[href='#{new_admin_campus_path}']", text: "Novo campus"
     assert_no_match(/translation missing/i, response.body)
+  end
+
+  test "shows the list title, subtitle and breadcrumbs" do
+    get admin_campi_path
+
+    assert_select "main h1", count: 1, text: "Campi"
+    assert_select "header p", text: "Gerencie os campi da UTFPR que organizam os blocos e os espaços."
+    assert_breadcrumbs({ "Dashboard" => users_root_path, "Área administrativa" => admin_root_path }, current: "Campi")
   end
 
   test "shows a message when there are no campi" do
@@ -39,7 +50,9 @@ class Admin::CampiControllerTest < ActionDispatch::IntegrationTest
     get new_admin_campus_path
 
     assert_response :success
-    assert_select "h1", text: "Novo campus"
+    assert_select "main h1", count: 1, text: "Novo campus"
+    assert_select "header p", text: "Preencha as informações do novo campus."
+    assert_breadcrumbs(campi_breadcrumbs, current: "Novo")
     assert_select "form[action='#{admin_campi_path}'] input[name='campus[name]']"
     assert_select "form a[href='#{admin_campi_path}']", text: "Cancelar"
     assert_no_match(/translation missing/i, response.body)
@@ -63,6 +76,7 @@ class Admin::CampiControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :unprocessable_content
     assert_select "h1", text: "Novo campus"
+    assert_breadcrumbs(campi_breadcrumbs, current: "Novo")
     assert_select "p", text: "Informe o nome do campus."
   end
 
@@ -84,7 +98,9 @@ class Admin::CampiControllerTest < ActionDispatch::IntegrationTest
     get edit_admin_campus_path(campus)
 
     assert_response :success
-    assert_select "h1", text: "Editar campus"
+    assert_select "main h1", count: 1, text: "Editar campus"
+    assert_select "header p", text: "Altere as informações do campus."
+    assert_breadcrumbs(campi_breadcrumbs, current: "Editar")
     assert_select "form[action='#{admin_campus_path(campus)}'] input[name='campus[name]'][value='Guarapuava']"
     assert_no_match(/translation missing/i, response.body)
   end
@@ -108,6 +124,7 @@ class Admin::CampiControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :unprocessable_content
     assert_select "h1", text: "Editar campus"
+    assert_breadcrumbs(campi_breadcrumbs, current: "Editar")
     assert_select "p", text: "Já existe um campus cadastrado com este nome."
     assert_equal "Pato Branco", campus.reload.name
   end
@@ -145,6 +162,10 @@ class Admin::CampiControllerTest < ActionDispatch::IntegrationTest
   end
 
   private
+
+    def campi_breadcrumbs
+      { "Dashboard" => users_root_path, "Área administrativa" => admin_root_path, "Campi" => admin_campi_path }
+    end
 
     def listed_campus_names
       css_select("tbody tr td:first-child").map { |cell| cell.text.strip }
