@@ -1,7 +1,7 @@
 ---
 name: rails-testing-standards
 description: >-
-  Guidelines for writing, maintaining, and executing automated Rails tests with Minitest, FactoryBot, integration tests, Form Object tests, and Capybara system tests. Use this skill whenever creating or updating tests, fixing test failures, or validating Rails feature implementations.
+  Guidelines for writing, maintaining, and executing automated Rails tests with Minitest, Shoulda Matchers, FactoryBot, integration tests, Form Object tests, and Capybara system tests. Use this skill whenever creating or updating tests, fixing test failures, or validating Rails feature implementations.
 ---
 
 # Rails Testing Standards
@@ -64,20 +64,26 @@ For system tests, use `sign_in_as(user)` from `ApplicationSystemTestCase` when t
 
 ## 4. Model Tests
 
-Model tests should verify validations, associations, normalization, scopes, and domain predicates. Keep each test independent and assert the contract that callers rely on:
+Model tests should verify validations, associations, normalization, scopes, and domain predicates. Keep each test independent and assert the contract that callers rely on.
+
+Write model validations as Shoulda Matchers one-liners (`validate_presence_of`, `validate_uniqueness_of`, `validate_length_of`, `validate_inclusion_of`, `validate_numericality_of`):
 
 ```ruby
-class User::ValidationsTest < ActiveSupport::TestCase
-  test "requires an email address" do
-    user = build(:user, email_address: "")
-
-    assert_not user.valid?
-    assert_includes user.errors[:email_address], "não pode ficar em branco"
+class UserValidationsTest < ActiveSupport::TestCase
+  subject { @user }
+  setup do
+    @user = create(:user)
   end
+
+  should validate_presence_of(:name)
+  should validate_uniqueness_of(:email_address).case_insensitive
 end
 ```
 
-Use Shoulda Matchers where they improve clarity, but do not replace behavior-focused tests with matcher-only coverage when the rule has meaningful edge cases.
+- Declare `subject` in every file that uses matchers. Shoulda derives the model from the test class name, so `UserValidationsTest` raises `NameError` without it.
+- Matchers resolve error messages through the same i18n keys as the model (`config/locales/pt-BR/errors.pt-BR.yml`), so they pass with the project's Portuguese messages as written.
+
+Add a plain `test` for each edge case a matcher cannot express, and assert the error message there. Example: `Campus#name` uniqueness also ignores accents, spaces, and punctuation (`NormalizedUniquenessValidator`), so `test/models/campus/campus_validations_test.rb` pairs the matchers with one test per variation.
 
 ---
 
