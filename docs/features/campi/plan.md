@@ -2,7 +2,8 @@
 
 Issue: #56 · Especificação: [spec.md](spec.md)
 
-Status: aprovado em 2026-10-19. Implementado em 2026-10-19.
+Status: aprovado em 2026-10-19. Implementado em 2026-10-19. Layout revisado em 2026-10-20 (seção
+[Revisão do layout](#revisão-do-layout-2026-10-20)).
 
 ## Abordagem técnica
 
@@ -39,13 +40,13 @@ Status: aprovado em 2026-10-19. Implementado em 2026-10-19.
    - `set_campus` usa `Campus.find(params.expect(:id))`; um id inexistente vira 404.
    - `campus_params` usa `params.expect(campus: [ :name ])`.
 7. **Views** (`app/views/admin/campi/`):
-   - `index`: título "Campi"; barra de ações com "Voltar" (para `/admin`) à esquerda e "Novo campus"
-     à direita; tabela com a coluna Nome e as ações Editar e Excluir; mensagem de lista vazia. Cada
-     linha tem `id` com `dom_id(campus)`.
+   - `index`: título e subtítulo; "Novo campus" à direita, abaixo do cabeçalho; tabela com a coluna
+     Nome e as ações Editar e Excluir; mensagem de lista vazia. Cada linha tem `id` com
+     `dom_id(campus)`. O "Voltar" da primeira versão deu lugar à trilha de navegação (2026-10-20).
    - Excluir é um `button_to` com `method: :delete` e `data-turbo-confirm` "Excluir o campus
      %{name}?" (RF4).
-   - `new` e `edit`: título e o partial `_form` (`locals: (campus:)`), com `f.input :name`, "Salvar" e
-     "Cancelar".
+   - `new` e `edit`: título, subtítulo e o partial `_form` (`locals: (campus:)`), com `f.input :name`,
+     "Salvar" e "Cancelar".
 8. **Mensagens na área logada (RF7).** `layouts/users/application.html.erb` passa a renderizar
    `Flash::ToastMessageComponent`, como os layouts `application` e `session` já fazem. As mensagens
    `success` e `warning` já estão habilitadas em `Users::BaseController`.
@@ -84,18 +85,27 @@ para um id que não existe, sem saber se ele existe.
 | `config/routes.rb` | `resources :campi, except: :show` no namespace `admin` |
 | `app/controllers/admin/campi_controller.rb` | Novo: CRUD |
 | `app/views/admin/campi/index.html.erb` | Novo: listagem |
+| `app/views/admin/campi/_table.html.erb` | Novo: tabela de campi |
 | `app/views/admin/campi/_campus.html.erb` | Novo: linha da tabela com as ações |
-| `app/views/admin/campi/new.html.erb`, `edit.html.erb` | Novos: título e formulário |
+| `app/views/admin/campi/new.html.erb`, `edit.html.erb` | Novos: título, subtítulo e formulário |
 | `app/views/admin/campi/_form.html.erb` | Novo: campo Nome, Salvar e Cancelar |
-| `app/views/admin/home/index.html.erb` | Renderiza a seção "Cadastros"; descrição atualizada |
+| `app/views/shared/_empty_state.html.erb` | Novo: estado de lista vazia, com ícone e mensagem |
+| `app/views/admin/home/index.html.erb` | Renderiza a seção "Cadastros"; título e subtítulo pelo layout |
 | `app/views/admin/home/partials/_registrations.html.erb` | Novo: card de Campi |
-| `app/views/layouts/users/application.html.erb` | Renderiza `Flash::ToastMessageComponent` |
+| `app/views/users/home/dashboard.html.erb`, `app/views/shared/forbidden.html.erb` | Deixam o `<h1>` próprio; o layout renderiza o título |
+| `app/views/layouts/users/application.html.erb` | Renderiza `Flash::ToastMessageComponent` e `Page::HeaderComponent`; padding do `main` |
+| `app/controllers/concerns/breadcrumbs.rb` | Novo: trilha montada na renderização |
+| `app/controllers/users/base_controller.rb`, `app/controllers/admin/base_controller.rb` | Trilha base (Dashboard, Área administrativa); trilha limpa no 403 |
+| `app/components/page/header_component.*`, `app/components/page/breadcrumbs_component.*` | Novos: cabeçalho da página e trilha |
+| `app/components/form/input/base_component.rb` | Fonte do input, do rótulo e do erro, mobile first |
+| `app/assets/tailwind/application.css` | Nova variante `.btn-delete` |
 | `config/locales/pt-BR/models.pt-BR.yml` | Modelo `campus` (Campus/Campi) e atributos |
 | `config/locales/pt-BR/views.pt-BR.yml` | Chaves `admin.campi.*` e `admin.home.index.*` |
 | `lib/tasks/db/populate/populator.rb` | Apaga campi e cria Guarapuava |
 | `test/factories/campi.rb` | Nova factory `:campus` |
 
-Os ícones já existem: `:add`, `:pen`, `:trash` e `:location_dot` (card de Campi). Nenhum ícone novo.
+Os ícones já existem: `:add`, `:pen`, `:trash`, `:location_dot` (card de Campi e lista vazia) e
+`:chevron_right` (trilha). Nenhum ícone novo.
 
 ### Textos (pt-BR)
 
@@ -103,24 +113,31 @@ Os ícones já existem: `:add`, `:pen`, `:trash` e `:location_dot` (card de Camp
 | --- | --- |
 | `activerecord.models.campus.one` / `.other` | Campus / Campi |
 | `activerecord.attributes.campus.name` | Nome (pelo `defaults` existente) |
-| `admin.home.index.description` | Gerencie os cadastros e as configurações do sistema. |
+| `admin.home.index.subtitle` | Gerencie os cadastros e as configurações do sistema. |
+| `admin.home.index.breadcrumb` | Área administrativa |
+| `users.home.dashboard.breadcrumb` | Dashboard |
+| `components.page.breadcrumbs.label` | Trilha de navegação |
+| `helpers.placeholder.campus.name` | Ex.: Guarapuava |
 | `admin.home.index.registrations` | Cadastros |
 | `admin.home.index.campi` | Campi |
 | `admin.home.index.campi_description` | Cadastre os campi da UTFPR |
-| `admin.campi.index.title` | Campi |
+| `admin.campi.index.title` / `.breadcrumb` | Campi |
+| `admin.campi.index.subtitle` | Gerencie os campi da UTFPR que organizam os blocos e os espaços. |
 | `admin.campi.index.new` | Novo campus |
 | `admin.campi.index.empty` | Nenhum campus cadastrado. |
 | `admin.campi.index.actions` | Ações |
 | `admin.campi.index.confirm_destroy` | Excluir o campus %{name}? |
-| `admin.campi.new.title` | Novo campus |
-| `admin.campi.edit.title` | Editar campus |
+| `admin.campi.new.title` / `.breadcrumb` | Novo campus / Novo |
+| `admin.campi.new.subtitle` | Preencha as informações do novo campus. |
+| `admin.campi.edit.title` / `.breadcrumb` | Editar campus / Editar |
+| `admin.campi.edit.subtitle` | Altere as informações do campus. |
 | `admin.campi.create.success` | Campus cadastrado com sucesso. |
 | `admin.campi.update.success` | Campus atualizado com sucesso. |
 | `admin.campi.destroy.success` | Campus excluído com sucesso. |
 | `activerecord.errors.models.campus.attributes.name.blank` | Informe o nome do campus. |
 | `activerecord.errors.models.campus.attributes.name.taken` | Já existe um campus cadastrado com este nome. |
 
-Editar, Excluir, Salvar, Cancelar e Voltar reaproveitam `actions.*`. As mensagens de erro ficam em
+Editar, Excluir, Salvar e Cancelar reaproveitam `actions.*`. As mensagens de erro ficam em
 `errors.pt-BR.yml` e valem só para o campus: as mensagens padrão do `rails-i18n` ("não pode ficar em
 branco", "já está em uso") continuam nos outros formulários.
 
@@ -143,12 +160,13 @@ branco", "já está em uso") continuam nos outros formulários.
 | `test/models/campus/campus_normalize_test.rb` | Modelo | `"  Pato   Branco "` vira `"Pato Branco"` | CA3 |
 | `test/models/campus/campus_validations_test.rb` | Modelo | Nome vazio e só com espaços recusados com "Informe o nome do campus."; duplicata exata, com maiúsculas diferentes, com maiúsculas acentuadas, sem acento, sem cedilha, sem espaços, com pontuação e com espaços extras recusada com a mensagem de nome repetido; o próprio campus pode trocar maiúsculas e acentos; editar para o nome de outro campus é recusado; nomes diferentes são aceitos | CA2, CA3, CA7 |
 | `test/models/campus/campus_constraints_test.rb` | Modelo | O banco recusa nome nulo e nome exato repetido, mesmo sem validação | CA7 |
-| `test/controllers/admin/campi_controller_test.rb` | Integração | Admin: listagem em ordem alfabética e lista vazia; cadastro, edição e exclusão com redirect e mensagem no layout; formulário com erro e 422 para nome vazio e duplicado; confirmação no botão de excluir; 404 para campus inexistente | CA1–CA3 |
-| `test/controllers/admin/campi_controller_access_test.rb` | Integração | Visitante → `/login` e usuário comum → 403 nas seis ações, sem alterar dados | CA4, CA5 |
-| `test/controllers/admin/home_controller_test.rb` | Integração | A página inicial de `/admin` tem o atalho para `/admin/campi` | CA1 |
-| `test/controllers/users/home_controller_test.rb` | Integração | O layout logado exibe uma mensagem existente: usuário logado que abre `/login` vê o aviso no Dashboard (RF7) | CA1 |
+| `test/controllers/admin/campi_controller_test.rb` | Integração | Admin: listagem em ordem alfabética e lista vazia; cadastro, edição e exclusão com redirect e mensagem no layout; formulário com erro e 422 para nome vazio e duplicado; confirmação no botão de excluir; 404 para campus inexistente; título único, subtítulo e trilha em ordem na listagem, no cadastro e na edição, inclusive após erro (RF9) | CA1–CA3 |
+| `test/controllers/admin/campi_controller_access_test.rb` | Integração | Visitante → `/login` e usuário comum → 403 nas seis ações, sem alterar dados; o 403 não mostra a trilha | CA4, CA5 |
+| `test/controllers/admin/home_controller_test.rb` | Integração | A página inicial de `/admin` tem o atalho para `/admin/campi`, título, subtítulo e trilha | CA1 |
+| `test/controllers/users/home_controller_test.rb` | Integração | O layout logado exibe uma mensagem existente: usuário logado que abre `/login` vê o aviso no Dashboard (RF7); o Dashboard tem um só título no conteúdo e nenhuma trilha | CA1 |
 | `test/lib/tasks/db/populate/populator_test.rb` | Unidade | Após o populate, existe o campus Guarapuava | CA6 |
 | `test/system/admin/campi/manage_campi_test.rb` | Sistema | Admin cadastra, edita e exclui pelo navegador, aceitando a confirmação, e vê as mensagens; recusar a confirmação mantém o campus | CA1 |
+| `test/system/admin/campi/manage_campi_on_phone_test.rb` | Sistema | Com a janela em 320 × 640, a tabela cabe na tela com Editar e Excluir, e o cadastro funciona (RF10) | CA1 |
 
 - O validador é testado pelo `Campus`, seu único uso por enquanto.
 - As respostas HTML também verificam `assert_no_match(/translation missing/i, response.body)`, como
@@ -190,10 +208,58 @@ branco", "já está em uso") continuam nos outros formulários.
 - **Toast em toda a área logada.** Além do cadastro, o aviso existente "você já está conectado"
   (quando um usuário logado abre `/login`) passa a aparecer no Dashboard. É o comportamento esperado
   do RF7.
-- **`<h1>` no corpo e chaves i18n por view.** Sigo o padrão do projeto, como no plano da #55.
+- **Chaves i18n por view.** Sigo o padrão do projeto, como no plano da #55. O `<h1>` no corpo das
+  views saiu na revisão do layout (2026-10-20): agora o layout renderiza o título.
 - **Trabalho anterior.** A PR #46 (fechada) tinha `Campus`, a regra de inflexão, a normalização e a
   factory. Reaproveito essas ideias reescrevendo no padrão atual, sem trazer `Building` (fora do
   escopo).
+
+## Revisão do layout (2026-10-20)
+
+Feedback do professor sobre a primeira versão: o layout estava feio; faltava hierarquia visual
+(títulos, subtítulos e breadcrumbs); o formulário ocupava metade da página; as páginas precisam
+funcionar bem no celular (mobile first); e `if` não deve ter muito código nos blocos. Referências: as
+telas do trabalho do Jacson (monografia, figuras 45, 46, 58 e 64) e
+`maxiambiental/app/views/courses/index.html.erb`. As regras seguem a skill `rails-frontend-standards`
+(seções 5, 7 e 9).
+
+1. **Cabeçalho no layout.** `layouts/users/application` renderiza `Page::HeaderComponent` com
+   `content_for(:head_title)`, `content_for(:head_subtitle)` e a trilha: trilha, `<h1>`, subtítulo e
+   uma linha divisória. O componente não aparece quando a página não define `head_title` (a reserva,
+   por exemplo). As views não escrevem mais `<h1>`. Dashboard, área administrativa e 403 já definiam
+   `head_title` e deixam o `<h1>` próprio para não repetir o título.
+2. **Trilha.** O concern `Breadcrumbs` monta a trilha quando o layout a pede, durante a renderização:
+   primeiro `default_breadcrumbs` (Dashboard em `Users::BaseController`, mais Área administrativa em
+   `Admin::BaseController`), depois `set_breadcrumbs` do controller. Assim a raiz vem sempre antes.
+   `Admin::CampiController#set_breadcrumbs` acrescenta Campi e, conforme a ação, Novo (`new`,
+   `create`) ou Editar (`edit`, `update`), para a trilha continuar certa quando o formulário volta com
+   erro. O último item é a página atual, sem link e com `aria-current="page"`. Com um item só (o
+   Dashboard), a trilha não aparece. No 403, `Admin::BaseController` limpa a trilha para não mostrar a
+   área administrativa a quem não tem acesso.
+3. **Listagem.** "Novo campus" fica abaixo do cabeçalho: à direita no desktop, largura total no
+   celular. O `if` da listagem só escolhe entre dois partials, `_table` e `shared/_empty_state`, como
+   no exemplo do professor. No celular, Editar e Excluir viram botões de 44 px só com ícone, com o
+   texto para leitor de tela (`sr-only sm:not-sr-only`) e `title`. A partir de `sm`, o texto aparece.
+4. **Formulário.** Ocupa toda a largura do conteúdo (sai o `max-w-xl`), com placeholder
+   "Ex.: Guarapuava". No celular, os botões ficam empilhados com largura total e Salvar em cima. A
+   partir de `sm`, Cancelar fica à esquerda e Salvar à direita, como nas telas do Jacson.
+5. **Espaçamento.** O `main` passa de `p-4 sm:p-8 lg:p-16` para `p-4 sm:p-6 lg:p-10`. As views deixam o
+   wrapper `p-2 sm:p-6`, que se somava ao padding do layout.
+6. **Input mobile first.** `Form::Input::BaseComponent` usava `text-xs md:text-base`: 12 px no
+   celular, e o iOS dá zoom ao focar campos com menos de 16 px. O input passa a `text-base` em
+   qualquer tela, e o rótulo e o erro passam de `text-xs md:text-sm` para `text-sm`. No desktop nada
+   muda. O login usa o mesmo componente e também ganha a correção.
+
+### Riscos e pendências da revisão
+
+- **Outras páginas.** O padding do `main` muda também no Dashboard e na reserva, e a fonte dos inputs
+  muda também no login (só no celular). Conferido nos testes de sistema existentes.
+- **Fora do escopo, para outra Issue:** o cabeçalho do layout ainda tem um `<h1>` com "Olá, nome" (o
+  teste `test/system/users/dashboard/hello_test.rb` depende dele), então as páginas têm dois `<h1>`; o
+  botão de menu do celular não tem área de toque de 44 px nem rótulo acessível; e a reserva usa
+  `content_for :page_title`, que o layout não renderiza.
+- **320 px.** Na largura mínima, a trilha da edição quebra em duas linhas. Os itens Novo e Editar são
+  curtos para isso acontecer só nessa largura.
 
 ## Comandos de verificação
 
@@ -201,7 +267,7 @@ branco", "já está em uso") continuam nos outros formulários.
 bin/rails db:migrate
 bin/rails test test/models/campus test/controllers/admin test/lib
 bin/rails test
-bin/rails test test/system/admin/campi/manage_campi_test.rb
+bin/rails test test/system/admin/campi
 bin/rails test:system
 bin/rubocop
 bundle exec erb_lint --lint-all

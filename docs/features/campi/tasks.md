@@ -94,6 +94,52 @@ Legenda: `[ ]` pendente · `[~]` em andamento · `[x]` concluída
 - **Verificação:** todos os comandos da seção "Comandos de verificação" do plano sem falhas.
 - **Depende de:** T1–T8
 
+## T10 — Trilha de navegação
+
+- [x] Status
+- **Objetivo:** a área logada monta a trilha a partir do Dashboard; a área administrativa e o cadastro
+  de campi acrescentam seus itens; o 403 não mostra a trilha.
+- **Requisitos:** RF9 · Regras de acesso
+- **Passos:** testes de integração → concern `Breadcrumbs` → `default_breadcrumbs` em
+  `Users::BaseController` e `Admin::BaseController` → `set_breadcrumbs` em `Admin::CampiController` →
+  `clear_breadcrumbs` no 403 → textos.
+- **Verificação:** `bin/rails test test/controllers`
+- **Depende de:** T3–T6
+
+## T11 — Cabeçalho da página no layout
+
+- [x] Status
+- **Objetivo:** o layout logado renderiza trilha, título e subtítulo; as views deixam de escrever
+  `<h1>`.
+- **Requisitos:** RF9
+- **Passos:** testes de integração (um `<h1>` no conteúdo, subtítulo) → `Page::HeaderComponent` e
+  `Page::BreadcrumbsComponent` → layout → `head_subtitle` nas views de campi e de `/admin` → Dashboard
+  e 403 sem `<h1>` próprio.
+- **Verificação:** `bin/rails test test/controllers`
+- **Depende de:** T10
+
+## T12 — Listagem e formulário mobile first
+
+- [x] Status
+- **Objetivo:** listagem sem rolagem horizontal em 320 px, formulário com a largura toda, `if` da
+  listagem só com partials e inputs sem zoom no iOS.
+- **Requisitos:** RF1–RF3, RF10
+- **Passos:** system test em 320 × 640 → `_table` e `shared/_empty_state` → botões só com ícone no
+  celular e `.btn-delete` → formulário sem `max-w-xl`, com placeholder e botões empilhados no
+  celular → padding do `main` → fonte do `Form::Input::BaseComponent`.
+- **Verificação:** `bin/rails test test/system/admin/campi` e screenshots em 1400, 390 e 320 px
+- **Depende de:** T11
+
+## T13 — Verificação da revisão do layout
+
+- [x] Status
+- **Objetivo:** evidência de RF9 e RF10 e nenhuma regressão.
+- **Requisitos:** RF9, RF10 · Definition of Done
+- **Passos:** suíte completa, system tests, RuboCop, ERB Lint, Brakeman, `bin/ci`, evidências nesta
+  página.
+- **Verificação:** comandos da seção "Comandos de verificação" do plano.
+- **Depende de:** T10–T12
+
 ## Evidências (2026-10-19)
 
 | CA | Evidência |
@@ -124,3 +170,28 @@ Legenda: `[ ]` pendente · `[~]` em andamento · `[x]` concluída
   a tabela. O diff do `schema.rb` contém só a tabela `campi` e a versão.
 - **Telas:** conferidas por screenshot (listagem, formulário com erro e atalho em `/admin`).
 - `bin/rails db:populate` não foi rodado no banco de desenvolvimento. O teste do populator cobre o CA6.
+
+## Evidências da revisão do layout (2026-10-20)
+
+| Requisito | Evidência |
+| --- | --- |
+| RF9 | `campi_controller_test.rb` (um `<h1>`, subtítulo e trilha em ordem na listagem, no cadastro e na edição, também após erro 422); `home_controller_test.rb` de `/admin` (título, subtítulo e trilha); `users/home_controller_test.rb` (Dashboard sem trilha e com um `<h1>`); `home_controller_access_test.rb` e `campi_controller_access_test.rb` (403 sem trilha) |
+| RF10 | `test/system/admin/campi/manage_campi_on_phone_test.rb` (em 320 × 640, a tabela cabe na tela com Editar e Excluir, e o cadastro funciona) |
+
+| Comando | Resultado |
+| --- | --- |
+| `bin/rails test` | 88 runs, 419 assertions, 0 failures, 0 errors |
+| `bin/rails test:system` | 8 runs, 19 assertions, 0 failures, 0 errors |
+| `bin/rubocop` | 97 files inspected, no offenses |
+| `bundle exec erb_lint --lint-all` | No errors |
+| `bundle exec brakeman --no-pager --exit-on-warn --exit-on-error` | 0 errors, 0 security warnings |
+| `bin/ci` | todas as etapas passaram, menos Brakeman: `bin/brakeman` usa `--ensure-latest`, que consulta o rubygems.org e quebrou sem rede (`undefined method 'date' for nil`) antes da análise |
+
+### Observações
+
+- **Testes conferidos contra falha:** sem `clear_breadcrumbs`, os dois testes de 403 sem trilha
+  falharam. Com o `_campus.html.erb` da primeira versão, o teste em 320 px falhou (tabela até 334 px
+  numa tela de 320 px). Em 390 e 360 px a versão antiga cabia, porque o navegador espreme a coluna do
+  nome. Por isso o teste usa 320 px, a largura do critério de reflow da WCAG (1.4.10).
+- **Telas:** conferidas por screenshot em 1400, 390 e 320 px (listagem, lista vazia, cadastro com
+  erro, edição e `/admin`).

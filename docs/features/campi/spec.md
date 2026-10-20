@@ -2,7 +2,8 @@
 
 Issue: #56 — Cadastro de campi
 
-Status: aprovada em 2026-10-19 (RN4, RN6 e mensagens de erro revisadas no mesmo dia).
+Status: aprovada em 2026-10-19 (RN4, RN6 e mensagens de erro revisadas no mesmo dia). RF9 e RF10
+acrescentados em 2026-10-20, a partir do feedback do professor sobre o layout.
 
 ## Objetivo
 
@@ -51,6 +52,13 @@ são a base dos cadastros de blocos e de espaços, entregues por Issues posterio
    de aviso geradas pelas ações do usuário.
 8. **RF8 — Campus local.** Popular o banco de desenvolvimento local cria o campus Guarapuava, além dos
    usuários que já cria hoje.
+9. **RF9 — Hierarquia e navegação.** A listagem, o cadastro, a edição e a página inicial da área
+   administrativa mostram um título, um subtítulo que explica a página e uma trilha de navegação
+   (breadcrumbs) que começa no Dashboard e termina na página atual. Os itens anteriores da trilha são
+   links; a página atual não é. A trilha substitui o botão Voltar da listagem.
+10. **RF10 — Celular.** As páginas do cadastro funcionam no celular desde 320 px de largura: a
+    listagem cabe na tela sem rolagem horizontal e as ações de editar e excluir continuam fáceis de
+    tocar. O formulário ocupa toda a largura disponível, em qualquer tela.
 
 ## Regras de negócio
 
@@ -83,6 +91,7 @@ são a base dos cadastros de blocos e de espaços, entregues por Issues posterio
   alterado.
 - Um visitante é direcionado para a página de autenticação, e nenhum dado é alterado.
 - Um endereço de campus inexistente responde como página não encontrada (HTTP 404).
+- A página de acesso negado não mostra a trilha da área administrativa.
 
 ## Critérios de aceitação
 
@@ -109,6 +118,10 @@ são a base dos cadastros de blocos e de espaços, entregues por Issues posterio
 - Um administrador exclui um campus, confirma, e o campus some da listagem, com mensagem de
   confirmação.
 - Depois de popular o banco local, a listagem mostra "Guarapuava".
+- Na edição, a trilha mostra "Dashboard › Área administrativa › Campi › Editar"; tocar em "Campi" volta
+  para a listagem.
+- Num celular de 320 px, o administrador vê a listagem inteira sem rolar para o lado, toca em "Novo
+  campus", cadastra e vê a mensagem de confirmação.
 
 ### Negativos
 
@@ -125,6 +138,7 @@ são a base dos cadastros de blocos e de espaços, entregues por Issues posterio
 - Um visitante abre ou envia qualquer endereço do cadastro e é direcionado para a autenticação, sem
   alteração nos dados.
 - Desistir na confirmação de exclusão mantém o campus.
+- Um usuário comum que recebe 403 não vê a trilha da área administrativa.
 
 ### Limite
 
@@ -135,6 +149,7 @@ são a base dos cadastros de blocos e de espaços, entregues por Issues posterio
 - Corrigir o mesmo campus de "Campo Mourao" para "Campo Mourão" é aceito.
 - Sem nenhum campus cadastrado, a listagem mostra a mensagem de lista vazia.
 - Um administrador abre a edição de um campus que não existe e recebe HTTP 404.
+- No Dashboard, que é a raiz, a trilha não aparece.
 
 ## Fora do escopo
 
