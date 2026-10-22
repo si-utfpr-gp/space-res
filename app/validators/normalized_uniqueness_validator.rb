@@ -3,7 +3,8 @@ class NormalizedUniquenessValidator < ActiveModel::EachValidator
     return if value.blank?
 
     key = comparison_key(value)
-    other_values = record.class.where.not(id: record.id).pluck(attribute)
+    scope = Array(options[:scope]).index_with { |column| record.read_attribute(column) }
+    other_values = record.class.where(scope).where.not(id: record.id).pluck(attribute)
 
     record.errors.add(attribute, :taken) if other_values.any? { |other| comparison_key(other) == key }
   end

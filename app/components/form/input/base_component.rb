@@ -18,15 +18,11 @@ class Form::Input::BaseComponent < ViewComponent::Base
 
   def input
     input_options = @options.except(:hint, :label, :label_class, :wrapper_class)
-    classes = "mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-base shadow-sm"
-    classes += " focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-    classes += " #{error_input_class}"
 
     # Extract and remove :class from options safely
     custom_class = input_options.delete(:class)
-    classes += " #{custom_class}" if custom_class.present?
 
-    @form.send(input_type, @attribute, class: classes, id: id, **input_options) + error_message
+    @form.send(input_type, @attribute, class: input_classes(custom_class), id: id, **input_options) + error_message
   end
 
   def label
@@ -47,6 +43,14 @@ class Form::Input::BaseComponent < ViewComponent::Base
       return "textarea" if @type.eql?(:textarea)
 
       "#{@type}_field"
+    end
+
+    def input_classes(custom_class)
+      classes = "mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-base shadow-sm"
+      classes += " focus:border-blue-500 focus:outline-none focus:ring-blue-500"
+      classes += " #{error_input_class}"
+      classes += " #{custom_class}" if custom_class.present?
+      classes
     end
 
     def label_text
@@ -71,10 +75,14 @@ class Form::Input::BaseComponent < ViewComponent::Base
     def error_message
       return unless errors?
 
-      content_tag(:p, sanitize(@object.errors[@attribute].join("<br>")), class: "text-red-600 text-sm mt-1")
+      content_tag(:p, sanitize(error_messages.join("<br>")), class: "text-red-600 text-sm mt-1")
     end
 
     def errors?
-      @object && @object.errors[@attribute].any?
+      error_messages.any?
+    end
+
+    def error_messages
+      @object ? @object.errors[@attribute] : []
     end
 end

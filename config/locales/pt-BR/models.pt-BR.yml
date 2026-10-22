@@ -13,6 +13,9 @@ pt-BR:
         horarios: Horários
   activerecord:
     models:
+      building:
+        one: Bloco
+        other: Blocos
       campus:
         one: Campus
         other: Campi
@@ -23,8 +26,13 @@ pt-BR:
         updated_at: Atualizado em
         name: Nome
         email_address: E-mail
+      building:
+        <<: *defaults
+        campus: Campus
+        campus_id: Campus
       campus:
         <<: *defaults
+        buildings: Blocos
       user:
         <<: *defaults
         admin: Administrador

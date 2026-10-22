@@ -6,13 +6,14 @@ module Db
       reset_records
       setup_users
       setup_campi
+      setup_buildings
       puts "Database populated"
     end
 
     private
 
       def reset_records
-        [ Campus, User ].each(&:destroy_all)
+        [ Building, Campus, User ].each(&:destroy_all)
       end
 
       def seed_plans
@@ -30,6 +31,14 @@ module Db
 
       def setup_campi
         Campus.find_or_create_by!(name: "Guarapuava")
+      end
+
+      def setup_buildings
+        campus = Campus.find_by!(name: "Guarapuava")
+
+        [ "Bloco B", "Bloco C", "Bloco R" ].each do |name|
+          campus.buildings.find_or_create_by!(name: name)
+        end
       end
   end
 end

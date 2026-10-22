@@ -1,0 +1,25 @@
+<%# locals: (building:) %>
+<tr id="<%= dom_id(building) %>">
+  <td class="break-words px-4 py-3">
+    <span class="font-medium"><%= building.name %></span>
+    <span class="mt-0.5 block text-xs text-gray-500 sm:hidden"><%= building.campus.name %></span>
+  </td>
+  <td class="hidden break-words px-4 py-3 sm:table-cell"><%= building.campus.name %></td>
+  <td class="px-4 py-3">
+    <div class="flex items-center justify-end gap-2">
+      <%= link_to edit_admin_building_path(building), title: t("actions.edit"),
+                  class: "btn btn-md btn-outline min-w-11 px-3 no-underline sm:px-4" do %>
+        <%= icon(:pen, class: "btn-icon-sm") %>
+        <span class="sr-only sm:not-sr-only"><%= t("actions.edit") %></span>
+      <% end %>
+
+      <%= button_to admin_building_path(building), method: :delete, title: t("actions.destroy"),
+                    class: "btn btn-md btn-delete min-w-11 px-3 sm:px-4",
+                    form: { data: { turbo_confirm: t("admin.buildings.index.confirm_destroy",
+                                                      name: building.name, campus: building.campus.name) } } do %>
+        <%= icon(:trash, class: "btn-icon-sm") %>
+        <span class="sr-only sm:not-sr-only"><%= t("actions.destroy") %></span>
+      <% end %>
+    </div>
+  </td>
+</tr>

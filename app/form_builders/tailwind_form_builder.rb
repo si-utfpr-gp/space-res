@@ -1,6 +1,8 @@
 class TailwindFormBuilder < ActionView::Helpers::FormBuilder
   def input(attribute, type: :text, **)
-    @template.render Form::Input::BaseComponent.new(
+    component = type == :select ? Form::Input::SelectComponent : Form::Input::BaseComponent
+
+    @template.render component.new(
       form: self,
       attribute: attribute,
       type: type,
