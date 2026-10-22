@@ -29,6 +29,8 @@ pt-BR:
     placeholder:
       email_address: Digite seu e-mail
       title: Digite o título
+      building:
+        name: "Ex.: Bloco R"
       campus:
         name: "Ex.: Guarapuava"
     search:
@@ -104,6 +106,33 @@ pt-BR:
         registrations: Cadastros
         campi: Campi
         campi_description: Cadastre os campi da UTFPR
+        buildings: Blocos
+        buildings_description: Cadastre os blocos de cada campus
+    buildings:
+      index:
+        title: Blocos
+        subtitle: Gerencie os blocos de cada campus, que organizam os espaços.
+        breadcrumb: Blocos
+        new: Novo bloco
+        empty: Nenhum bloco cadastrado.
+        actions: Ações
+        confirm_destroy: Excluir o bloco %{name} do campus %{campus}?
+      new:
+        title: Novo bloco
+        subtitle: Preencha as informações do novo bloco.
+        breadcrumb: Novo
+      edit:
+        title: Editar bloco
+        subtitle: Altere as informações do bloco.
+        breadcrumb: Editar
+      form:
+        campus_prompt: Selecione o campus
+      create:
+        success: Bloco cadastrado com sucesso.
+      update:
+        success: Bloco atualizado com sucesso.
+      destroy:
+        success: Bloco excluído com sucesso.
     campi:
       index:
         title: Campi
