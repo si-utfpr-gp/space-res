@@ -2,6 +2,13 @@ pt-BR:
   activerecord:
     errors:
       models:
+        building:
+          attributes:
+            campus:
+              required: Selecione o campus.
+            name:
+              blank: Informe o nome do bloco.
+              taken: Já existe um bloco com este nome neste campus.
         campus:
           attributes:
             name:
