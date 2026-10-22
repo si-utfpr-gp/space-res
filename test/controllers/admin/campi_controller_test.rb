@@ -155,6 +155,22 @@ class Admin::CampiControllerTest < ActionDispatch::IntegrationTest
     assert_select "p", text: "Nenhum campus cadastrado."
   end
 
+  test "refuses to delete a campus that has buildings and explains why" do
+    campus = create(:campus, name: "Guarapuava")
+    create(:building, campus: campus)
+
+    assert_no_difference([ "Campus.count", "Building.count" ]) do
+      delete admin_campus_path(campus)
+    end
+
+    assert_response :see_other
+    assert_redirected_to admin_campi_path
+    follow_redirect!
+    assert_select "[data-controller='ui--toast'][data-ui--toast-message-type-value='alert']" \
+                  "[data-ui--toast-message-text-value='Não é possível excluir o campus porque ele tem blocos cadastrados.']"
+    assert_equal [ "Guarapuava" ], listed_campus_names
+  end
+
   test "responds not found for a campus that does not exist" do
     get edit_admin_campus_path(id: 0)
 

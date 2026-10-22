@@ -32,6 +32,7 @@ pt-BR:
         campus_id: Campus
       campus:
         <<: *defaults
+        buildings: Blocos
       user:
         <<: *defaults
         admin: Administrador

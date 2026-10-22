@@ -43,6 +43,18 @@ class ManageCampiTest < ApplicationSystemTestCase
     assert_selector "tbody tr", text: "Guarapuava"
   end
 
+  test "explains why a campus with buildings cannot be deleted" do
+    create(:building, campus: create(:campus, name: "Guarapuava"))
+    visit admin_campi_path
+
+    accept_confirm "Excluir o campus Guarapuava?" do
+      click_on "Excluir"
+    end
+
+    assert_flash_message "Não é possível excluir o campus porque ele tem blocos cadastrados."
+    assert_selector "tbody tr", text: "Guarapuava"
+  end
+
   test "shows the error when the name is already taken" do
     create(:campus, name: "Campo Mourão")
     visit new_admin_campus_path
