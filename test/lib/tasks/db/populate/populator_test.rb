@@ -16,4 +16,13 @@ class Db::PopulatorTest < ActiveSupport::TestCase
 
     assert_equal [ "Guarapuava" ], Campus.pluck(:name)
   end
+
+  test "replaces the buildings with blocks B, C and R of the Guarapuava campus" do
+    create(:building, campus: create(:campus, name: "Pato Branco"), name: "Bloco A")
+
+    assert_output(/Database populated/) { Db::Populator.new.call }
+
+    assert_equal [ [ "Guarapuava", "Bloco B" ], [ "Guarapuava", "Bloco C" ], [ "Guarapuava", "Bloco R" ] ],
+                 Building.sorted.map { |building| [ building.campus.name, building.name ] }
+  end
 end
