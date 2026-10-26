@@ -1,21 +1,19 @@
 # frozen_string_literal: true
 
 class Form::Input::SelectComponent < Form::Input::BaseComponent
-  SELECT_OPTIONS = %i[ prompt include_blank ].freeze
-
-  def initialize(form:, attribute:, type:, collection:, value_method: :id, text_method: :name, **options)
-    super(form:, attribute:, type:, **options)
-    @collection = collection
-    @value_method = value_method
-    @text_method = text_method
+  def initialize(form:, attribute:, choices:, select_options: {}, **options)
+    super(form:, attribute:, type: :select, **options)
+    @choices = choices
+    @select_options = select_options
   end
 
+  # Builds the tag with Rails' select helper, as FormBuilder#select does, since f.select renders this component.
   def input
-    html_options = @options.except(:hint, :label, :label_class, :wrapper_class, *SELECT_OPTIONS)
+    html_options = @options.except(:hint, :label, :label_class, :wrapper_class)
     custom_class = html_options.delete(:class)
 
-    @form.collection_select(
-      @attribute, @collection, @value_method, @text_method, @options.slice(*SELECT_OPTIONS),
+    select(
+      @form.object_name, @attribute, @choices, @select_options.merge(object: @object),
       class: input_classes("min-h-11 bg-white #{custom_class}".strip), id: id, **html_options
     ) + error_message
   end

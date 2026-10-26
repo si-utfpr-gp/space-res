@@ -49,6 +49,18 @@ class Users::ReservationsControllerTest < ActionDispatch::IntegrationTest
     assert_select "form[action*='previous']", count: 0
   end
 
+  test "invalid schedule shows the reservation type label and error once" do
+    select_space
+
+    patch users_reservation_step_path(:schedule), params: { schedule: { tipo_reserva: "" } }
+
+    assert_response :unprocessable_entity
+    assert_select "label[for='schedule_tipo_reserva']", count: 1, text: "Tipo de reserva"
+    assert_select "select#schedule_tipo_reserva[data-action='change->ui--schedule#toggleFields']"
+    assert_select ".schedule_tipo_reserva p", count: 1, text: "não pode ficar em branco"
+    assert_select "label[for='schedule_frequencia']", count: 1, text: "Repetir"
+  end
+
   test "valid single schedule advances and renders semantic wizard state" do
     select_space
     submit_single_schedule

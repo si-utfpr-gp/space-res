@@ -1,12 +1,20 @@
 class TailwindFormBuilder < ActionView::Helpers::FormBuilder
   def input(attribute, type: :text, **)
-    component = type == :select ? Form::Input::SelectComponent : Form::Input::BaseComponent
-
-    @template.render component.new(
+    @template.render Form::Input::BaseComponent.new(
       form: self,
       attribute: attribute,
       type: type,
       **
+    )
+  end
+
+  def select(attribute, choices = nil, options = {}, html_options = {})
+    @template.render Form::Input::SelectComponent.new(
+      form: self,
+      attribute: attribute,
+      choices: choices,
+      select_options: options,
+      **html_options
     )
   end
 

@@ -10,10 +10,7 @@ class Form::Input::BaseComponent < ViewComponent::Base
   end
 
   def id
-    return @attribute unless @object.present?
-
-    class_name = @object.class.name.underscore.downcase
-    "#{class_name}_#{@attribute}"
+    @form.field_id(@attribute)
   end
 
   def input

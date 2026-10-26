@@ -1,6 +1,6 @@
 <%# locals: (building:, campi:) %>
 <%= form_with model: [ :admin, building ], class: "rounded-xl border border-gray-200 bg-white p-4 sm:p-6" do |f| %>
-  <%= f.input :campus_id, type: :select, collection: campi, prompt: t(".campus_prompt"), autofocus: true %>
+  <%= f.select :campus_id, campi.pluck(:name, :id), { prompt: t(".campus_prompt") }, autofocus: true %>
   <%= f.input :name, placeholder: true %>
 
   <div class="mt-6 flex flex-col-reverse gap-3 border-t border-gray-200 pt-4 sm:flex-row sm:justify-between">

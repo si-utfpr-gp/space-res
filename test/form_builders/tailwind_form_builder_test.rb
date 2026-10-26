@@ -6,7 +6,7 @@ class TailwindFormBuilderTest < ActionView::TestCase
     @pato_branco = create(:campus, name: "Pato Branco")
   end
 
-  test "renders a labeled select with the prompt and the collection in order" do
+  test "renders a labeled select with the prompt and the choices in order" do
     render_campus_select(Building.new)
 
     assert_select "label[for='building_campus_id']", text: "Campus"
@@ -40,11 +40,23 @@ class TailwindFormBuilderTest < ActionView::TestCase
     assert_select "select + p", text: "Selecione o campus."
   end
 
+  test "takes Rails' select options and html options, plus a custom label" do
+    @rendered = form_with(model: Building.new, url: "/admin/buildings") do |form|
+      form.select :campus_id, [ [ "Guarapuava", @guarapuava.id ] ], { include_blank: true },
+                  label: "Campus do bloco", data: { action: "change->campus#pick" }
+    end
+
+    assert_select "label[for='building_campus_id']", text: "Campus do bloco"
+    assert_select "select[data-action='change->campus#pick']" do
+      assert_select "option:nth-child(1)[value='']", text: ""
+    end
+  end
+
   private
 
     def render_campus_select(building)
       @rendered = form_with(model: building, url: "/admin/buildings") do |form|
-        form.input :campus_id, type: :select, collection: Campus.order(:name), prompt: "Selecione o campus"
+        form.select :campus_id, Campus.order(:name).pluck(:name, :id), { prompt: "Selecione o campus" }
       end
     end
 end
