@@ -38,17 +38,22 @@ Status: aprovado e implementado em 2026-10-22.
    `set_breadcrumbs` (Blocos, mais Novo ou Editar). Um `before_action :set_campi` nas ações de
    formulário guarda `Campus.order(:name)` para a lista de seleção. A relação é preguiçosa: depois de
    salvar com sucesso, o redirect não chega a consultar os campi.
-8. **Campo de seleção no form builder (RF3).** `TailwindFormBuilder#input` passa a aceitar
-   `type: :select`, com a coleção em `collection:`:
+8. **Campo de seleção no form builder (RF3).** O `TailwindFormBuilder` sobrescreve o `select` do
+   Rails, como já faz com o `submit`, mantendo a mesma assinatura (pedido do professor na revisão da
+   PR #69):
 
    ```erb
-   <%= f.input :campus_id, type: :select, collection: campi, prompt: t(".campus_prompt") %>
+   <%= f.select :campus_id, campi.pluck(:name, :id), { prompt: t(".campus_prompt") }, autofocus: true %>
    ```
 
    - O builder renderiza o novo `Form::Input::SelectComponent`, subclasse de
      `Form::Input::BaseComponent`. Ele herda o template (rótulo, campo, dica) e troca só o campo, que
-     vira `collection_select` com `value_method: :id` e `text_method: :name` por padrão. `prompt` e
-     `include_blank` vão para as opções do select; o resto vai para o HTML, como no `input`.
+     é montado pelo helper `select` do Rails, como o `FormBuilder#select` faz. As opções do select
+     (`prompt`, `include_blank`, `selected`) vêm no terceiro argumento; o quarto vai para o HTML, junto
+     com `label`, `hint`, `label_class` e `wrapper_class`, como no `input`.
+   - O `id` do campo passa a vir de `f.field_id`, o mesmo do Rails. Para os formulários que já usam o
+     builder, o id não muda; para form objects com namespace, como `Reservations::ScheduleForm`, ele
+     deixa de ser `reservations/schedule_form_<atributo>` e vira `schedule_<atributo>`.
    - O select usa as mesmas classes do input, mais `min-h-11` (44 px de área de toque) e `bg-white`.
      Para isso, as classes do campo saem do método `input` para um método privado do componente base,
      sem mudar o HTML gerado.
@@ -56,10 +61,10 @@ Status: aprovado e implementado em 2026-10-22.
      `campus_id`. O componente de select também mostra os erros da associação `belongs_to` cuja chave
      estrangeira é o atributo do campo (descoberta por reflexão). O componente base passa a ler os
      erros por um método privado, que a subclasse estende.
-   - **Por que não sobrescrever `f.select`.** O `TailwindFormBuilder` é o builder padrão, e o
-     formulário de reserva (`users/reservations/_schedule_form`) usa `f.select` com rótulo e erros
-     próprios. Mudar o `select` do Rails mexeria nessa tela, fora do escopo. A reserva pode migrar para
-     `f.input type: :select` depois.
+   - **Formulário de reserva.** Como o `TailwindFormBuilder` é o builder padrão, os dois `f.select`
+     de `users/reservations/_schedule_form` (tipo de reserva e frequência) passam a usar o componente.
+     Eles perdem o `f.label` e o laço de erros próprios, que o componente já renderiza, e mantêm os
+     textos dos rótulos com `label:`. Os outros campos da reserva continuam como estão.
 9. **Views** (`app/views/admin/buildings/`), no padrão de campi:
    - `index`: título e subtítulo; "Novo bloco" abaixo do cabeçalho; `if` que só escolhe entre `_table`
      e `shared/_empty_state`.
@@ -101,10 +106,11 @@ DELETE /admin/campi/:id
 | `config/routes.rb` | `resources :buildings, except: :show` no namespace `admin` |
 | `app/controllers/admin/buildings_controller.rb` | Novo: CRUD |
 | `app/controllers/admin/campi_controller.rb` | `destroy` trata a exclusão recusada |
-| `app/form_builders/tailwind_form_builder.rb` | `input` com `type: :select` renderiza o componente de select |
-| `app/components/form/input/base_component.rb` | Classes do campo e leitura dos erros em métodos privados |
+| `app/form_builders/tailwind_form_builder.rb` | `select`, com a assinatura do Rails, renderiza o componente de select |
+| `app/components/form/input/base_component.rb` | Classes do campo e leitura dos erros em métodos privados; `id` vem de `field_id` |
 | `app/components/form/input/select_component.rb` | Novo: select com o visual dos inputs e erros do `belongs_to` |
 | `app/views/admin/buildings/*` | Novos: `index`, `_table`, `_building`, `new`, `edit`, `_form` |
+| `app/views/users/reservations/_schedule_form.html.erb` | Tipo de reserva e frequência usam o novo `f.select` |
 | `app/views/admin/home/partials/_registrations.html.erb` | Card de Blocos |
 | `app/helpers/icons_helper.rb` | Ícone `:building_office` |
 | `config/locales/pt-BR/models.pt-BR.yml` | Modelo `building` e atributos; `campus.buildings` |
@@ -166,7 +172,8 @@ DELETE /admin/campi/:id
 | `test/models/building/building_constraints_test.rb` | Modelo | O banco recusa nome nulo, campus nulo, campus inexistente e `(campus_id, name)` repetido; aceita o mesmo nome em campi diferentes; recusa apagar um campus com blocos sem passar pelo modelo | CA2, CA3, CA4 |
 | `test/models/building/building_sorted_test.rb` | Modelo | `sorted` ordena por campus e nome e carrega o campus | CA5 |
 | `test/models/campus/campus_associations_test.rb` | Modelo | `have_many(:buildings).dependent(:restrict_with_error)`; campus com blocos não é apagado e tem a mensagem; campus sem blocos é apagado | CA4, CA8 |
-| `test/form_builders/tailwind_form_builder_test.rb` | View | `f.input type: :select`: rótulo ligado ao campo, opções na ordem da coleção, prompt, valor selecionado, classes de 44 px, erro do `belongs_to` junto ao campo | CA2 |
+| `test/form_builders/tailwind_form_builder_test.rb` | View | `f.select`: rótulo ligado ao campo, opções na ordem, prompt, valor selecionado, classes de 44 px, erro do `belongs_to` junto ao campo, opções do Rails (`include_blank`, `data`) e rótulo próprio | CA2 |
+| `test/controllers/users/reservations_controller_test.rb` | Integração | Etapa de horário com erro: rótulo e erro do tipo de reserva uma vez só, `data-action` do Stimulus no select, rótulo "Repetir" na frequência | — |
 | `test/controllers/admin/buildings_controller_test.rb` | Integração | Listagem ordenada com o campus de cada bloco e lista vazia; título, subtítulo e trilha nas três páginas, inclusive após erro; formulário com os campi em ordem e o prompt; cadastro, edição (inclusive troca de campus) e exclusão com redirect e mensagem; 422 sem campus, sem nome e com nome repetido, mantendo o campus escolhido; confirmação no botão de excluir; 404 para bloco inexistente | CA1–CA3, CA5 |
 | `test/controllers/admin/buildings_controller_access_test.rb` | Integração | Visitante → `/login` e usuário comum → 403 nas seis ações, sem alterar dados; o 403 não mostra a trilha | CA6 |
 | `test/controllers/admin/campi_controller_test.rb` | Integração | Excluir campus com blocos: nada apagado, redirect e alerta com o motivo | CA4 |
@@ -202,9 +209,11 @@ DELETE /admin/campi/:id
   implícito, mas evita repetir `campus` em todo formulário e serve para os próximos selects
   (departamentos, espaços). Se o atributo não for chave de um `belongs_to`, o componente mostra só os
   erros do próprio atributo.
-- **Formulário de reserva.** Continua com o `f.select` do Rails, sem o visual novo (fora do escopo).
-- **Troca de campus na edição.** Hoje é livre. Quando existirem espaços, a Issue de espaços decide se
-  um bloco com espaços pode mudar de campus.
+- **Formulário de reserva.** Os dois selects ganham o visual do builder, e os outros campos da etapa
+  continuam com o estilo antigo até a reserva migrar por completo. O erro desses selects passa a ser a
+  mensagem curta ("não pode ficar em branco") abaixo do campo, como nos outros inputs do builder.
+- **Troca de campus na edição.** Livre; é responsabilidade do administrador (decisão do professor em
+  2026-10-23).
 - **Sem campi cadastrados.** O formulário de bloco abre com o select só com "Selecione o campus" e o
   envio é recusado. Não há aviso extra nem link para cadastrar campus (fora do escopo).
 - **Ordenação do SQLite.** Como em campi, `order` compara byte a byte: nomes com inicial minúscula ou

@@ -76,14 +76,16 @@ organizam os espaços, entregues por uma Issue posterior.
   comparação segue a regra de campi: ignora maiúsculas e minúsculas, acentos, cedilha, espaços e
   pontuação. No mesmo campus, `"Bloco A"`, `"bloco a"`, `"BlocoA"` e `"Bloco-A"` são o mesmo nome. O
   nome repetido é recusado com a mensagem "Já existe um bloco com este nome neste campus." Esta regra é
-  mais rígida que o texto da Issue, que cita só maiúsculas e minúsculas (decisão de 2026-10-22).
+  mais rígida que o texto da Issue, que cita só maiúsculas e minúsculas (decisão de 2026-10-22,
+  mantida pelo professor em 2026-10-23).
 - **RN5 — Mesmo nome em campi diferentes.** Campi diferentes podem ter blocos com o mesmo nome:
   "Bloco A" de Guarapuava e "Bloco A" de Pato Branco coexistem.
 - **RN6 — Grafia preservada.** O nome é gravado com as maiúsculas, os acentos e a pontuação digitados,
   com os espaços normalizados (RN3).
 - **RN7 — Edição.** A edição segue as mesmas regras. Um bloco não conflita com ele mesmo: salvar sem
   alterar o nome, ou só trocando maiúsculas, acentos, espaços ou pontuação, é válido. Trocar o campus
-  de um bloco é recusado se o campus de destino já tem um bloco com o mesmo nome.
+  de um bloco é recusado se o campus de destino já tem um bloco com o mesmo nome. Fora isso, a troca
+  de campus é livre e fica sob responsabilidade do administrador (decisão do professor em 2026-10-23).
 - **RN8 — Exclusão de bloco livre.** Nesta Issue, qualquer bloco pode ser excluído. O bloqueio da
   exclusão de blocos com espaços entra na Issue de espaços.
 - **RN9 — Exclusão de campus com blocos.** Um campus com pelo menos um bloco não pode ser excluído. A

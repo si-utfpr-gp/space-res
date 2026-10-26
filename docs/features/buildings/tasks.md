@@ -34,13 +34,16 @@ Legenda: `[ ]` pendente · `[~]` em andamento · `[x]` concluída
 ## T3 — Campo de seleção no form builder
 
 - [x] Status
-- **Objetivo:** `f.input :attr, type: :select, collection:` renderiza um select com o visual dos
-  inputs, rótulo, prompt, 44 px de altura e os erros do atributo e do `belongs_to`.
+- **Objetivo:** `f.select :attr, choices, options, html_options`, com a assinatura do Rails, renderiza
+  um select com o visual dos inputs, rótulo, prompt, 44 px de altura e os erros do atributo e do
+  `belongs_to`.
 - **Requisitos:** RF3 · CA2
 - **Passos:** teste em `test/form_builders/tailwind_form_builder_test.rb` → métodos privados de
   classes e erros no `Form::Input::BaseComponent` → `Form::Input::SelectComponent` →
-  `TailwindFormBuilder#input` escolhe o componente pelo tipo.
-- **Verificação:** `bin/rails test test/form_builders` e os testes de campi e login continuam passando.
+  `TailwindFormBuilder#select` renderiza o componente → os dois selects da reserva migram para o novo
+  `f.select` (revisão da PR #69).
+- **Verificação:** `bin/rails test test/form_builders test/controllers/users/reservations_controller_test.rb`
+  e os testes de campi e login continuam passando.
 - **Depende de:** T1 (o teste usa `Building`)
 
 ## T4 — Listagem e atalho na área administrativa
