@@ -1,0 +1,15 @@
+<%# locals: (buildings:) %>
+<div class="overflow-x-auto rounded-xl border border-gray-200 bg-white">
+  <table class="w-full text-left text-sm text-dark">
+    <thead class="bg-gray-50 text-xs font-semibold uppercase tracking-wider text-gray-500">
+      <tr>
+        <th scope="col" class="px-4 py-3"><%= Building.human_attribute_name(:name) %></th>
+        <th scope="col" class="hidden px-4 py-3 sm:table-cell"><%= Building.human_attribute_name(:campus) %></th>
+        <th scope="col" class="px-4 py-3 text-right"><%= t("admin.buildings.index.actions") %></th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+      <%= render buildings %>
+    </tbody>
+  </table>
+</div>

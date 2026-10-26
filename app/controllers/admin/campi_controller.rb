@@ -31,8 +31,11 @@ class Admin::CampiController < Admin::BaseController
   end
 
   def destroy
-    @campus.destroy!
-    redirect_to admin_campi_path, success: t(".success"), status: :see_other
+    if @campus.destroy
+      redirect_to admin_campi_path, success: t(".success"), status: :see_other
+    else
+      redirect_to admin_campi_path, alert: @campus.errors.full_messages.to_sentence, status: :see_other
+    end
   end
 
   private

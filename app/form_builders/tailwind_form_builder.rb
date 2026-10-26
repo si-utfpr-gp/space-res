@@ -8,6 +8,16 @@ class TailwindFormBuilder < ActionView::Helpers::FormBuilder
     )
   end
 
+  def select(attribute, choices = nil, options = {}, html_options = {})
+    @template.render Form::Input::SelectComponent.new(
+      form: self,
+      attribute: attribute,
+      choices: choices,
+      select_options: options,
+      **html_options
+    )
+  end
+
   def submit(value = nil, **)
     @template.render Form::Input::SubmitComponent.new(
       form: self,

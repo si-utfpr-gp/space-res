@@ -1,16 +1,10 @@
 <%= form_with model: form, url: users_reservation_step_path(:schedule), method: :patch, data: { turbo: false } do |f| %>
   <div class="space-y-5" data-controller="ui--schedule">
-    <div>
-      <%= f.label :tipo_reserva, t("users.reservations.fields.reservation_type"), class: "mb-1 block text-sm font-medium text-dark" %>
-      <%= f.select :tipo_reserva,
-            form.reservation_types.map { |type| [ t("users.reservations.reservation_type.#{type == 'unica' ? 'single' : 'recurring'}"), type ] },
-            { include_blank: true },
-            class: "w-full rounded-lg border border-neutral px-3 py-2 text-sm",
-            data: { action: "change->ui--schedule#toggleFields" } %>
-      <% form.errors.full_messages_for(:tipo_reserva).each do |message| %>
-        <p class="mt-1 text-sm text-error"><%= message %></p>
-      <% end %>
-    </div>
+    <%= f.select :tipo_reserva,
+          form.reservation_types.map { |type| [ t("users.reservations.reservation_type.#{type == 'unica' ? 'single' : 'recurring'}"), type ] },
+          { include_blank: true },
+          label: t("users.reservations.fields.reservation_type"), wrapper_class: "",
+          data: { action: "change->ui--schedule#toggleFields" } %>
 
     <div data-ui--schedule-target="unica" class="hidden space-y-4">
       <div>
@@ -44,15 +38,9 @@
 
       <%= render "hours", form: form %>
 
-      <div>
-        <%= f.label :frequencia, t("users.reservations.fields.frequency"), class: "mb-1 block text-sm font-medium text-dark" %>
-        <%= f.select :frequencia,
-              form.frequencies.map { |frequency| [ t("users.reservations.frequency.#{frequency}"), frequency ] },
-              { include_blank: true }, class: "w-full rounded-lg border border-neutral px-3 py-2 text-sm" %>
-        <% form.errors.full_messages_for(:frequencia).each do |message| %>
-          <p class="mt-1 text-sm text-error"><%= message %></p>
-        <% end %>
-      </div>
+      <%= f.select :frequencia,
+            form.frequencies.map { |frequency| [ t("users.reservations.frequency.#{frequency}"), frequency ] },
+            { include_blank: true }, label: t("users.reservations.fields.frequency"), wrapper_class: "" %>
 
       <fieldset>
         <legend class="mb-1 block text-sm font-medium text-dark"><%= t("users.reservations.fields.week_days") %></legend>

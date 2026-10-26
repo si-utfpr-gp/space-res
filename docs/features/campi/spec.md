@@ -79,7 +79,9 @@ são a base dos cadastros de blocos e de espaços, entregues por Issues posterio
   alterar o nome, ou só trocando maiúsculas, minúsculas, acentos, espaços ou pontuação, é válido. Por
   exemplo, corrigir `"Campo Mourao"` para `"Campo Mourão"` no mesmo campus.
 - **RN7 — Exclusão livre.** Nesta Issue, qualquer campus pode ser excluído. O bloqueio de exclusão de
-  campi com blocos ou espaços entra nas Issues de blocos e de espaços.
+  campi com blocos ou espaços entra nas Issues de blocos e de espaços. *Substituída em 2026-10-22 pela
+  RN9 da [especificação de blocos](../buildings/spec.md) (#57): um campus com blocos não pode ser
+  excluído.*
 - Todo texto de interface é traduzido em português do Brasil.
 
 ## Regras de acesso

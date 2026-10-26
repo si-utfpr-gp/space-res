@@ -22,4 +22,13 @@ class Admin::HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select "main a[href='#{admin_campi_path}']", text: /Campi/
     assert_no_match(/translation missing/i, response.body)
   end
+
+  test "shows the buildings shortcut to administrators" do
+    sign_in create(:user, :admin)
+
+    get admin_root_path
+
+    assert_select "main a[href='#{admin_buildings_path}']", text: /Blocos/
+    assert_no_match(/translation missing/i, response.body)
+  end
 end

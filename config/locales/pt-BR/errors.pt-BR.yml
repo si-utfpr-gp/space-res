@@ -2,7 +2,16 @@ pt-BR:
   activerecord:
     errors:
       models:
+        building:
+          attributes:
+            campus:
+              required: Selecione o campus.
+            name:
+              blank: Informe o nome do bloco.
+              taken: Já existe um bloco com este nome neste campus.
         campus:
+          restrict_dependent_destroy:
+            has_many: Não é possível excluir o campus porque ele tem %{record} cadastrados.
           attributes:
             name:
               blank: Informe o nome do campus.
