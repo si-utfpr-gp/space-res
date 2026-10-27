@@ -32,6 +32,16 @@ class Users::HomeControllerTest < ActionDispatch::IntegrationTest
                   "[data-ui--toast-message-text-value='Você já está logado.']"
   end
 
+  test "labels the sidebar menu button and links it to the closed sidebar" do
+    sign_in create(:user)
+
+    get users_root_path
+
+    assert_select "button[aria-label='Menu de navegação'][aria-expanded='false'][aria-controls='users-sidebar']",
+                  count: 1
+    assert_select "aside#users-sidebar", count: 1
+  end
+
   test "hides the admin area shortcut from regular users" do
     sign_in create(:user)
 

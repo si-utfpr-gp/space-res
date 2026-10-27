@@ -1,5 +1,7 @@
 <nav class="flex items-center justify-between gap-2 px-4 sm:px-8 py-3 bg-dark">
-    <button data-action="click->ui--sidebar#toggle" type="button" class="inline-flex items-center text-white lg:hidden">
+    <button type="button" class="inline-flex h-11 w-11 items-center justify-center text-white lg:hidden"
+            aria-label="<%= t("users.home.layouts.header.menu") %>" aria-expanded="false" aria-controls="users-sidebar"
+            data-ui--sidebar-target="button" data-action="click->ui--sidebar#toggle">
         <%= icon(:burger) %>
     </button>
     <div>

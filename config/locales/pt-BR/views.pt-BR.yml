@@ -45,6 +45,7 @@ pt-BR:
         header:
           hi: Olá, %{name}
           welcome: Seja bem-vindo!
+          menu: Menu de navegação
         dropdown:
           profile: Meu perfil
           sign_out: Sair
