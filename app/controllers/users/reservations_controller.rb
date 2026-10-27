@@ -61,4 +61,8 @@ class Users::ReservationsController < Users::BaseController
   def step_path(step)
     public_send("new_users_reservation_#{step}_path")
   end
+
+  def set_breadcrumbs
+    add_breadcrumb t("users.reservations.new.breadcrumb")
+  end
 end

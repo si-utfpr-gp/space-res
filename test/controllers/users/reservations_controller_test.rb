@@ -1,6 +1,9 @@
 require "test_helper"
+require "support/helpers/breadcrumb_assertions"
 
 class Users::ReservationsControllerTest < ActionDispatch::IntegrationTest
+  include BreadcrumbAssertions
+
   setup do
     sign_in create(:user)
   end
@@ -9,6 +12,15 @@ class Users::ReservationsControllerTest < ActionDispatch::IntegrationTest
     get new_users_reservation_path
 
     assert_redirected_to new_users_reservation_space_path
+  end
+
+  test "shows the browser title, page title, subtitle and breadcrumbs" do
+    get new_users_reservation_space_path
+
+    assert_select "title", text: "Novo agendamento | Sistema de Reservas de Espaços Institucionais"
+    assert_select "main h1", count: 1, text: "Novo agendamento"
+    assert_select "header p", text: "Escolha o espaço e as datas e confirme a reserva"
+    assert_breadcrumbs({ "Dashboard" => users_root_path }, current: "Novo agendamento")
   end
 
   test "unknown step is not routable" do

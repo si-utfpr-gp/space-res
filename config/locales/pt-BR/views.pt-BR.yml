@@ -58,6 +58,8 @@ pt-BR:
     reservations:
       new:
         title: Novo agendamento
+        subtitle: Escolha o espaço e as datas e confirme a reserva
+        breadcrumb: Novo agendamento
       steps:
         navigation: "Etapas da reserva"
         space: "Espaço"
