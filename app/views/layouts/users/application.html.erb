@@ -4,7 +4,7 @@
     <%= render "layouts/shared/head" %>
   </head>
   <body class="h-screen flex flex-col bg-neutral" data-controller="ui--sidebar"
-        data-action="click@document->ui--sidebar#closeOnOutsideClick">
+        data-action="click@document->ui--sidebar#closeOnOutsideClick keydown.esc@document->ui--sidebar#close">
 
     <%= render Flash::ToastMessageComponent.new %>
 

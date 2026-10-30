@@ -39,6 +39,33 @@ class SidebarMenuOnPhoneTest < ApplicationSystemTestCase
     assert_menu_expanded "false"
   end
 
+  test "closed menu keeps its links out of keyboard reach" do
+    assert_selector "#users-sidebar[inert]", visible: :all
+
+    click_on "Menu de navegação", enable_aria_label: true
+    assert_no_selector "#users-sidebar[inert]", visible: :all
+
+    find_button("Menu de navegação", enable_aria_label: true).send_keys(:enter)
+    assert_selector "#users-sidebar[inert]", visible: :all
+  end
+
+  test "sidebar links become reachable once the screen is wide" do
+    assert_selector "#users-sidebar[inert]", visible: :all
+
+    page.current_window.resize_to(1400, 1400)
+
+    assert_no_selector "#users-sidebar[inert]", visible: :all
+  end
+
+  test "escape closes the menu and returns focus to the menu button" do
+    click_on "Menu de navegação", enable_aria_label: true
+    find_link("Dashboard").send_keys(:escape)
+
+    assert_menu_expanded "false"
+    assert_selector "#users-sidebar[inert]", visible: :all
+    assert_equal find_button("Menu de navegação", enable_aria_label: true), page.active_element
+  end
+
   private
 
     def assert_menu_expanded(state)
