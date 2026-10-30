@@ -9,14 +9,14 @@ class Admin::DepartmentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "lists departments in alphabetical order" do
-    create(:department, name: "Coordenadoria de Tecnologia da Informação")
+    create(:department, name: "Núcleo de Apoio ao Ensino")
     create(:department, name: "Biblioteca")
     create(:department, name: "Coordenação de Gestão de Recursos Humanos")
 
     get admin_departments_path
 
     assert_response :success
-    assert_equal [ "Biblioteca", "Coordenação de Gestão de Recursos Humanos", "Coordenadoria de Tecnologia da Informação" ],
+    assert_equal [ "Biblioteca", "Coordenação de Gestão de Recursos Humanos", "Núcleo de Apoio ao Ensino" ],
                  listed_department_names
     assert_select "a[href='#{new_admin_department_path}']", text: "Novo departamento"
     assert_no_match(/translation missing/i, response.body)
