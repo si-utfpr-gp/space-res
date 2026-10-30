@@ -47,6 +47,7 @@ pt-BR:
         header:
           hi: Olá, %{name}
           welcome: Seja bem-vindo!
+          menu: Menu de navegação
         dropdown:
           profile: Meu perfil
           sign_out: Sair
@@ -59,6 +60,8 @@ pt-BR:
     reservations:
       new:
         title: Novo agendamento
+        subtitle: Escolha o espaço e as datas e confirme a reserva
+        breadcrumb: Novo agendamento
       steps:
         navigation: "Etapas da reserva"
         space: "Espaço"
