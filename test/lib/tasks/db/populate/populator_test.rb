@@ -25,4 +25,16 @@ class Db::PopulatorTest < ActiveSupport::TestCase
     assert_equal [ [ "Guarapuava", "Bloco B" ], [ "Guarapuava", "Bloco C" ], [ "Guarapuava", "Bloco R" ] ],
                  Building.sorted.map { |building| [ building.campus.name, building.name ] }
   end
+
+  test "replaces the departments with the 25 Guarapuava departments" do
+    create(:department, name: "Departamento de Física")
+
+    assert_output(/Database populated/) { Db::Populator.new.call }
+
+    assert_equal 25, Department.count
+    assert_not Department.exists?(name: "Departamento de Física")
+    assert Department.exists?(name: "Departamento Acadêmico de Engenharia")
+    assert Department.exists?(name: "Núcleo de Acompanhamento Psicopedagógico e Assistência Estudantil")
+    assert Department.exists?(name: "Biblioteca")
+  end
 end

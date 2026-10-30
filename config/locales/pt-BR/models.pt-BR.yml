@@ -19,6 +19,9 @@ pt-BR:
       campus:
         one: Campus
         other: Campi
+      department:
+        one: Departamento
+        other: Departamentos
       user: Usuário
     attributes:
       defaults: &defaults
@@ -33,6 +36,8 @@ pt-BR:
       campus:
         <<: *defaults
         buildings: Blocos
+      department:
+        <<: *defaults
       user:
         <<: *defaults
         admin: Administrador

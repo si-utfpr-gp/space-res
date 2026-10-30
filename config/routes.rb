@@ -28,6 +28,7 @@ Rails.application.routes.draw do
     root "home#index"
     resources :campi, except: :show
     resources :buildings, except: :show
+    resources :departments, except: :show
   end
 
   get "/users/reservations", to: "users/reservations#index", as: :users_reservations_path

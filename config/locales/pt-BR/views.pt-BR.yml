@@ -33,6 +33,8 @@ pt-BR:
         name: "Ex.: Bloco R"
       campus:
         name: "Ex.: Guarapuava"
+      department:
+        name: "Ex.: Departamento Acadêmico de Engenharia"
     search:
       no_results: Nenhum resultado para "%{term}"
   users:
@@ -108,6 +110,8 @@ pt-BR:
         campi_description: Cadastre os campi da UTFPR
         buildings: Blocos
         buildings_description: Cadastre os blocos de cada campus
+        departments: Departamentos
+        departments_description: Cadastre os departamentos responsáveis pelos espaços
     buildings:
       index:
         title: Blocos
@@ -156,6 +160,29 @@ pt-BR:
         success: Campus atualizado com sucesso.
       destroy:
         success: Campus excluído com sucesso.
+    departments:
+      index:
+        title: Departamentos
+        subtitle: Gerencie os departamentos que respondem pelos espaços e liberam as reservas.
+        breadcrumb: Departamentos
+        new: Novo departamento
+        empty: Nenhum departamento cadastrado.
+        actions: Ações
+        confirm_destroy: Excluir o departamento %{name}?
+      new:
+        title: Novo departamento
+        subtitle: Preencha as informações do novo departamento.
+        breadcrumb: Novo
+      edit:
+        title: Editar departamento
+        subtitle: Altere as informações do departamento.
+        breadcrumb: Editar
+      create:
+        success: Departamento cadastrado com sucesso.
+      update:
+        success: Departamento atualizado com sucesso.
+      destroy:
+        success: Departamento excluído com sucesso.
   shared:
     forbidden:
       title: Acesso negado

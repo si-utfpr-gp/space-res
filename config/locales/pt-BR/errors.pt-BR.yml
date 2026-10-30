@@ -16,6 +16,11 @@ pt-BR:
             name:
               blank: Informe o nome do campus.
               taken: Já existe um campus cadastrado com este nome.
+        department:
+          attributes:
+            name:
+              blank: Informe o nome do departamento.
+              taken: Já existe um departamento cadastrado com este nome.
   errors:
     messages:
       email: não é válido
