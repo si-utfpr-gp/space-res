@@ -2,8 +2,8 @@
 
 Issue: #58 · Especificação: [spec.md](spec.md)
 
-Status: aprovado em 2026-10-27. Ordenação da listagem revisada no mesmo dia, durante a implementação
-(item 2 e [Riscos](#riscos-e-trade-offs)).
+Status: aprovado em 2026-10-27. Ordenação da listagem revisada na revisão da PR #73 (item 2 e
+[Riscos](#riscos-e-trade-offs)).
 
 ## Abordagem técnica
 
@@ -17,12 +17,11 @@ sem mudança.
    (RN2) e valida `presence` (RN1) e `normalized_uniqueness` (RN3–RN5), o mesmo validador de campi e
    blocos, sem escopo. Nenhuma associação nesta Issue: `has_many :users` e `has_many :spaces` entram na
    #59 e na #61, junto com o bloqueio de exclusão.
-   - **Ordenação (RF1).** `Department.sorted` devolve os departamentos ordenados em Ruby pelo nome sem
-     acentos e sem diferenciar maiúsculas (`unicode_normalize(:nfkd)`, remoção de `\p{Mn}` e
-     `downcase(:fold)`). O plano aprovado previa `order(:name)`, mas a tela com os dados do populate
-     mostrou "Coordenadoria de Tecnologia da Informação" antes de "Coordenação de Gestão de Recursos
-     Humanos": o SQLite compara bytes, e o "ç" (`0xC3`) vem depois do "d". Os espaços e a pontuação
-     continuam na chave, então a ordem é a do dicionário, palavra por palavra.
+   - **Ordenação (RF1).** `scope :sorted, -> { order(:name) }`: a ordenação fica no banco. A
+     implementação chegou a ordenar em Ruby sem acentos, porque o SQLite compara bytes e põe
+     "Coordenadoria de Tecnologia da Informação" antes de "Coordenação de Gestão de Recursos Humanos".
+     Na revisão da PR #73, o professor pediu a ordenação do banco: a ordem exata não é necessária, e o
+     PostgreSQL, se adotado em produção, já ignora os acentos.
 3. **Rotas.** Dentro de `namespace :admin`, `resources :departments, except: :show`.
 4. **Controller.** `Admin::DepartmentsController < Admin::BaseController`, no formato de
    `Admin::CampiController`:
@@ -154,7 +153,7 @@ Editar, Excluir, Salvar e Cancelar reaproveitam `actions.*`.
 | `test/models/department/department_normalize_test.rb` | Modelo | Espaços normalizados; grafia e acentos preservados | CA3 |
 | `test/models/department/department_validations_test.rb` | Modelo | `validate_presence_of` e `validate_uniqueness_of(...).case_insensitive` (shoulda); nome repetido sem acento, sem cedilha, sem espaços e com pontuação recusado com a mensagem própria; o próprio departamento pode trocar maiúsculas e acentos; renomear para outro departamento é recusado | CA2, CA3, CA6 |
 | `test/models/department/department_constraints_test.rb` | Modelo | O banco recusa nome nulo e nome exato repetido, sem validação | CA6 |
-| `test/models/department/department_sorted_test.rb` | Modelo | `sorted` ordena ignorando acentos e maiúsculas: "Área…" antes de "biblioteca", "Coordenação…" antes de "Coordenadoria…" | CA1 |
+| `test/models/department/department_sorted_test.rb` | Modelo | `sorted` ordena pelo nome | CA1 |
 | `test/controllers/admin/departments_controller_test.rb` | Integração | Listagem em ordem alfabética e lista vazia; título, subtítulo e trilha nas três páginas, inclusive após erro; cadastro, edição e exclusão com redirect e toast; 422 para nome vazio e repetido; confirmação no botão de excluir; 404 para departamento inexistente | CA1–CA3 |
 | `test/controllers/admin/departments_controller_access_test.rb` | Integração | Visitante → `/login` e usuário comum → 403 nas seis ações, sem alterar dados; 403 antes de buscar o departamento; o 403 não mostra a trilha | CA4 |
 | `test/controllers/admin/home_controller_test.rb` | Integração | Atalho para `/admin/departments` | CA1 |
@@ -183,13 +182,9 @@ Editar, Excluir, Salvar e Cancelar reaproveitam `actions.*`.
 - **Lista do populate.** Mistura departamentos, coordenações, diretorias, setores e a Biblioteca, porque
   o que importa é ser a unidade responsável por espaços (justificativa da PR #51). Os nomes vêm de
   pesquisa no site da UTFPR e podem não estar completos; servem só ao ambiente local.
-- **Ordenação em Ruby.** `sorted` carrega todos os departamentos para ordenar. Para algumas dezenas de
-  registros, o custo é desprezível, e a listagem já mostra todos (sem paginação). Registrar uma
-  collation no SQLite resolveria no banco, mas exige configurar cada conexão, o que é mais do que esta
-  Issue pede.
-- **Campi e blocos têm o mesmo problema.** `Campus.order(:name)` e `Building.sorted` também comparam
-  bytes. Com os dados atuais (Guarapuava; Blocos B, C e R) a ordem sai certa, então ficam como estão.
-  Vai nos "Pontos para o revisor" como possível Issue de acompanhamento.
+- **Acentos na ordenação.** No SQLite, nomes que só diferem num caractere acentuado podem sair fora da
+  ordem do dicionário ("Coordenadoria" antes de "Coordenação"). Aceito pelo professor na revisão da
+  PR #73. Campi e blocos seguem a mesma regra e ficam como estão, sem Issue de acompanhamento.
 - **Exclusão sem bloqueio.** Enquanto não houver usuários nem espaços ligados, apagar um departamento
   não tem efeito em outras tabelas. A #59 e a #61 trocam o `destroy!` pelo tratamento de
   `restrict_with_error`.

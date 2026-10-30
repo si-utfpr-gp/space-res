@@ -25,9 +25,9 @@ Legenda: `[ ]` pendente · `[~]` em andamento · `[x]` concluída
 - **Requisitos:** RF1, RF6, RF7 · CA1
 - **Passos:** testes de integração → `resources :departments, except: :show` →
   `Admin::DepartmentsController#index` e `set_breadcrumbs` → `index`, `_table` e `_department` → card
-  em `_registrations` → textos em `views.pt-BR.yml`. Durante a verificação visual, entraram
-  `Department.sorted` (o SQLite punha "Coordenadoria" antes de "Coordenação") e o
-  `fill="currentColor"` do ícone `:users`.
+  em `_registrations` → textos em `views.pt-BR.yml`. Durante a verificação visual, entrou o
+  `fill="currentColor"` do ícone `:users`. `Department.sorted` ordena no banco (`order(:name)`), como
+  pedido na revisão da PR #73.
 - **Verificação:** `bin/rails test test/controllers/admin`
 - **Depende de:** T1
 
@@ -94,7 +94,7 @@ Legenda: `[ ]` pendente · `[~]` em andamento · `[x]` concluída
 
 | CA | Evidência |
 | --- | --- |
-| CA1 | `test/controllers/admin/departments_controller_test.rb` (listagem em ordem alfabética com "Coordenação" antes de "Coordenadoria", lista vazia, título, subtítulo e trilha nas três páginas, cadastro, edição, exclusão com confirmação e toast, 404); `test/models/department/department_sorted_test.rb`; `test/controllers/admin/home_controller_test.rb` (atalho); `test/system/admin/departments/manage_departments_test.rb` (fluxo no navegador, confirmação aceita e recusada); `manage_departments_on_phone_test.rb` (320 × 640 com o nome mais longo e cadastro pelo celular) |
+| CA1 | `test/controllers/admin/departments_controller_test.rb` (listagem em ordem alfabética, lista vazia, título, subtítulo e trilha nas três páginas, cadastro, edição, exclusão com confirmação e toast, 404); `test/models/department/department_sorted_test.rb`; `test/controllers/admin/home_controller_test.rb` (atalho); `test/system/admin/departments/manage_departments_test.rb` (fluxo no navegador, confirmação aceita e recusada); `manage_departments_on_phone_test.rb` (320 × 640 com o nome mais longo e cadastro pelo celular) |
 | CA2 | `test/models/department/department_validations_test.rb` (nome vazio e só com espaços, com a mensagem própria); `departments_controller_test.rb` (422 com "Informe o nome do departamento.") |
 | CA3 | `department_validations_test.rb` (shoulda `case_insensitive`, maiúsculas acentuadas, sem acento e cedilha, sem espaços, com pontuação, renomear para outro departamento; o próprio departamento pode trocar maiúsculas e acentos); `department_normalize_test.rb`; `departments_controller_test.rb` (duplicata no cadastro e na edição); system test (erro com "departamento de educacao") |
 | CA4 | `test/controllers/admin/departments_controller_access_test.rb` — visitante vai para `/login` e usuário comum recebe 403 nas seis ações, sem alterar dados, antes de buscar o departamento e sem ver a trilha |
@@ -118,5 +118,5 @@ Legenda: `[ ]` pendente · `[~]` em andamento · `[x]` concluída
 - **Migration:** `db:rollback` devolveu o `db/schema.rb` ao estado do `main` e `db:migrate` reaplicou a
   tabela. O diff do `schema.rb` contém só a tabela `departments` e a versão.
 - **Telas:** conferidas por screenshot em 1400 e 320 px (`/admin`, listagem com os 25 departamentos e
-  cadastro com erro). Elas mostraram a ordem errada e o ícone preto, corrigidos nesta Issue.
+  cadastro com erro). Elas mostraram o ícone preto, corrigido nesta Issue.
 - `bin/rails db:populate` não foi rodado no banco de desenvolvimento. O teste do populator cobre o CA5.
