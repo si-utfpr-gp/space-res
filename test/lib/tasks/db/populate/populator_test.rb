@@ -37,4 +37,15 @@ class Db::PopulatorTest < ActiveSupport::TestCase
     assert Department.exists?(name: "Núcleo de Acompanhamento Psicopedagógico e Assistência Estudantil")
     assert Department.exists?(name: "Biblioteca")
   end
+
+  test "replaces the usage terms with the computer lab example" do
+    create(:usage_term, title: "Termo da quadra")
+
+    assert_output(/Database populated/) { Db::Populator.new.call }
+
+    usage_term = UsageTerm.sole
+    assert_equal "Termo de uso do laboratório de informática", usage_term.title
+    assert_equal 3, usage_term.content.split("\n\n").size
+    assert_match "2. É proibido consumir alimentos e bebidas dentro do laboratório.", usage_term.content
+  end
 end
