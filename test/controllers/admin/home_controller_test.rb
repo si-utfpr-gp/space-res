@@ -40,4 +40,13 @@ class Admin::HomeControllerTest < ActionDispatch::IntegrationTest
     assert_select "main a[href='#{admin_departments_path}']", text: /Departamentos/
     assert_no_match(/translation missing/i, response.body)
   end
+
+  test "shows the usage terms shortcut to administrators" do
+    sign_in create(:user, :admin)
+
+    get admin_root_path
+
+    assert_select "main a[href='#{admin_usage_terms_path}']", text: /Termos de uso/
+    assert_no_match(/translation missing/i, response.body)
+  end
 end
