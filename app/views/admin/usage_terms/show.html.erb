@@ -1,0 +1,23 @@
+<% provide :title, @usage_term.title %>
+<% provide :head_title, @usage_term.title %>
+<% provide :head_subtitle, t(".subtitle") %>
+
+<div class="space-y-4 sm:space-y-6">
+  <div class="flex gap-2 sm:justify-end">
+    <%= link_to edit_admin_usage_term_path(@usage_term), class: "btn btn-md btn-outline flex-1 no-underline sm:flex-none" do %>
+      <%= icon(:pen, class: "btn-icon-sm") %>
+      <span><%= t("actions.edit") %></span>
+    <% end %>
+
+    <%= button_to admin_usage_term_path(@usage_term), method: :delete,
+                  class: "btn btn-md btn-delete w-full", form_class: "flex-1 sm:flex-none",
+                  form: { data: { turbo_confirm: t("admin.usage_terms.confirm_destroy", title: @usage_term.title) } } do %>
+      <%= icon(:trash, class: "btn-icon-sm") %>
+      <span><%= t("actions.destroy") %></span>
+    <% end %>
+  </div>
+
+  <article id="usage_term_content" class="space-y-4 break-words rounded-xl border border-gray-200 bg-white p-4 text-sm leading-7 text-dark sm:p-6 sm:text-base">
+    <%= simple_format(h(@usage_term.content)) %>
+  </article>
+</div>
