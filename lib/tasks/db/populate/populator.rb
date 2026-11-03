@@ -30,32 +30,19 @@ module Db
       "Biblioteca"
     ].freeze
 
-    USAGE_TERM_TITLE = "Termo de uso do laboratório de informática".freeze
-    USAGE_TERM_CONTENT = <<~TEXT.freeze
-      Ao reservar o laboratório de informática, o responsável pela reserva declara que leu e aceita as regras abaixo.
-
-      1. O uso é permitido somente no horário reservado. O responsável deve chegar no início da reserva e liberar o espaço no horário de término.
-      2. É proibido consumir alimentos e bebidas dentro do laboratório.
-      3. Os computadores não podem ser desconectados, abertos nem ter os cabos trocados. Programas só podem ser instalados com autorização da Coordenadoria de Tecnologia da Informação.
-      4. Ao final do uso, o responsável deve desligar os computadores, o projetor e o ar-condicionado, apagar as luzes e fechar as janelas.
-
-      O responsável responde pelos danos causados ao espaço e aos equipamentos durante a reserva. Problemas encontrados no início do uso devem ser informados ao Setor de Gestão de Espaços Acadêmicos antes de começar a atividade.
-    TEXT
-
     def call
       reset_records
       setup_users
       setup_campi
       setup_buildings
       setup_departments
-      setup_usage_terms
       puts "Database populated"
     end
 
     private
 
       def reset_records
-        [ Building, Campus, Department, UsageTerm, User ].each(&:destroy_all)
+        [ Building, Campus, Department, User ].each(&:destroy_all)
       end
 
       def seed_plans
@@ -85,10 +72,6 @@ module Db
 
       def setup_departments
         DEPARTMENTS.each { |name| Department.find_or_create_by!(name: name) }
-      end
-
-      def setup_usage_terms
-        UsageTerm.create_with(content: USAGE_TERM_CONTENT).find_or_create_by!(title: USAGE_TERM_TITLE)
       end
   end
 end

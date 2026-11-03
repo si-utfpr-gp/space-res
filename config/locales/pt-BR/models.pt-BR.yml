@@ -22,9 +22,6 @@ pt-BR:
       department:
         one: Departamento
         other: Departamentos
-      usage_term:
-        one: Termo de uso
-        other: Termos de uso
       user: Usuário
     attributes:
       defaults: &defaults
@@ -41,10 +38,6 @@ pt-BR:
         buildings: Blocos
       department:
         <<: *defaults
-      usage_term:
-        <<: *defaults
-        title: Título
-        content: Texto
       user:
         <<: *defaults
         admin: Administrador

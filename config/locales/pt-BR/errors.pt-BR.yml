@@ -21,13 +21,6 @@ pt-BR:
             name:
               blank: Informe o nome do departamento.
               taken: Já existe um departamento cadastrado com este nome.
-        usage_term:
-          attributes:
-            title:
-              blank: Informe o título do termo.
-              taken: Já existe um termo cadastrado com este título.
-            content:
-              blank: Informe o texto do termo.
   errors:
     messages:
       email: não é válido

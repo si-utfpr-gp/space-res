@@ -10,7 +10,6 @@ pt-BR:
     loading: Carregando...
     destroy: Excluir
     edit: Editar
-    show: Ver
     new: Novo
     save: Salvar
     back: Voltar
@@ -36,9 +35,6 @@ pt-BR:
         name: "Ex.: Guarapuava"
       department:
         name: "Ex.: Departamento Acadêmico de Engenharia"
-      usage_term:
-        title: "Ex.: Termo de uso do laboratório de informática"
-        content: Escreva as regras de uso e as responsabilidades de quem reserva o espaço.
     search:
       no_results: Nenhum resultado para "%{term}"
   users:
@@ -119,8 +115,6 @@ pt-BR:
         buildings_description: Cadastre os blocos de cada campus
         departments: Departamentos
         departments_description: Cadastre os departamentos responsáveis pelos espaços
-        usage_terms: Termos de uso
-        usage_terms_description: Cadastre os termos de uso e responsabilidade dos espaços
     buildings:
       index:
         title: Blocos
@@ -192,31 +186,6 @@ pt-BR:
         success: Departamento atualizado com sucesso.
       destroy:
         success: Departamento excluído com sucesso.
-    usage_terms:
-      confirm_destroy: Excluir o termo %{title}?
-      index:
-        title: Termos de uso
-        subtitle: Gerencie os termos de uso e responsabilidade que os espaços podem exigir.
-        breadcrumb: Termos de uso
-        new: Novo termo
-        empty: Nenhum termo de uso cadastrado.
-        actions: Ações
-      show:
-        subtitle: Termo de uso e responsabilidade dos espaços.
-      new:
-        title: Novo termo de uso
-        subtitle: Preencha o título e o texto do novo termo.
-        breadcrumb: Novo
-      edit:
-        title: Editar termo de uso
-        subtitle: Altere o título ou o texto. A alteração vale para todos os espaços que usam o termo.
-        breadcrumb: Editar
-      create:
-        success: Termo de uso cadastrado com sucesso.
-      update:
-        success: Termo de uso atualizado com sucesso.
-      destroy:
-        success: Termo de uso excluído com sucesso.
   shared:
     forbidden:
       title: Acesso negado

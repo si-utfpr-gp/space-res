@@ -29,7 +29,6 @@ Rails.application.routes.draw do
     resources :campi, except: :show
     resources :buildings, except: :show
     resources :departments, except: :show
-    resources :usage_terms
   end
 
   get "/users/reservations", to: "users/reservations#index", as: :users_reservations_path

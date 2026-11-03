@@ -1,7 +1,0 @@
-<%# locals: (usage_term:) %>
-<%= button_to admin_usage_term_path(usage_term), method: :delete, title: t("actions.destroy"),
-              class: "btn btn-md btn-delete min-w-11 px-3 sm:px-4",
-              form: { data: { turbo_confirm: t("admin.usage_terms.confirm_destroy", title: usage_term.title) } } do %>
-  <%= icon(:trash, class: "btn-icon-sm") %>
-  <span class="sr-only sm:not-sr-only"><%= t("actions.destroy") %></span>
-<% end %>
