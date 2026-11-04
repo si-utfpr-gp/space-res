@@ -45,7 +45,7 @@ class Db::PopulatorTest < ActiveSupport::TestCase
 
     usage_term = UsageTerm.sole
     assert_equal "Termo de uso do laboratório de informática", usage_term.title
-    assert_equal 3, usage_term.content.split("\n\n").size
-    assert_match "2. É proibido consumir alimentos e bebidas dentro do laboratório.", usage_term.content
+    assert_equal 4, usage_term.content.body.fragment.find_all("ol li").size
+    assert_match "2. É proibido consumir alimentos e bebidas dentro do laboratório.", usage_term.content.to_plain_text
   end
 end

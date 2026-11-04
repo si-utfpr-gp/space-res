@@ -31,16 +31,16 @@ module Db
     ].freeze
 
     USAGE_TERM_TITLE = "Termo de uso do laboratório de informática".freeze
-    USAGE_TERM_CONTENT = <<~TEXT.freeze
-      Ao reservar o laboratório de informática, o responsável pela reserva declara que leu e aceita as regras abaixo.
-
-      1. O uso é permitido somente no horário reservado. O responsável deve chegar no início da reserva e liberar o espaço no horário de término.
-      2. É proibido consumir alimentos e bebidas dentro do laboratório.
-      3. Os computadores não podem ser desconectados, abertos nem ter os cabos trocados. Programas só podem ser instalados com autorização da Coordenadoria de Tecnologia da Informação.
-      4. Ao final do uso, o responsável deve desligar os computadores, o projetor e o ar-condicionado, apagar as luzes e fechar as janelas.
-
-      O responsável responde pelos danos causados ao espaço e aos equipamentos durante a reserva. Problemas encontrados no início do uso devem ser informados ao Setor de Gestão de Espaços Acadêmicos antes de começar a atividade.
-    TEXT
+    USAGE_TERM_CONTENT = <<~HTML.freeze
+      <div>Ao reservar o laboratório de informática, o responsável pela reserva declara que leu e aceita as regras abaixo.</div>
+      <ol>
+      <li>O uso é permitido somente no horário reservado. O responsável deve chegar no início da reserva e liberar o espaço no horário de término.</li>
+      <li>É proibido consumir alimentos e bebidas dentro do laboratório.</li>
+      <li>Os computadores não podem ser desconectados, abertos nem ter os cabos trocados. Programas só podem ser instalados com autorização da Coordenadoria de Tecnologia da Informação.</li>
+      <li>Ao final do uso, o responsável deve desligar os computadores, o projetor e o ar-condicionado, apagar as luzes e fechar as janelas.</li>
+      </ol>
+      <div>O responsável responde pelos danos causados ao espaço e aos equipamentos durante a reserva. Problemas encontrados no início do uso devem ser informados ao Setor de Gestão de Espaços Acadêmicos antes de começar a atividade.</div>
+    HTML
 
     def call
       reset_records

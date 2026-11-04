@@ -18,8 +18,8 @@ class UsageTermValidationsTest < ActiveSupport::TestCase
     assert_includes usage_term.errors[:title], "Informe o título do termo."
   end
 
-  test "rejects a content with only spaces and line breaks" do
-    usage_term = build(:usage_term, content: "  \r\n\n \t\n ")
+  test "rejects a content without text" do
+    usage_term = build(:usage_term, content: "<div><br></div>")
 
     assert_not usage_term.valid?
     assert_includes usage_term.errors[:content], "Informe o texto do termo."

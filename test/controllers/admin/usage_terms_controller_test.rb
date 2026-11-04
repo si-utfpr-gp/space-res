@@ -68,27 +68,28 @@ class Admin::UsageTermsControllerTest < ActionDispatch::IntegrationTest
     assert_no_match(/translation missing/i, response.body)
   end
 
-  test "shows the content with its paragraphs and line breaks" do
-    usage_term = create(:usage_term, content: "Primeiro parágrafo.\n\nRegra 1.\nRegra 2.\n\nÚltimo parágrafo.")
+  test "shows the content with its formatting" do
+    usage_term = create(:usage_term, content: "<div>Regras:</div><ol><li><strong>Chegue</strong> no horário.</li><li>Recolha o material.</li></ol>")
 
     get admin_usage_term_path(usage_term)
 
-    assert_select "#usage_term_content p", count: 3 do |paragraphs|
-      assert_equal "Primeiro parágrafo.", paragraphs[0].text
-      assert_equal "Regra 1.\nRegra 2.", paragraphs[1].text
-      assert_select paragraphs[1], "br", count: 1
-      assert_equal "Último parágrafo.", paragraphs[2].text
+    assert_select "#usage_term_content .trix-content" do
+      assert_select "div", text: "Regras:"
+      assert_select "ol li", count: 2
+      assert_select "ol li strong", text: "Chegue"
     end
   end
 
-  test "shows HTML typed in the content as text" do
-    usage_term = create(:usage_term, content: "<script>alert(1)</script> e <b>negrito</b>")
+  test "removes scripts and event handlers from the content" do
+    usage_term = create(:usage_term, content: "<div onclick=\"steal()\">Regras</div><script>steal()</script>" \
+                                              "<a href=\"javascript:steal()\">link</a>")
 
     get admin_usage_term_path(usage_term)
 
     assert_select "#usage_term_content script", count: 0
-    assert_select "#usage_term_content b", count: 0
-    assert_includes response.body, "&lt;script&gt;alert(1)&lt;/script&gt; e &lt;b&gt;negrito&lt;/b&gt;"
+    assert_select "#usage_term_content [onclick]", count: 0
+    assert_select "#usage_term_content a[href^='javascript']", count: 0
+    assert_select "#usage_term_content div", text: "Regras"
   end
 
   test "shows HTML typed in the title as text" do
@@ -116,7 +117,9 @@ class Admin::UsageTermsControllerTest < ActionDispatch::IntegrationTest
     assert_breadcrumbs(usage_terms_breadcrumbs, current: "Novo")
     assert_select "form[action='#{admin_usage_terms_path}']" do
       assert_select "input[name='usage_term[title]'][placeholder='Ex.: Termo de uso do laboratório de informática']"
-      assert_select "textarea[name='usage_term[content]']" \
+      assert_select "input[type='hidden'][name='usage_term[content]']"
+      assert_select "label[for='usage_term_content']", text: "Texto"
+      assert_select "trix-editor#usage_term_content" \
                     "[placeholder='Escreva as regras de uso e as responsabilidades de quem reserva o espaço.']"
       assert_select "a[href='#{admin_usage_terms_path}']", text: "Cancelar"
     end
@@ -125,31 +128,32 @@ class Admin::UsageTermsControllerTest < ActionDispatch::IntegrationTest
 
   test "creates a usage term and shows it with a confirmation" do
     assert_difference("UsageTerm.count", 1) do
-      post admin_usage_terms_path, params: { usage_term: { title: "  Termo   da quadra ", content: "Regra 1.\r\n\r\nRegra 2." } }
+      post admin_usage_terms_path, params: { usage_term: { title: "  Termo   da quadra ", content: "<div>Regra 1.</div><ol><li>Regra 2.</li></ol>" } }
     end
 
     usage_term = UsageTerm.last
     assert_redirected_to admin_usage_term_path(usage_term)
-    assert_equal [ "Termo da quadra", "Regra 1.\n\nRegra 2." ], [ usage_term.title, usage_term.content ]
+    assert_equal "Termo da quadra", usage_term.title
+    assert_equal "<div>Regra 1.</div><ol><li>Regra 2.</li></ol>", usage_term.content.body.to_html
     follow_redirect!
     assert_success_toast "Termo de uso cadastrado com sucesso."
   end
 
   test "rejects a usage term without a title and keeps the content typed" do
     assert_no_difference("UsageTerm.count") do
-      post admin_usage_terms_path, params: { usage_term: { title: "", content: "Regras da quadra." } }
+      post admin_usage_terms_path, params: { usage_term: { title: "", content: "<div>Regras da quadra.</div>" } }
     end
 
     assert_response :unprocessable_content
     assert_select "main h1", text: "Novo termo de uso"
     assert_breadcrumbs(usage_terms_breadcrumbs, current: "Novo")
     assert_field_error :title, "Informe o título do termo."
-    assert_select "textarea[name='usage_term[content]']", text: "Regras da quadra."
+    assert_select "input[name='usage_term[content]'][value='<div>Regras da quadra.</div>']"
   end
 
   test "rejects a usage term without a content and keeps the title typed" do
     assert_no_difference("UsageTerm.count") do
-      post admin_usage_terms_path, params: { usage_term: { title: "Termo da quadra", content: " \r\n " } }
+      post admin_usage_terms_path, params: { usage_term: { title: "Termo da quadra", content: "<div><br></div>" } }
     end
 
     assert_response :unprocessable_content
@@ -161,7 +165,7 @@ class Admin::UsageTermsControllerTest < ActionDispatch::IntegrationTest
     create(:usage_term, title: "Termo do Laboratório")
 
     assert_no_difference("UsageTerm.count") do
-      post admin_usage_terms_path, params: { usage_term: { title: "termo do laboratório", content: "Regras." } }
+      post admin_usage_terms_path, params: { usage_term: { title: "termo do laboratório", content: "<div>Regras.</div>" } }
     end
 
     assert_response :unprocessable_content
@@ -170,7 +174,7 @@ class Admin::UsageTermsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "shows the edit form with the current values" do
-    usage_term = create(:usage_term, title: "Termo da quadra", content: "Regra 1.\n\nRegra 2.")
+    usage_term = create(:usage_term, title: "Termo da quadra", content: "<div>Regra 1.</div><ol><li>Regra 2.</li></ol>")
 
     get edit_admin_usage_term_path(usage_term)
 
@@ -180,7 +184,7 @@ class Admin::UsageTermsControllerTest < ActionDispatch::IntegrationTest
     assert_breadcrumbs(usage_terms_breadcrumbs.merge("Termo da quadra" => admin_usage_term_path(usage_term)), current: "Editar")
     assert_select "form[action='#{admin_usage_term_path(usage_term)}']" do
       assert_select "input[name='usage_term[title]'][value='Termo da quadra']"
-      assert_select "textarea[name='usage_term[content]']", text: "Regra 1.\n\nRegra 2."
+      assert_select "input[name='usage_term[content]'][value='<div>Regra 1.</div><ol><li>Regra 2.</li></ol>']"
       assert_select "a[href='#{admin_usage_term_path(usage_term)}']", text: "Cancelar"
     end
     assert_no_match(/translation missing/i, response.body)
@@ -189,13 +193,13 @@ class Admin::UsageTermsControllerTest < ActionDispatch::IntegrationTest
   test "updates a usage term and shows it with a confirmation" do
     usage_term = create(:usage_term, title: "Termo da quadra")
 
-    patch admin_usage_term_path(usage_term), params: { usage_term: { title: "Termo da quadra coberta", content: "Novo texto." } }
+    patch admin_usage_term_path(usage_term), params: { usage_term: { title: "Termo da quadra coberta", content: "<div>Novo texto.</div>" } }
 
     assert_redirected_to admin_usage_term_path(usage_term)
-    assert_equal [ "Termo da quadra coberta", "Novo texto." ], [ usage_term.reload.title, usage_term.content ]
+    assert_equal [ "Termo da quadra coberta", "Novo texto." ], [ usage_term.reload.title, usage_term.content.to_plain_text ]
     follow_redirect!
     assert_success_toast "Termo de uso atualizado com sucesso."
-    assert_select "#usage_term_content p", text: "Novo texto."
+    assert_select "#usage_term_content .trix-content div", text: "Novo texto."
   end
 
   test "rejects renaming a usage term to a title already taken and keeps the saved title in the breadcrumbs" do

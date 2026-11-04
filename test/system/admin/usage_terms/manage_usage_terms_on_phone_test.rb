@@ -43,7 +43,8 @@ class ManageUsageTermsOnPhoneTest < ApplicationSystemTestCase
     visit admin_usage_terms_path
     click_on "Novo termo"
     fill_in "Título", with: "Termo da quadra"
-    fill_in "Texto", with: "Use calçado adequado."
+    fill_in_rich_textarea "Texto", with: "Use calçado adequado."
+    assert_no_horizontal_scroll
     click_on "Salvar"
 
     assert_flash_message "Termo de uso cadastrado com sucesso."

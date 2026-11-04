@@ -37,7 +37,7 @@ class Form::Input::BaseComponent < ViewComponent::Base
   private
 
     def input_type
-      return "textarea" if @type.eql?(:textarea)
+      return @type.to_s if @type.in?([ :textarea, :rich_textarea ])
 
       "#{@type}_field"
     end

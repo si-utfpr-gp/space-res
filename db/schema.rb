@@ -83,7 +83,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_04_004119) do
 
   create_table "usage_terms", force: :cascade do |t|
     t.string "title", null: false
-    t.text "content", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index "LOWER(title)", name: "index_usage_terms_on_lower_title", unique: true

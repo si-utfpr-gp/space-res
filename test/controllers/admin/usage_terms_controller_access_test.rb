@@ -65,6 +65,6 @@ class Admin::UsageTermsControllerAccessTest < ActionDispatch::IntegrationTest
     end
 
     def assert_usage_terms_unchanged
-      assert_equal [ [ "Termo da quadra", "Regras da quadra." ] ], UsageTerm.pluck(:title, :content)
+      assert_equal [ [ "Termo da quadra", "Regras da quadra." ] ], UsageTerm.all.map { |term| [ term.title, term.content.to_plain_text ] }
     end
 end

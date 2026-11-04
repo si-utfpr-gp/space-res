@@ -7,12 +7,6 @@ class UsageTermConstraintsTest < ActiveSupport::TestCase
     end
   end
 
-  test "database rejects a null content" do
-    assert_raises(ActiveRecord::NotNullViolation) do
-      build(:usage_term, content: nil).save!(validate: false)
-    end
-  end
-
   test "database rejects a title repeated in another letter case" do
     create(:usage_term, title: "Termo do Laboratório")
 
