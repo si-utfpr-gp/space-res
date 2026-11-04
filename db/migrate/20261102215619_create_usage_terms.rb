@@ -6,6 +6,6 @@ class CreateUsageTerms < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
-    add_index :usage_terms, :title, unique: true
+    add_index :usage_terms, "LOWER(title)", unique: true, name: "index_usage_terms_on_lower_title"
   end
 end

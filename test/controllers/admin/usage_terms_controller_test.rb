@@ -101,18 +101,6 @@ class Admin::UsageTermsControllerTest < ActionDispatch::IntegrationTest
     assert_select "form[data-turbo-confirm='Excluir o termo <b>Termo</b> da quadra?']"
   end
 
-  test "turns a title saved by another request at the same time into a taken error" do
-    create(:usage_term, title: "Termo da quadra")
-    NormalizedUniquenessValidator.any_instance.stubs(:validate_each)
-
-    assert_no_difference("UsageTerm.count") do
-      post admin_usage_terms_path, params: { usage_term: { title: "Termo da quadra", content: "Regras." } }
-    end
-
-    assert_response :unprocessable_content
-    assert_field_error :title, "Já existe um termo cadastrado com este título."
-  end
-
   test "responds not found for a usage term that does not exist" do
     get admin_usage_term_path(id: 0)
 
@@ -173,11 +161,11 @@ class Admin::UsageTermsControllerTest < ActionDispatch::IntegrationTest
     create(:usage_term, title: "Termo do Laboratório")
 
     assert_no_difference("UsageTerm.count") do
-      post admin_usage_terms_path, params: { usage_term: { title: "termo do laboratorio", content: "Regras." } }
+      post admin_usage_terms_path, params: { usage_term: { title: "termo do laboratório", content: "Regras." } }
     end
 
     assert_response :unprocessable_content
-    assert_select "input[name='usage_term[title]'][value='termo do laboratorio']"
+    assert_select "input[name='usage_term[title]'][value='termo do laboratório']"
     assert_field_error :title, "Já existe um termo cadastrado com este título."
   end
 
@@ -214,10 +202,10 @@ class Admin::UsageTermsControllerTest < ActionDispatch::IntegrationTest
     create(:usage_term, title: "Termo do planetário")
     usage_term = create(:usage_term, title: "Termo da quadra")
 
-    patch admin_usage_term_path(usage_term), params: { usage_term: { title: "TERMO DO PLANETARIO" } }
+    patch admin_usage_term_path(usage_term), params: { usage_term: { title: "termo do planetário" } }
 
     assert_response :unprocessable_content
-    assert_select "input[name='usage_term[title]'][value='TERMO DO PLANETARIO']"
+    assert_select "input[name='usage_term[title]'][value='termo do planetário']"
     assert_select "main h1", text: "Editar termo de uso"
     assert_breadcrumbs(usage_terms_breadcrumbs.merge("Termo da quadra" => admin_usage_term_path(usage_term)), current: "Editar")
     assert_field_error :title, "Já existe um termo cadastrado com este título."

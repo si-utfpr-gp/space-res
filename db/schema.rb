@@ -76,7 +76,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_215619) do
     t.text "content", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["title"], name: "index_usage_terms_on_title", unique: true
+    t.index "LOWER(title)", name: "index_usage_terms_on_lower_title", unique: true
   end
 
   create_table "users", force: :cascade do |t|

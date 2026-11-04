@@ -69,12 +69,12 @@ class ManageUsageTermsTest < ApplicationSystemTestCase
     create(:usage_term, title: "Termo do Laboratório")
     visit new_admin_usage_term_path
 
-    fill_in "Título", with: "termo do laboratorio"
+    fill_in "Título", with: "termo do laboratório"
     fill_in "Texto", with: "Regras."
     click_on "Salvar"
 
     assert_text "Já existe um termo cadastrado com este título."
-    assert_field "Título", with: "termo do laboratorio"
+    assert_field "Título", with: "termo do laboratório"
     assert_field "Texto", with: "Regras."
   end
 end

@@ -13,11 +13,11 @@ class UsageTermConstraintsTest < ActiveSupport::TestCase
     end
   end
 
-  test "database rejects a repeated title" do
+  test "database rejects a title repeated in another letter case" do
     create(:usage_term, title: "Termo do Laboratório")
 
     assert_raises(ActiveRecord::RecordNotUnique) do
-      build(:usage_term, title: "Termo do Laboratório").save!(validate: false)
+      build(:usage_term, title: "termo do laboratório").save!(validate: false)
     end
   end
 end
