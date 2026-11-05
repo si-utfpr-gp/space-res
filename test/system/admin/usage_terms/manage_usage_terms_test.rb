@@ -12,7 +12,7 @@ class ManageUsageTermsTest < ApplicationSystemTestCase
     click_on "Novo termo"
     fill_in "Título", with: "Termo da quadra"
     type_rich_text "Use calçado adequado."
-    click_on "Bold"
+    click_on "Negrito"
     type_rich_text " Bom jogo."
     click_on "Salvar"
 
@@ -68,6 +68,17 @@ class ManageUsageTermsTest < ApplicationSystemTestCase
 
     visit admin_usage_terms_path
     assert_selector "tbody tr", text: "Termo da quadra"
+  end
+
+  test "shows the editor toolbar in Portuguese" do
+    visit new_admin_usage_term_path
+
+    within("trix-toolbar") do
+      [ "Negrito", "Itálico", "Tachado", "Link", "Título", "Citação", "Código",
+        "Lista com marcadores", "Lista numerada", "Diminuir nível", "Aumentar nível",
+        "Anexar arquivos", "Desfazer", "Refazer" ].each { |label| assert_button label }
+      assert_no_button "Bold"
+    end
   end
 
   test "shows the error when the title is already taken" do

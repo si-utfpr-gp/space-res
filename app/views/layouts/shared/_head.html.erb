@@ -4,6 +4,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <%= csrf_meta_tags %>
 <%= csp_meta_tag %>
+<%= tag.meta name: "rich-text-editor-lang", content: t("shared.rich_text_editor").to_json %>
 
 <%= yield :head %>
 
