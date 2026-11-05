@@ -7,3 +7,6 @@ pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin_all_from "app/javascript/controllers", under: "controllers"
 
 pin "toastify", to: "https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify-es.js"
+pin "trix"
+pin "@rails/actiontext", to: "actiontext.esm.js"
+pin "trix_locale"

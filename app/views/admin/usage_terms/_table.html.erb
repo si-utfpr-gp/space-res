@@ -1,0 +1,14 @@
+<%# locals: (usage_terms:) %>
+<div class="overflow-x-auto rounded-xl border border-gray-200 bg-white">
+  <table class="w-full text-left text-sm text-dark">
+    <thead class="bg-gray-50 text-xs font-semibold uppercase tracking-wider text-gray-500">
+      <tr>
+        <th scope="col" class="px-3 py-3 sm:px-4"><%= UsageTerm.human_attribute_name(:title) %></th>
+        <th scope="col" class="px-3 py-3 text-right sm:px-4"><%= t("admin.usage_terms.index.actions") %></th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+      <%= render usage_terms %>
+    </tbody>
+  </table>
+</div>
