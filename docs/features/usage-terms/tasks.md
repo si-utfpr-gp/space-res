@@ -128,7 +128,7 @@ Depois do rebase na `main` e do retorno do professor (unicidade padrão do Rails
 
 | CA | Evidência |
 | --- | --- |
-| CA1 | `test/controllers/admin/usage_terms_controller_test.rb` (listagem em ordem, lista vazia, só o título com Ver e Editar, título, subtítulo e trilha nas quatro páginas, formulário com o editor, cadastro e edição indo para a página do termo, exclusão com confirmação e toast, 404 na página e na edição); `usage_term_ordered_by_title_test.rb`; `home_controller_test.rb` (atalho); `test/system/admin/usage_terms/manage_usage_terms_test.rb` (cadastro digitando no editor e usando Bold, edição trocando o texto por uma lista, exclusão pela página do termo e pela listagem, confirmação aceita e recusada); `manage_usage_terms_on_phone_test.rb` (320 px com título e endereço longos, botões com 44 px, formulário e cadastro pelo celular sem rolagem horizontal) |
+| CA1 | `test/controllers/admin/usage_terms_controller_test.rb` (listagem em ordem, lista vazia, só o título com Ver e Editar, título, subtítulo e trilha nas quatro páginas, formulário com o editor, cadastro e edição indo para a página do termo, exclusão com confirmação e toast, 404 na página e na edição); `usage_term_ordered_by_title_test.rb`; `home_controller_test.rb` (atalho); `test/system/admin/usage_terms/manage_usage_terms_test.rb` (cadastro digitando no editor e usando Negrito, barra do editor em português, edição trocando o texto por uma lista, exclusão pela página do termo e pela listagem, confirmação aceita e recusada); `manage_usage_terms_on_phone_test.rb` (320 px com título e endereço longos, botões com 44 px, formulário e cadastro pelo celular sem rolagem horizontal) |
 | CA2 | `usage_term_validations_test.rb` (título vazio ou só com espaços, texto sem conteúdo `<div><br></div>`, mensagens próprias); controller test (422 com a mensagem junto ao campo e o outro valor digitado mantido, inclusive o texto no campo oculto do editor) |
 | CA3 | `usage_term_validations_test.rb` (shoulda `case_insensitive`, título repetido em outra caixa, renomear para outro termo, o próprio termo pode trocar a caixa); `usage_term_normalize_test.rb`; `usage_term_constraints_test.rb` (índice em `LOWER(title)`); controller test (repetido no cadastro e na edição, com 422); system test (erro com "termo do laboratório") |
 | CA4 | `usage_term_rich_text_test.rb` (lista e negrito preservados depois de gravar); controller test (lista e negrito na página do termo; `<script>`, `onclick` e `javascript:` removidos; HTML do título escapado); system test (negrito e lista no navegador) |
@@ -168,3 +168,22 @@ Depois do rebase na `main` e do retorno do professor (unicidade padrão do Rails
   índice usam o mesmo `LOWER()` do SQLite, migrations reversíveis, sanitização na página do termo e
   nenhum N+1 na listagem. Um texto só com espaço de largura zero passa na validação; não foi tratado.
 - `bin/rails db:populate` não foi rodado no banco de desenvolvimento. O teste do populator cobre o CA6.
+
+## Evidências da barra do editor em português (2026-11-05)
+
+Pedido do professor em 2026-11-04, na mesma PR. O system test "shows the editor toolbar in Portuguese"
+confere os 14 botões da barra em português e a ausência de "Bold". O cadastro passou a clicar em
+"Negrito".
+
+| Comando | Resultado |
+| --- | --- |
+| `bin/rails test` | 215 runs, 1189 assertions, 0 failures, 0 errors |
+| `bin/rails test:system` | 35 runs, 150 assertions, 0 failures, 0 errors |
+| `bin/rubocop` | 141 files inspected, no offenses detected |
+| `bundle exec erb_lint --lint-all` | No errors were found in ERB files |
+| `bundle exec brakeman --no-pager --exit-on-warn` | 0 security warnings |
+| `bin/importmap audit` | No vulnerable packages found |
+
+- `bin/ci` não foi rodado de novo: o `bin/bundler-audit` agora acusa avisos de segurança do Rails 8.1.4
+  publicados depois de 2026-11-03, sem relação com esta mudança. A atualização para o 8.1.4.1 fica para o
+  Dependabot.

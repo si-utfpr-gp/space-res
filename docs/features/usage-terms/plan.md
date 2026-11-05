@@ -71,6 +71,13 @@ são reaproveitados. As diferenças são a página do termo (`show`) e o texto c
      No celular, a barra de ferramentas mantém o padrão do Trix: rola para o lado dentro dela, sem rolar
      a página (RF9). Fazer a barra quebrar de linha impediu o clique em Salvar no system test de 320 px,
      e a mudança foi desfeita.
+   - Barra do editor em português: os rótulos ficam em `views.pt-BR.yml`, em `shared.rich_text_editor`,
+     com as mesmas chaves do `Trix.config.lang`. O `layouts/shared/_head.html.erb` grava esses textos em
+     JSON na meta `rich-text-editor-lang`, e `app/javascript/trix_locale.js`, importado logo depois do
+     `trix`, copia esses textos para o `Trix.config.lang` (`Object.assign`, no próprio objeto). Isso
+     funciona porque o Trix registra os elementos no próximo ciclo (`setTimeout`) e monta a barra a
+     partir desse objeto. A meta fica em todos os layouts porque, com o Turbo, o módulo só roda na
+     primeira carga. O botão de anexo continua, com o rótulo "Anexar arquivos".
 7. **Atalho (RF7).** `admin/home/partials/_registrations.html.erb` ganha o item Termos de uso, depois de
    Departamentos.
 8. **Ícones.** O card e a lista vazia usam `:file_with_lines`, que já existe e não é usado em nenhuma
@@ -211,7 +218,7 @@ Editar, Excluir, Salvar e Cancelar reaproveitam `actions.*`. O subtítulo da edi
 | `test/controllers/admin/usage_terms_controller_access_test.rb` | Integração | Visitante → `/login` e usuário comum → 403 nas sete ações, sem alterar dados; 403 antes de buscar o termo; o 403 não mostra a trilha | CA5 |
 | `test/controllers/admin/home_controller_test.rb` | Integração | Atalho para `/admin/usage_terms` | CA1 |
 | `test/lib/tasks/db/populate/populator_test.rb` | Unidade | O populate apaga os termos existentes e cria o termo de exemplo, com a lista de quatro regras | CA6 |
-| `test/system/admin/usage_terms/manage_usage_terms_test.rb` | Sistema | Cadastro digitando no editor e usando o botão Negrito da barra, com ida para a página do termo; edição trocando o texto por uma lista numerada; exclusão pela listagem e pela página do termo, com confirmação aceita e recusada e toast; erro de título repetido | CA1, CA3, CA4 |
+| `test/system/admin/usage_terms/manage_usage_terms_test.rb` | Sistema | Cadastro digitando no editor e usando o botão Negrito da barra, com ida para a página do termo; edição trocando o texto por uma lista numerada; exclusão pela listagem e pela página do termo, com confirmação aceita e recusada e toast; barra do editor em português (14 botões, sem "Bold"); erro de título repetido | CA1, CA3, CA4 |
 | `test/system/admin/usage_terms/manage_usage_terms_on_phone_test.rb` | Sistema | Em 320 × 640, a listagem e a página do termo cabem na tela com um título longo e um endereço longo no texto; Ver, Editar e Excluir com pelo menos 44 px; cadastro pelo celular, com o formulário sem rolagem horizontal | CA1 |
 
 - As respostas HTML verificam `assert_no_match(/translation missing/i, response.body)`.
@@ -244,8 +251,10 @@ Editar, Excluir, Salvar e Cancelar reaproveitam `actions.*`. O subtítulo da edi
   letras acentuadas. Veja [Unicidade do título](#unicidade-do-título).
 - **Títulos iguais salvos ao mesmo tempo.** O índice recusa o segundo com HTTP 500. Risco aceito pelo
   professor para o admin.
-- **Barra do editor em inglês.** Os rótulos e dicas da barra do Trix ("Bold", "Italic"…) vêm do próprio
-  Trix, em inglês. Traduzi-los exige configurar `Trix.config.lang` em JavaScript.
+- **Barra do editor traduzida em JavaScript.** O professor pediu a tradução da barra do Trix em
+  2026-11-04, nesta PR. Como o Trix só lê os rótulos do `Trix.config.lang`, a tradução depende do
+  módulo `trix_locale.js` rodar logo depois do `import "trix"` e antes de o Trix registrar os elementos.
+  Veja o passo 6.
 - **Página do termo.** É o primeiro `show` do admin. A tela segue o cabeçalho e os botões das outras;
   depois de salvar, o administrador para nela, e não na listagem como nos outros cadastros, por decisão
   da spec (RF2, RF4).
