@@ -17,6 +17,8 @@ pt-BR:
               blank: Informe o nome do campus.
               taken: Já existe um campus cadastrado com este nome.
         department:
+          restrict_dependent_destroy:
+            has_many: Não é possível excluir o departamento porque ele tem %{record} vinculados.
           attributes:
             name:
               blank: Informe o nome do departamento.

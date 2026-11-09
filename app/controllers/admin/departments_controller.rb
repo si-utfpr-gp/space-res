@@ -31,8 +31,11 @@ class Admin::DepartmentsController < Admin::BaseController
   end
 
   def destroy
-    @department.destroy!
-    redirect_to admin_departments_path, success: t(".success"), status: :see_other
+    if @department.destroy
+      redirect_to admin_departments_path, success: t(".success"), status: :see_other
+    else
+      redirect_to admin_departments_path, alert: @department.errors.full_messages.to_sentence, status: :see_other
+    end
   end
 
   private

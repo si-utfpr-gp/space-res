@@ -41,6 +41,7 @@ pt-BR:
         buildings: Blocos
       department:
         <<: *defaults
+        users: Usuários
       usage_term:
         <<: *defaults
         title: Título
