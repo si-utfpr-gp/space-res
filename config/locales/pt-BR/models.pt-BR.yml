@@ -48,3 +48,5 @@ pt-BR:
       user:
         <<: *defaults
         admin: Administrador
+        department: Departamento
+        department_id: Departamento

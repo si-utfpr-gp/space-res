@@ -21,6 +21,10 @@ pt-BR:
             name:
               blank: Informe o nome do departamento.
               taken: Já existe um departamento cadastrado com este nome.
+        user:
+          attributes:
+            department:
+              blank: Selecione um departamento cadastrado.
         usage_term:
           attributes:
             title:

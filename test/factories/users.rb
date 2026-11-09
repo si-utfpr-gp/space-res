@@ -7,5 +7,9 @@ FactoryBot.define do
     trait :admin do
       admin { true }
     end
+
+    trait :with_department do
+      department
+    end
   end
 end
