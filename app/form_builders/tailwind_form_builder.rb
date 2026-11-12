@@ -18,6 +18,17 @@ class TailwindFormBuilder < ActionView::Helpers::FormBuilder
     )
   end
 
+  def checkbox(attribute, options = {}, checked_value = "1", unchecked_value = "0")
+    @template.render Form::Input::CheckboxComponent.new(
+      form: self,
+      attribute: attribute,
+      checked_value: checked_value,
+      unchecked_value: unchecked_value,
+      **options
+    )
+  end
+  alias_method :check_box, :checkbox
+
   def submit(value = nil, **)
     @template.render Form::Input::SubmitComponent.new(
       form: self,

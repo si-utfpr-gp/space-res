@@ -52,11 +52,59 @@ class TailwindFormBuilderTest < ActionView::TestCase
     end
   end
 
+  test "renders a checkbox with a label that toggles it" do
+    render_approval_checkbox(Space.new)
+
+    assert_select "input[type='hidden'][name='space[requires_approval]'][value='0']"
+    assert_select "input#space_requires_approval[type='checkbox'][name='space[requires_approval]'][value='1']"
+    assert_select "input#space_requires_approval[checked]", count: 0
+    assert_select "label[for='space_requires_approval']", text: "A reserva precisa de aprovação"
+  end
+
+  test "checks the checkbox when the attribute is true" do
+    render_approval_checkbox(Space.new(requires_approval: true))
+
+    assert_select "input#space_requires_approval[type='checkbox'][checked]"
+  end
+
+  test "gives the checkbox a 44px touch target and a visible focus" do
+    render_approval_checkbox(Space.new)
+
+    assert_select "label.min-h-11[for='space_requires_approval']"
+    assert_select "input[type='checkbox'].focus\\:ring-2"
+  end
+
+  test "shows the hint and the errors of the checkbox" do
+    space = Space.new
+    space.errors.add(:requires_approval, "Escolha um departamento antes.")
+
+    render_approval_checkbox(space, hint: "Quem libera as reservas.")
+
+    assert_select ".space_requires_approval p.text-gray-500", text: "Quem libera as reservas."
+    assert_select ".space_requires_approval p.text-red-600", text: "Escolha um departamento antes."
+  end
+
+  test "takes Rails' checkbox values and html options, plus a custom label, under both method names" do
+    @rendered = form_with(model: Space.new, url: "/admin/spaces") do |form|
+      form.check_box :requires_approval, { label: "Exige liberação", data: { action: "change->space#toggle" } }, "yes", "no"
+    end
+
+    assert_select "input[type='hidden'][value='no']"
+    assert_select "input[type='checkbox'][value='yes'][data-action='change->space#toggle']"
+    assert_select "label[for='space_requires_approval']", text: "Exige liberação"
+  end
+
   private
 
     def render_campus_select(building)
       @rendered = form_with(model: building, url: "/admin/buildings") do |form|
         form.select :campus_id, Campus.order(:name).pluck(:name, :id), { prompt: "Selecione o campus" }
+      end
+    end
+
+    def render_approval_checkbox(space, **options)
+      @rendered = form_with(model: space, url: "/admin/spaces") do |form|
+        form.checkbox :requires_approval, options
       end
     end
 end
