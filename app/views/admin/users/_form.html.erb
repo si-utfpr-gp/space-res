@@ -4,12 +4,10 @@
     <div>
       <dt class="font-medium text-gray-500"><%= User.human_attribute_name(:name) %></dt>
       <dd class="break-words text-dark"><%= user.name %></dd>
-      <dd><%= f.full_error :name %></dd>
     </div>
     <div>
       <dt class="font-medium text-gray-500"><%= User.human_attribute_name(:email_address) %></dt>
       <dd class="break-all text-dark"><%= user.email_address %></dd>
-      <dd><%= f.full_error :email_address %></dd>
     </div>
   </dl>
 

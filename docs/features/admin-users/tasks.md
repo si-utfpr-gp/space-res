@@ -129,7 +129,8 @@ forjado, `department_id` com texto, zero e número enorme, e a migration de ida 
 no banco). Ajustes feitos a partir dela:
 
 - Erros de nome e e-mail aparecem no formulário (antes, um usuário com dado antigo inválido dava 422 sem
-  mensagem).
+  mensagem). Removido depois da revisão do professor na PR: esses campos são só leitura e o erro só
+  apareceria com dado já inválido no banco, sem como corrigir nesta tela.
 - A validação do departamento só roda quando ele muda; um teste garante que salvar sem mudar não consulta
   `departments` (o teste falha com a condição anterior).
 - Testes de 404 no `PATCH` e de exclusão depois de desvincular o último usuário.

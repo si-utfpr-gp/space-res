@@ -49,9 +49,9 @@ usuário.
      para e-mails longos. No celular, a coluna Departamento fica escondida e o departamento aparece
      embaixo do e-mail, para caber em 320 px sem rolagem horizontal (RF7). O botão Editar repete o dos
      outros cadastros: só ícone no celular, com texto a partir de `sm`.
-   - `edit` e `_form`: nome e e-mail em uma lista de definição (`<dl>`), só leitura, com o erro de cada
-     um embaixo (`f.full_error`): um usuário com dado antigo inválido, como um e-mail gravado à mão fora
-     do formato, não pode ser salvo, e o administrador vê o motivo em vez de um 422 sem mensagem. E
+   - `edit` e `_form`: nome e e-mail em uma lista de definição (`<dl>`), só leitura, sem mensagem de
+     erro: a tela só altera o departamento, e nome ou e-mail só falhariam se o registro já estivesse
+     inválido no banco, o que nenhum fluxo do sistema produz e o administrador não poderia corrigir aqui. E
      `f.select :department_id, departments.pluck(:name, :id), { include_blank: t(".no_department") },
      hint: t(".department_hint")`. A opção em branco é "Sem departamento" e grava `NULL` (RF3). Salvar e
      Cancelar como nos outros formulários.

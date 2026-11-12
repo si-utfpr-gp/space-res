@@ -167,17 +167,6 @@ class Admin::UsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal department, user.reload.department
   end
 
-  test "explains why a user with invalid account data cannot be saved" do
-    user = create(:user, email_address: "ana@utfpr.edu.br")
-    user.update_column(:email_address, "conta-antiga-sem-dominio")
-
-    patch admin_user_path(user), params: { user: { department_id: create(:department).id } }
-
-    assert_response :unprocessable_content
-    assert_select "dd p", text: "E-mail não é válido"
-    assert_nil user.reload.department_id
-  end
-
   test "responds not found for a user that does not exist" do
     get edit_admin_user_path(id: 0)
     assert_response :not_found
