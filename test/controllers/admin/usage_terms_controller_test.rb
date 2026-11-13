@@ -248,6 +248,22 @@ class Admin::UsageTermsControllerTest < ActionDispatch::IntegrationTest
     assert_select "p", text: "Nenhum termo de uso cadastrado."
   end
 
+  test "refuses to delete a usage term used by spaces and tells the next step" do
+    usage_term = create(:usage_term, title: "Termo do laboratório")
+    create(:space, usage_term: usage_term)
+
+    assert_no_difference([ "UsageTerm.count", "Space.count" ]) do
+      delete admin_usage_term_path(usage_term)
+    end
+
+    assert_response :see_other
+    assert_redirected_to admin_usage_terms_path
+    follow_redirect!
+    assert_select "[data-controller='ui--toast'][data-ui--toast-message-type-value='alert']" \
+                  "[data-ui--toast-message-text-value='Não é possível excluir o termo porque ele é usado por espaços. Troque ou remova o termo de uso desses espaços antes.']"
+    assert_equal [ "Termo do laboratório" ], listed_usage_term_titles
+  end
+
   private
 
     def usage_terms_breadcrumbs

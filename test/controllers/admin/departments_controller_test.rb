@@ -168,7 +168,22 @@ class Admin::DepartmentsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to admin_departments_path
     follow_redirect!
     assert_select "[data-controller='ui--toast'][data-ui--toast-message-type-value='alert']" \
-                  "[data-ui--toast-message-text-value='Não é possível excluir o departamento porque ele tem usuários vinculados.']"
+                  "[data-ui--toast-message-text-value='Não é possível excluir o departamento porque ele tem usuários vinculados. Troque ou remova o departamento desses usuários antes.']"
+    assert_equal [ "Biblioteca" ], listed_department_names
+  end
+
+  test "refuses to delete a department that answers for spaces and tells the next step" do
+    department = create(:department, name: "Biblioteca")
+    create(:space, department: department)
+
+    assert_no_difference([ "Department.count", "Space.count" ]) do
+      delete admin_department_path(department)
+    end
+
+    assert_redirected_to admin_departments_path
+    follow_redirect!
+    assert_select "[data-controller='ui--toast'][data-ui--toast-message-type-value='alert']" \
+                  "[data-ui--toast-message-text-value='Não é possível excluir o departamento porque ele tem espaços vinculados. Troque ou remova o departamento desses espaços antes.']"
     assert_equal [ "Biblioteca" ], listed_department_names
   end
 

@@ -34,8 +34,11 @@ class Admin::UsageTermsController < Admin::BaseController
   end
 
   def destroy
-    @usage_term.destroy!
-    redirect_to admin_usage_terms_path, success: t(".success"), status: :see_other
+    if @usage_term.destroy
+      redirect_to admin_usage_terms_path, success: t(".success"), status: :see_other
+    else
+      redirect_to admin_usage_terms_path, alert: @usage_term.errors.full_messages.to_sentence, status: :see_other
+    end
   end
 
   private

@@ -32,8 +32,11 @@ class Admin::BuildingsController < Admin::BaseController
   end
 
   def destroy
-    @building.destroy!
-    redirect_to admin_buildings_path, success: t(".success"), status: :see_other
+    if @building.destroy
+      redirect_to admin_buildings_path, success: t(".success"), status: :see_other
+    else
+      redirect_to admin_buildings_path, alert: @building.errors.full_messages.to_sentence, status: :see_other
+    end
   end
 
   private

@@ -178,6 +178,22 @@ class Admin::BuildingsControllerTest < ActionDispatch::IntegrationTest
     assert_select "p", text: "Nenhum bloco cadastrado."
   end
 
+  test "refuses to delete a building that has spaces and tells the next step" do
+    building = create(:building, name: "Bloco B")
+    create(:space, campus: building.campus, building: building)
+
+    assert_no_difference([ "Building.count", "Space.count" ]) do
+      delete admin_building_path(building)
+    end
+
+    assert_response :see_other
+    assert_redirected_to admin_buildings_path
+    follow_redirect!
+    assert_select "[data-controller='ui--toast'][data-ui--toast-message-type-value='alert']" \
+                  "[data-ui--toast-message-text-value='Não é possível excluir o bloco porque ele tem espaços cadastrados. Mova os espaços para outro bloco ou exclua-os antes.']"
+    assert_select "tbody tr", count: 1
+  end
+
   test "responds not found for a building that does not exist" do
     get edit_admin_building_path(id: 0)
 

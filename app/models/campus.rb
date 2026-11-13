@@ -1,5 +1,6 @@
 class Campus < ApplicationRecord
   has_many :buildings, dependent: :restrict_with_error
+  has_many :spaces, dependent: :restrict_with_error
 
   normalizes :name, with: ->(name) { name.squish }
 
