@@ -1,0 +1,5 @@
+<% provide :title, t(".title") %>
+<% provide :head_title, t(".title") %>
+<% provide :head_subtitle, t(".subtitle", name: @space.name_in_database) %>
+
+<%= render "form", space: @space, method: :patch %>

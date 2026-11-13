@@ -1,0 +1,40 @@
+<%# locals: (space:) %>
+<tr id="<%= dom_id(space) %>">
+  <td class="break-words px-3 py-3 sm:px-4">
+    <div class="flex flex-wrap items-center gap-2">
+      <%= link_to space.name, admin_space_path(space), class: "font-medium text-primary" %>
+      <%= render "status_badge", space: space unless space.available? %>
+    </div>
+    <%# Below lg the other columns are hidden, so their values go under the name. %>
+    <ul class="mt-1 space-y-0.5 text-xs text-gray-500 lg:hidden">
+      <li><%= space_location(space) %></li>
+      <li><%= space_department_name(space) %></li>
+      <li><%= space_approval_label(space) %></li>
+    </ul>
+  </td>
+  <td class="hidden whitespace-nowrap px-4 py-3 lg:table-cell"><%= space_location(space) %></td>
+  <td class="hidden break-words px-4 py-3 lg:table-cell"><%= space_department_name(space) %></td>
+  <td class="hidden whitespace-nowrap px-4 py-3 lg:table-cell"><%= space_approval_label(space) %></td>
+  <td class="px-3 py-3 sm:px-4">
+    <div class="flex flex-wrap items-center justify-end gap-2 lg:flex-nowrap">
+      <%= link_to admin_space_path(space), title: t("actions.show"),
+                  class: "btn btn-md btn-outline min-w-11 px-3 no-underline sm:px-4" do %>
+        <%= icon(:eye, class: "btn-icon-sm") %>
+        <span class="sr-only xl:not-sr-only"><%= t("actions.show") %></span>
+      <% end %>
+
+      <%= link_to edit_admin_space_path(space), title: t("actions.edit"),
+                  class: "btn btn-md btn-outline min-w-11 px-3 no-underline sm:px-4" do %>
+        <%= icon(:pen, class: "btn-icon-sm") %>
+        <span class="sr-only xl:not-sr-only"><%= t("actions.edit") %></span>
+      <% end %>
+
+      <%= button_to admin_space_path(space), method: :delete, title: t("actions.destroy"),
+                    class: "btn btn-md btn-delete min-w-11 px-3 sm:px-4",
+                    form: { data: { turbo_confirm: t("admin.spaces.confirm_destroy", name: space.name) } } do %>
+        <%= icon(:trash, class: "btn-icon-sm") %>
+        <span class="sr-only xl:not-sr-only"><%= t("actions.destroy") %></span>
+      <% end %>
+    </div>
+  </td>
+</tr>

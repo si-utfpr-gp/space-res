@@ -36,6 +36,10 @@ pt-BR:
         name: "Ex.: Guarapuava"
       department:
         name: "Ex.: Departamento Acadêmico de Engenharia"
+      space:
+        name: "Ex.: Laboratório de Informática B3"
+        description: "Ex.: Laboratório com 20 computadores e projetor, no 1º andar."
+        unavailability_reason: "Ex.: Sala em reforma"
       usage_term:
         title: "Ex.: Termo de uso do laboratório de informática"
         content: Escreva as regras de uso e as responsabilidades de quem reserva o espaço.
@@ -117,6 +121,8 @@ pt-BR:
         campi_description: Cadastre os campi da UTFPR
         buildings: Blocos
         buildings_description: Cadastre os blocos de cada campus
+        spaces: Espaços
+        spaces_description: Cadastre as salas, os laboratórios e os outros espaços reserváveis
         departments: Departamentos
         departments_description: Cadastre os departamentos responsáveis pelos espaços
         usage_terms: Termos de uso
@@ -200,6 +206,85 @@ pt-BR:
         success: Departamento atualizado com sucesso.
       destroy:
         success: Departamento excluído com sucesso.
+    spaces:
+      confirm_destroy: Excluir o espaço %{name}? A exclusão não pode ser desfeita. Para só tirar o espaço de uso, desative-o na página do espaço.
+      confirm_deactivation: Desativar o espaço %{name}? Ele deixará de aparecer na reserva. Para impedir as reservas só por um tempo, use "Marcar como indisponível".
+      no_building: Sem bloco
+      no_department: Sem departamento
+      no_usage_term: Sem termo de uso
+      status:
+        available: Disponível
+        unavailable: Indisponível
+        deactivated: Desativado
+      status_unchanged: "Nada foi alterado: o espaço está %{status}."
+      approval:
+        required: Precisa de aprovação
+        not_required: Não precisa de aprovação
+        description:
+          not_required: Não. As reservas são confirmadas sem liberação.
+          by_department: Sim. As reservas são liberadas pelos usuários do departamento %{department}.
+          by_administrators: Sim. Como o espaço não tem departamento responsável, só os administradores liberam as reservas.
+      index:
+        title: Espaços
+        subtitle: Gerencie as salas, os laboratórios e os outros espaços que podem ser reservados.
+        breadcrumb: Espaços
+        new: Novo espaço
+        empty: Nenhum espaço cadastrado.
+        location: Localização
+        approval: Aprovação
+        actions: Ações
+      show:
+        subtitle: Dados do espaço e de como ele é reservado.
+        status_hint:
+          available: O espaço aparece na reserva e pode ser reservado.
+          unavailable: O espaço aparece na reserva, mas não pode ser reservado. Quem tenta reservar vê o motivo.
+          deactivated: O espaço não aparece na reserva. O cadastro continua guardado.
+        no_description: Sem descrição.
+        mark_unavailable: Marcar como indisponível
+        change_reason: Alterar motivo
+        end_unavailability: Tornar disponível
+        deactivate: Desativar
+        reactivate: Reativar
+      new:
+        title: Novo espaço
+        subtitle: Preencha as informações do novo espaço.
+        breadcrumb: Novo
+      edit:
+        title: Editar espaço
+        subtitle: Altere as informações do espaço.
+        breadcrumb: Editar
+      form:
+        campus_prompt: Selecione o campus
+        building_hint: Escolha "Sem bloco" para espaços fora de blocos, como a quadra e o planetário.
+        approval_hint: Com departamento responsável, os usuários do departamento liberam as reservas. Sem departamento, só os administradores.
+        usage_term_hint: Quem reservar o espaço precisará aceitar este termo.
+      create:
+        success: Espaço cadastrado com sucesso.
+      update:
+        success: Espaço atualizado com sucesso.
+      destroy:
+        success: Espaço excluído com sucesso.
+      unavailabilities:
+        breadcrumb: Indisponibilidade
+        new:
+          title: Marcar como indisponível
+          subtitle: O espaço %{name} vai continuar aparecendo na reserva, mas não poderá ser reservado.
+        edit:
+          title: Alterar motivo
+          subtitle: O novo motivo aparece para quem tenta reservar o espaço %{name}.
+        form:
+          reason_hint: Aparece para quem tenta reservar o espaço. Até %{count} caracteres.
+        create:
+          success: Espaço marcado como indisponível. Ele continua aparecendo na reserva, mas não pode ser reservado.
+        update:
+          success: Motivo da indisponibilidade alterado.
+        destroy:
+          success: Espaço disponível de novo. Ele pode voltar a ser reservado.
+      deactivations:
+        create:
+          success: Espaço desativado. Ele deixa de aparecer na reserva.
+        destroy:
+          success: Espaço reativado. Ele volta a aparecer na reserva e pode ser reservado.
     usage_terms:
       confirm_destroy: Excluir o termo %{title}?
       index:

@@ -1,0 +1,6 @@
+<% provide :title, t(".title") %>
+<% provide :head_title, t(".title") %>
+<% provide :head_subtitle, t(".subtitle") %>
+
+<%= render "form", space: @space, campi: @campi, buildings: @buildings, departments: @departments,
+                   usage_terms: @usage_terms, cancel_path: admin_spaces_path %>

@@ -1,0 +1,6 @@
+<%# locals: (usage_term:) %>
+<% if usage_term %>
+  <%= link_to usage_term.title, admin_usage_term_path(usage_term), class: "text-primary" %>
+<% else %>
+  <%= t("admin.spaces.no_usage_term") %>
+<% end %>
