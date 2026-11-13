@@ -23,6 +23,26 @@ pt-BR:
             name:
               blank: Informe o nome do departamento.
               taken: Já existe um departamento cadastrado com este nome.
+        space:
+          attributes:
+            campus:
+              required: Selecione o campus.
+            building:
+              blank: Selecione um bloco do campus escolhido.
+              other_campus: Selecione um bloco do campus escolhido.
+            department:
+              blank: Selecione um departamento cadastrado.
+            usage_term:
+              blank: Selecione um termo de uso cadastrado.
+            name:
+              blank: Informe o nome do espaço.
+              taken: Já existe um espaço com este nome neste bloco.
+              taken_without_building: Já existe um espaço sem bloco com este nome neste campus.
+            requires_approval:
+              inclusion: Informe se a reserva precisa de aprovação.
+            unavailability_reason:
+              blank: Informe o motivo da indisponibilidade.
+              too_long: O motivo deve ter no máximo %{count} caracteres.
         user:
           attributes:
             department:
