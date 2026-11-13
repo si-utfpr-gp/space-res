@@ -142,10 +142,16 @@ pt-BR:
         breadcrumb: Editar
       form:
         campus_prompt: Selecione o campus
+        campus_change_hint:
+          one: Este bloco tem 1 espaço. Ao trocar o campus, ele passa para o novo campus.
+          other: Este bloco tem %{count} espaços. Ao trocar o campus, eles passam para o novo campus.
       create:
         success: Bloco cadastrado com sucesso.
       update:
         success: Bloco atualizado com sucesso.
+        success_with_spaces:
+          one: Bloco atualizado com sucesso. 1 espaço passou para o campus %{campus}.
+          other: Bloco atualizado com sucesso. %{count} espaços passaram para o campus %{campus}.
       destroy:
         success: Bloco excluído com sucesso.
     campi:

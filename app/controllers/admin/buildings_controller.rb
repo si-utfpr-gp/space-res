@@ -25,7 +25,7 @@ class Admin::BuildingsController < Admin::BaseController
 
   def update
     if @building.update(building_params)
-      redirect_to admin_buildings_path, success: t(".success"), status: :see_other
+      redirect_to admin_buildings_path, success: update_success_message, status: :see_other
     else
       render :edit, status: :unprocessable_content
     end
@@ -52,6 +52,14 @@ class Admin::BuildingsController < Admin::BaseController
 
     def building_params
       params.expect(building: [ :campus_id, :name ])
+    end
+
+    # Tells how many spaces followed the building when its campus changed.
+    def update_success_message
+      moved_spaces = @building.saved_change_to_campus_id? ? @building.spaces.count : 0
+      return t(".success") if moved_spaces.zero?
+
+      t(".success_with_spaces", count: moved_spaces, campus: @building.campus.name)
     end
 
     def set_breadcrumbs
