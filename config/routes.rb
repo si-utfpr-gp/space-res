@@ -30,6 +30,7 @@ Rails.application.routes.draw do
     resources :buildings, except: :show
     resources :departments, except: :show
     resources :usage_terms
+    resources :users, only: [ :index, :edit, :update ]
   end
 
   get "/users/reservations", to: "users/reservations#index", as: :users_reservations_path

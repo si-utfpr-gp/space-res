@@ -38,6 +38,30 @@ class Db::PopulatorTest < ActiveSupport::TestCase
     assert Department.exists?(name: "Biblioteca")
   end
 
+  test "links the demo user to the TSI course coordination and keeps the admin without department" do
+    assert_output(/Database populated/) { Db::Populator.new.call }
+
+    assert_equal "Coordenação do Curso de Tecnologia em Sistemas para a Internet",
+                 User.find_by!(email_address: "demo@utfpr.edu.br").department.name
+    assert_nil User.find_by!(email_address: "admin@utfpr.edu.br").department
+  end
+
+  test "replaces departments that have users" do
+    create(:user, department: create(:department, name: "Departamento de Física"))
+
+    assert_output(/Database populated/) { Db::Populator.new.call }
+
+    assert_not Department.exists?(name: "Departamento de Física")
+  end
+
+  test "runs twice in a row" do
+    assert_output(/Database populated/) { Db::Populator.new.call }
+    assert_output(/Database populated/) { Db::Populator.new.call }
+
+    assert_equal 2, User.count
+    assert_equal 25, Department.count
+  end
+
   test "replaces the usage terms with the computer lab example" do
     create(:usage_term, title: "Termo da quadra")
 

@@ -30,6 +30,8 @@ module Db
       "Biblioteca"
     ].freeze
 
+    DEMO_USER_DEPARTMENT = "Coordenação do Curso de Tecnologia em Sistemas para a Internet".freeze
+
     USAGE_TERM_TITLE = "Termo de uso do laboratório de informática".freeze
     USAGE_TERM_CONTENT = <<~HTML.freeze
       <div>Ao reservar o laboratório de informática, o responsável pela reserva declara que leu e aceita as regras abaixo.</div>
@@ -44,10 +46,10 @@ module Db
 
     def call
       reset_records
-      setup_users
       setup_campi
       setup_buildings
       setup_departments
+      setup_users
       setup_usage_terms
       puts "Database populated"
     end
@@ -55,7 +57,8 @@ module Db
     private
 
       def reset_records
-        [ Building, Campus, Department, UsageTerm, User ].each(&:destroy_all)
+        # Users before departments: a department with users cannot be destroyed.
+        [ Building, Campus, User, Department, UsageTerm ].each(&:destroy_all)
       end
 
       def seed_plans
@@ -64,7 +67,8 @@ module Db
       end
 
       def setup_users
-        User.create_with(name: "User Demo", password: "123456", password_confirmation: "123456")
+        department = Department.find_by!(name: DEMO_USER_DEPARTMENT)
+        User.create_with(name: "User Demo", password: "123456", password_confirmation: "123456", department: department)
             .find_or_create_by!(email_address: "demo@utfpr.edu.br")
 
         User.create_with(name: "Admin Demo", password: "123456", password_confirmation: "123456", admin: true)

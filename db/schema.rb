@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_04_004119) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_09_141609) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -95,6 +95,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_04_004119) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "admin", default: false, null: false
+    t.integer "department_id"
+    t.index ["department_id"], name: "index_users_on_department_id"
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
@@ -102,4 +104,5 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_04_004119) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "buildings", "campi"
   add_foreign_key "sessions", "users"
+  add_foreign_key "users", "departments"
 end

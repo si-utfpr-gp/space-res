@@ -121,6 +121,8 @@ pt-BR:
         departments_description: Cadastre os departamentos responsáveis pelos espaços
         usage_terms: Termos de uso
         usage_terms_description: Cadastre os termos de uso e responsabilidade dos espaços
+        users: Usuários
+        users_description: Defina o departamento de cada usuário
     buildings:
       index:
         title: Blocos
@@ -217,6 +219,22 @@ pt-BR:
         success: Termo de uso atualizado com sucesso.
       destroy:
         success: Termo de uso excluído com sucesso.
+    users:
+      index:
+        title: Usuários
+        subtitle: Veja os usuários do sistema e defina o departamento de cada um.
+        breadcrumb: Usuários
+        actions: Ações
+        no_department: Sem departamento
+      edit:
+        title: Editar usuário
+        subtitle: Defina o departamento do usuário.
+        breadcrumb: Editar
+      form:
+        no_department: Sem departamento
+        department_hint: Atribua departamento apenas a docentes e técnicos.
+      update:
+        success: Usuário atualizado com sucesso.
   shared:
     # Keys mirror Trix.config.lang (camelCase) so the hash is passed to the editor as is.
     rich_text_editor:

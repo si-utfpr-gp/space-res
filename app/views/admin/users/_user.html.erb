@@ -1,0 +1,24 @@
+<%# locals: (user:) %>
+<% department_name = user.department&.name || t("admin.users.index.no_department") %>
+<tr id="<%= dom_id(user) %>">
+  <td class="px-4 py-3">
+    <div class="flex flex-wrap items-center gap-2">
+      <span class="break-words font-medium"><%= user.name %></span>
+      <% if user.admin? %>
+        <span class="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary"><%= User.human_attribute_name(:admin) %></span>
+      <% end %>
+    </div>
+    <p class="break-all text-gray-500"><%= user.email_address %></p>
+    <p class="mt-1 break-words sm:hidden"><%= department_name %></p>
+  </td>
+  <td class="hidden break-words px-4 py-3 sm:table-cell"><%= department_name %></td>
+  <td class="px-4 py-3">
+    <div class="flex items-center justify-end">
+      <%= link_to edit_admin_user_path(user), title: t("actions.edit"),
+                  class: "btn btn-md btn-outline min-w-11 px-3 no-underline sm:px-4" do %>
+        <%= icon(:pen, class: "btn-icon-sm") %>
+        <span class="sr-only sm:not-sr-only"><%= t("actions.edit") %></span>
+      <% end %>
+    </div>
+  </td>
+</tr>

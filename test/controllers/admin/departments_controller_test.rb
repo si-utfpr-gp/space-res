@@ -156,6 +156,34 @@ class Admin::DepartmentsControllerTest < ActionDispatch::IntegrationTest
     assert_select "p", text: "Nenhum departamento cadastrado."
   end
 
+  test "refuses to delete a department that has users and explains why" do
+    department = create(:department, name: "Biblioteca")
+    create(:user, department: department)
+
+    assert_no_difference("Department.count") do
+      delete admin_department_path(department)
+    end
+
+    assert_response :see_other
+    assert_redirected_to admin_departments_path
+    follow_redirect!
+    assert_select "[data-controller='ui--toast'][data-ui--toast-message-type-value='alert']" \
+                  "[data-ui--toast-message-text-value='Não é possível excluir o departamento porque ele tem usuários vinculados.']"
+    assert_equal [ "Biblioteca" ], listed_department_names
+  end
+
+  test "deletes a department after its last user is unlinked" do
+    department = create(:department, name: "Biblioteca")
+    user = create(:user, department: department)
+    patch admin_user_path(user), params: { user: { department_id: "" } }
+
+    assert_difference("Department.count", -1) do
+      delete admin_department_path(department)
+    end
+
+    assert_redirected_to admin_departments_path
+  end
+
   test "responds not found for a department that does not exist" do
     get edit_admin_department_path(id: 0)
 
