@@ -44,6 +44,22 @@ module Db
       <div>O responsável responde pelos danos causados ao espaço e aos equipamentos durante a reserva. Problemas encontrados no início do uso devem ser informados ao Setor de Gestão de Espaços Acadêmicos antes de começar a atividade.</div>
     HTML
 
+    # building, department and usage_term hold names; a missing key means the space has none.
+    SPACES = [
+      { building: "Bloco B", name: "Sala B101", description: "Sala de aula com 40 carteiras e projetor, no térreo." },
+      { building: "Bloco B", name: "Sala B102", description: "Sala de aula com 35 carteiras, no térreo.",
+        status: :unavailable, unavailability_reason: "Sala em reforma" },
+      { building: "Bloco B", name: "Sala B103", description: "Sala unificada com a Sala B101.", status: :deactivated },
+      { building: "Bloco C", name: "Laboratório de Informática C3", requires_approval: true,
+        department: "Coordenadoria de Tecnologia da Informação", usage_term: USAGE_TERM_TITLE,
+        description: "Laboratório com 20 computadores e projetor, no 1º andar." },
+      { building: "Bloco R", name: "Auditório", requires_approval: true,
+        description: "Auditório com 120 lugares, palco e sistema de som." },
+      { name: "Quadra poliesportiva", requires_approval: true, department: "Departamento de Educação",
+        description: "Quadra coberta, ao lado do estacionamento." },
+      { name: "Planetário", description: "Cúpula com 30 lugares, na entrada do campus." }
+    ].freeze
+
     def call
       reset_records
       setup_campi
@@ -51,14 +67,15 @@ module Db
       setup_departments
       setup_users
       setup_usage_terms
+      setup_spaces
       puts "Database populated"
     end
 
     private
 
       def reset_records
-        # Users before departments: a department with users cannot be destroyed.
-        [ Building, Campus, User, Department, UsageTerm ].each(&:destroy_all)
+        # Spaces first, and users before departments: records in use cannot be destroyed.
+        [ Space, Building, Campus, User, Department, UsageTerm ].each(&:destroy_all)
       end
 
       def seed_plans
@@ -93,6 +110,20 @@ module Db
 
       def setup_usage_terms
         UsageTerm.create_with(content: USAGE_TERM_CONTENT).find_or_create_by!(title: USAGE_TERM_TITLE)
+      end
+
+      def setup_spaces
+        campus = Campus.find_by!(name: "Guarapuava")
+
+        SPACES.each do |space|
+          campus.spaces.create!(
+            space.except(:building, :department, :usage_term).merge(
+              building: space[:building] && campus.buildings.find_by!(name: space[:building]),
+              department: space[:department] && Department.find_by!(name: space[:department]),
+              usage_term: space[:usage_term] && UsageTerm.find_by!(title: space[:usage_term])
+            )
+          )
+        end
       end
   end
 end
