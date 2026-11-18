@@ -52,6 +52,62 @@ class TailwindFormBuilderTest < ActionView::TestCase
     end
   end
 
+  test "renders a grouped select with one group per record of the collection" do
+    bloco_b = create(:building, campus: @guarapuava, name: "Bloco B")
+    bloco_c = create(:building, campus: @guarapuava, name: "Bloco C")
+    bloco_v = create(:building, campus: @pato_branco, name: "Bloco V")
+
+    render_building_select(Space.new)
+
+    assert_select "label[for='space_building_id']", text: "Bloco"
+    assert_select "select#space_building_id.min-h-11[name='space[building_id]']" do
+      assert_select "optgroup", count: 2
+      assert_select "optgroup:nth-of-type(1)[label='Guarapuava']" do
+        assert_select "option", count: 2
+        assert_select "option:nth-child(1)[value='#{bloco_b.id}']", text: "Bloco B"
+        assert_select "option:nth-child(2)[value='#{bloco_c.id}']", text: "Bloco C"
+      end
+      assert_select "optgroup:nth-of-type(2)[label='Pato Branco'] option[value='#{bloco_v.id}']", text: "Bloco V"
+      assert_select "optgroup[data-filter-key]", count: 0
+    end
+  end
+
+  test "selects the current value of the grouped select" do
+    bloco_v = create(:building, campus: @pato_branco, name: "Bloco V")
+    create(:building, campus: @guarapuava, name: "Bloco B")
+
+    render_building_select(Space.new(building: bloco_v))
+
+    assert_select "option[selected]", count: 1
+    assert_select "option[selected][value='#{bloco_v.id}']", text: "Bloco V"
+  end
+
+  test "marks each group with its filter key, and takes Rails' select options and html options" do
+    create(:building, campus: @guarapuava, name: "Bloco B")
+    create(:building, campus: @pato_branco, name: "Bloco V")
+
+    render_building_select(Space.new, { include_blank: "Sem bloco", group_filter_key: :id },
+                           hint: "Escolha o bloco.", data: { ui__filtered_select_target: "select" })
+
+    assert_select "select[data-ui--filtered-select-target='select']" do
+      assert_select "> option:first-child[value='']", text: "Sem bloco"
+      assert_select "optgroup[label='Guarapuava'][data-filter-key='#{@guarapuava.id}']"
+      assert_select "optgroup[label='Pato Branco'][data-filter-key='#{@pato_branco.id}']"
+    end
+    assert_select ".space_building_id p.text-gray-500", text: "Escolha o bloco."
+  end
+
+  test "renders only the blank option of a grouped select without groups" do
+    @rendered = form_with(model: Space.new, url: "/admin/spaces") do |form|
+      form.grouped_collection_select :building_id, Campus.none, :buildings, :name, :id, :name, { include_blank: "Sem bloco" }
+    end
+
+    assert_select "select#space_building_id" do
+      assert_select "optgroup", count: 0
+      assert_select "option", count: 1, text: "Sem bloco"
+    end
+  end
+
   test "renders a checkbox with a label that toggles it" do
     render_approval_checkbox(Space.new)
 
@@ -99,6 +155,13 @@ class TailwindFormBuilderTest < ActionView::TestCase
     def render_campus_select(building)
       @rendered = form_with(model: building, url: "/admin/buildings") do |form|
         form.select :campus_id, Campus.order(:name).pluck(:name, :id), { prompt: "Selecione o campus" }
+      end
+    end
+
+    def render_building_select(space, options = {}, html_options = {})
+      @rendered = form_with(model: space, url: "/admin/spaces") do |form|
+        form.grouped_collection_select :building_id, Campus.order(:name).includes(:buildings), :buildings, :name, :id, :name,
+                                       options, html_options
       end
     end
 
