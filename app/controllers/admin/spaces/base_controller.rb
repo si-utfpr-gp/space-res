@@ -12,7 +12,7 @@ class Admin::Spaces::BaseController < Admin::BaseController
     # The space page shows the current status and the actions that fit it.
     def report_status_unchanged
       redirect_to admin_space_path(@space), status: :see_other,
-                  warning: t("admin.spaces.status_unchanged", status: helpers.space_status_label(@space).downcase)
+                  warning: t("admin.spaces.status_unchanged", status: Admin::SpacePresenter.new(@space).status_label.downcase)
     end
 
     def set_breadcrumbs

@@ -1,6 +1,7 @@
 <% provide :title, @space.name %>
 <% provide :head_title, @space.name %>
 <% provide :head_subtitle, t(".subtitle") %>
+<% presenter = Admin::SpacePresenter.new(@space) %>
 
 <div class="space-y-4 sm:space-y-6">
   <div class="flex flex-wrap gap-2 sm:justify-end">
@@ -23,14 +24,14 @@
     <div>
       <dt class="font-medium text-gray-500"><%= Space.human_attribute_name(:status) %></dt>
       <dd id="space_status" class="text-dark">
-        <span class="font-medium"><%= space_status_label(@space) %></span>
+        <span class="font-medium"><%= presenter.status_label %></span>
         <span class="block text-xs text-gray-500"><%= t(".status_hint.#{@space.status}") %></span>
         <%= render "unavailability_reason", space: @space if @space.unavailable? %>
       </dd>
     </div>
     <div>
       <dt class="font-medium text-gray-500"><%= Space.human_attribute_name(:requires_approval) %></dt>
-      <dd id="space_approval" class="text-dark"><%= space_approval_description(@space) %></dd>
+      <dd id="space_approval" class="text-dark"><%= presenter.approval_description %></dd>
     </div>
     <div>
       <dt class="font-medium text-gray-500"><%= Space.human_attribute_name(:campus) %></dt>
@@ -38,11 +39,11 @@
     </div>
     <div>
       <dt class="font-medium text-gray-500"><%= Space.human_attribute_name(:building) %></dt>
-      <dd class="break-words text-dark"><%= space_building_name(@space) %></dd>
+      <dd class="break-words text-dark"><%= presenter.building_name %></dd>
     </div>
     <div>
       <dt class="font-medium text-gray-500"><%= Space.human_attribute_name(:department) %></dt>
-      <dd class="break-words text-dark"><%= space_department_name(@space) %></dd>
+      <dd class="break-words text-dark"><%= presenter.department_name %></dd>
     </div>
     <div>
       <dt class="font-medium text-gray-500"><%= Space.human_attribute_name(:usage_term) %></dt>

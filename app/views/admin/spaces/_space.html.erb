@@ -1,4 +1,5 @@
 <%# locals: (space:) %>
+<% presenter = Admin::SpacePresenter.new(space) %>
 <tr id="<%= dom_id(space) %>">
   <td class="break-words px-3 py-3 sm:px-4">
     <div class="flex flex-wrap items-center gap-2">
@@ -7,14 +8,14 @@
     </div>
     <%# Below lg the other columns are hidden, so their values go under the name. %>
     <ul class="mt-1 space-y-0.5 text-xs text-gray-500 lg:hidden">
-      <li><%= space_location(space) %></li>
-      <li><%= space_department_name(space) %></li>
-      <li><%= space_approval_label(space) %></li>
+      <li><%= presenter.location %></li>
+      <li><%= presenter.department_name %></li>
+      <li><%= presenter.approval_label %></li>
     </ul>
   </td>
-  <td class="hidden whitespace-nowrap px-4 py-3 lg:table-cell"><%= space_location(space) %></td>
-  <td class="hidden break-words px-4 py-3 lg:table-cell"><%= space_department_name(space) %></td>
-  <td class="hidden whitespace-nowrap px-4 py-3 lg:table-cell"><%= space_approval_label(space) %></td>
+  <td class="hidden whitespace-nowrap px-4 py-3 lg:table-cell"><%= presenter.location %></td>
+  <td class="hidden break-words px-4 py-3 lg:table-cell"><%= presenter.department_name %></td>
+  <td class="hidden whitespace-nowrap px-4 py-3 lg:table-cell"><%= presenter.approval_label %></td>
   <td class="px-3 py-3 sm:px-4">
     <div class="flex flex-wrap items-center justify-end gap-2 lg:flex-nowrap">
       <%= link_to admin_space_path(space), title: t("actions.show"),
