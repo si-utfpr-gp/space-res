@@ -72,6 +72,14 @@ class ManageSpacesTest < ApplicationSystemTestCase
     assert_equal [ "Sem bloco", "Bloco B", "Bloco C", "Bloco V" ], building_options
   end
 
+  test "offers only the option without building for a campus without buildings" do
+    create(:campus, name: "Apucarana")
+    visit new_admin_space_path
+
+    select "Apucarana", from: "Campus"
+    assert_equal [ "Sem bloco" ], building_options
+  end
+
   test "keeps the chosen building when the form comes back with an error and when a space is edited" do
     visit new_admin_space_path
     select "Guarapuava", from: "Campus"

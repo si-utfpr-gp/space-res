@@ -203,8 +203,8 @@ class Admin::SpacesControllerTest < ActionDispatch::IntegrationTest
       end
       assert_select "select[name='space[building_id]']" do
         assert_select "> option[value='']", text: "Sem bloco"
-        assert_select "optgroup[label='Guarapuava'] option[value='#{@bloco_b.id}'][data-filter-key='#{@guarapuava.id}']", text: "Bloco B"
-        assert_select "optgroup[label='Pato Branco'] option[value='#{bloco_v.id}'][data-filter-key='#{pato_branco.id}']", text: "Bloco V"
+        assert_select "optgroup[label='Guarapuava'][data-filter-key='#{@guarapuava.id}'] option[value='#{@bloco_b.id}']", text: "Bloco B"
+        assert_select "optgroup[label='Pato Branco'][data-filter-key='#{pato_branco.id}'] option[value='#{bloco_v.id}']", text: "Bloco V"
       end
       assert_select "input[name='space[name]'][placeholder='Ex.: Laboratório de Informática B3']"
       assert_select "textarea[name='space[description]']"
@@ -222,6 +222,18 @@ class Admin::SpacesControllerTest < ActionDispatch::IntegrationTest
       assert_select "a[href='#{admin_spaces_path}']", text: "Cancelar"
     end
     assert_no_match(/translation missing/i, response.body)
+  end
+
+  test "shows quotes and HTML typed in campus and building names as text in the building select" do
+    campus = create(:campus, name: %(Campus "Centro"))
+    create(:building, campus: campus, name: "<script>alert(1)</script>")
+
+    get new_admin_space_path
+
+    assert_select "select[name='space[building_id]']" do
+      assert_select %(optgroup[label='Campus "Centro"'] option), text: "<script>alert(1)</script>"
+      assert_select "script", count: 0
+    end
   end
 
   test "creates a space in a building and shows a confirmation on the list" do

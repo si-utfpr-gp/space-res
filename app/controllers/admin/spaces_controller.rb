@@ -48,7 +48,7 @@ class Admin::SpacesController < Admin::BaseController
     # Lazy relations: only queried when a form is rendered, not on a successful redirect.
     def set_form_options
       @campi = Campus.order(:name)
-      @buildings = Building.sorted
+      @campi_with_buildings = Campus.having_buildings_ordered_by_name
       @departments = Department.sorted
       @usage_terms = UsageTerm.ordered_by_title
     end

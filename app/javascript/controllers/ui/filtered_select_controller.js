@@ -2,9 +2,9 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="ui--filtered-select"
 //
-// Narrows the options of a select (the "select" target) to the ones whose data-filter-key matches the
-// value chosen in another field (the "source" target). Options without data-filter-key, such as the
-// blank one, always stay. With no value chosen in the source, every option is offered.
+// Narrows the options of a select (the "select" target) to the <optgroup> whose data-filter-key matches
+// the value chosen in another field (the "source" target). Options outside the groups, such as the blank
+// one, always stay. With no value chosen in the source, every option is offered.
 export default class extends Controller {
     static targets = ["source", "select"]
 
@@ -36,9 +36,10 @@ export default class extends Controller {
         this.selectTarget.value = offered ? chosen : ""
     }
 
+    // The options of the matching group are offered without it, since the group label repeats the source value.
     matching(node, key) {
-        const options = node.tagName === "OPTGROUP" ? Array.from(node.children) : [node]
+        if (node.tagName !== "OPTGROUP") return [node]
 
-        return options.filter((option) => !option.dataset.filterKey || option.dataset.filterKey === key)
+        return node.dataset.filterKey === key ? Array.from(node.children) : []
     }
 }

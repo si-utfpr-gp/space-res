@@ -2,5 +2,5 @@
 <% provide :head_title, t(".title") %>
 <% provide :head_subtitle, t(".subtitle") %>
 
-<%= render "form", space: @space, campi: @campi, buildings: @buildings, departments: @departments,
+<%= render "form", space: @space, campi: @campi, campi_with_buildings: @campi_with_buildings, departments: @departments,
                    usage_terms: @usage_terms, cancel_path: admin_space_path(@space) %>

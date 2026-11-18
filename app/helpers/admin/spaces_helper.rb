@@ -27,11 +27,4 @@ module Admin::SpacesHelper
   def space_status_label(space)
     t("admin.spaces.status.#{space.status}")
   end
-
-  # Buildings grouped by campus; each option carries its campus so the form can filter them.
-  def space_building_options(buildings)
-    buildings.group_by(&:campus).map do |campus, campus_buildings|
-      [ campus.name, campus_buildings.map { |building| [ building.name, building.id, { data: { filter_key: campus.id } } ] } ]
-    end
-  end
 end
