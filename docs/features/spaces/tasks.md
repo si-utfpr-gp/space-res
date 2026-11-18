@@ -131,6 +131,25 @@ Legenda: `[ ]` pendente · `[~]` em andamento · `[x]` concluída
 - **Verificação:** os comandos do plano.
 - **Depende de:** T1–T10
 
+## T12 — Ajustes da revisão da PR #88
+
+- [x] Status
+- **Objetivo:** fazer os três ajustes que o professor pediu para esta PR na revisão de 2026-11-17:
+  descrição obrigatória, `Admin::SpacePresenter` no lugar de `Admin::SpacesHelper` e o campo Bloco
+  com `grouped_collection_select`. Os outros pontos da revisão viram Issues próprias.
+- **Requisitos:** RN15, D11, RF4, RF5 · CA1, CA3, CA10
+- **Passos:**
+  - descrição: testes de modelo, de integração e de sistema → `validates :description` →
+    `null: false` na `CreateSpaces` → mensagem em `errors.pt-BR.yml` → sai o "Sem descrição." da
+    página do espaço;
+  - `grouped_collection_select` no `TailwindFormBuilder`, com testes →
+    `Campus.having_buildings_ordered_by_name` → `_form` e `ui/filtered_select_controller.js`
+    filtrando pelo `<optgroup>` → sai o `space_building_options`;
+  - `Admin::SpacePresenter`, com testes → views e `Admin::Spaces::BaseController` → sai o
+    `Admin::SpacesHelper`.
+- **Verificação:** `bin/ci`, `bundle exec erb_lint --lint-all` e `bin/rails test:system`.
+- **Depende de:** T1–T11
+
 ## Registro de verificação
 
 ### Comandos executados em 2026-11-12
@@ -159,6 +178,22 @@ Legenda: `[ ]` pendente · `[~]` em andamento · `[x]` concluída
   dele foram rodados separados, como acima. Nenhuma gem mudou, então `bundler-audit` e
   `importmap audit` não foram rodados.
 
+### Comandos executados em 2026-11-18 (revisão da PR #88)
+
+- A branch foi atualizada com o merge da `main` que o professor fez pelo GitHub (puma 8.0.3 e
+  view_component 4.24.0).
+- Migration `CreateSpaces` alterada no lugar. Num banco temporário, `db:migrate:redo
+  VERSION=20261112133836`: o diff do `db/schema.rb` tem só `null: false` em `description`. O banco
+  de desenvolvimento local, que não tem espaços, ainda não foi refeito: antes de rodar
+  `bin/rails db:migrate` nele, rodar `bin/rails db:migrate:redo VERSION=20261112133836`, senão o
+  `db:migrate` regrava o `schema.rb` sem o `null: false`.
+- `bin/ci`: todos os passos passaram (RuboCop: 178 arquivos, sem ofensas; `bundler-audit` e
+  `importmap audit` sem vulnerabilidades; Brakeman: 0 alertas; `bin/rails test`: 427 testes, 0
+  falhas; seeds).
+- `bundle exec erb_lint --lint-all`: sem erros.
+- `bin/rails test:system`: 57 testes, 0 falhas.
+- `bin/rails test` em cada um dos quatro commits do código: 414, 418, 421 e 427 testes, 0 falhas.
+
 ### Critérios de aceitação
 
 | CA | Evidência |
@@ -185,7 +220,7 @@ disponível e indisponível e formulário do motivo.
 
 | Tarefa | Entende sem orientação? | Informação no momento certo? | Previne erros e explica? | Etapas desnecessárias? | Consistente? |
 | --- | --- | --- | --- | --- | --- |
-| T1 Cadastrar | Campos na ordem da tarefa, com exemplos e dicas | A regra de quem libera aparece junto à caixa de aprovação | Bloco filtrado pelo campus; erro junto ao campo; valores mantidos | Só campus e nome são obrigatórios | Mesmo formulário e botões dos outros cadastros |
+| T1 Cadastrar | Campos na ordem da tarefa, com exemplos e dicas | A regra de quem libera aparece junto à caixa de aprovação | Bloco filtrado pelo campus; erro junto ao campo; valores mantidos | Só campus, nome e descrição são obrigatórios (descrição desde 2026-11-18) | Mesmo formulário e botões dos outros cadastros |
 | T2 Encontrar e conferir | Listagem por campus, bloco e nome; o nome leva à página | Localização, departamento, aprovação e estado na listagem; descrição e termo na página | — | Um toque da listagem à página | Mesma tabela e ações dos termos de uso |
 | T3 Corrigir | Editar na listagem e na página | Formulário preenchido | Mesmas validações; trilha com o nome gravado | — | Igual aos outros cadastros |
 | T4 Remover | Excluir na listagem e na página | A confirmação diz que não há como desfazer | Confirmação cita o nome e oferece a desativação | — | Mesmo botão e confirmação |
@@ -239,6 +274,24 @@ restos de `active`. Ajustes feitos a partir dela:
   mudança confirma.
 
 Os ajustes foram verificados pelos testes acima; a revisão não foi repetida sobre eles.
+
+Revisão independente de 2026-11-18, dos ajustes da revisão da PR #88: nenhum bug nem problema de
+segurança. Confirmou o `grouped_collection_select` contra o código do Action View 8.1.4.1 (grupos
+reconhecidos, bloco escolhido na edição e no 422, "Sem bloco" primeiro), a consulta única de
+`Campus.having_buildings_ordered_by_name`, sem N+1, o filtro com o cache do Turbo, o presenter sem
+restos do helper e os docs de acordo com o código. Ajustes feitos a partir dela:
+
+- Testes novos: aspas e HTML nos nomes de campus e bloco aparecem como texto no campo Bloco; um
+  campus sem blocos oferece só "Sem bloco" (sistema); o `grouped_collection_select` sem grupos mostra
+  só a opção em branco.
+- O comentário do `grouped_collection_select` diz que ele recebe nomes de métodos, não procs, ao
+  contrário do Rails.
+
+Mantido:
+
+- O controller `ui--filtered-select` passou a filtrar só por `<optgroup>`. O formulário de espaços é o
+  único que o usa.
+- A descrição não é normalizada como o nome; uma descrição só de espaços continua recusada.
 
 Mantido, para decisão do desenvolvedor e do professor:
 

@@ -3,7 +3,9 @@
 Issue: #61 · Especificação: [spec.md](spec.md)
 
 Status: aprovado pelo desenvolvedor em 2026-11-12. Revisado em 2026-11-17 para as três situações do
-espaço (D2, D8–D10), a pedido do desenvolvedor depois da resposta do professor.
+espaço (D2, D8–D10), a pedido do desenvolvedor depois da resposta do professor. Revisado de novo em
+2026-11-18 com os três ajustes que o professor pediu na revisão da PR #88: descrição obrigatória
+(D11), `Admin::SpacePresenter` e o campo Bloco com `grouped_collection_select`.
 
 ## Abordagem técnica
 
@@ -23,7 +25,7 @@ acompanham a troca de campus do bloco (D4).
    | `department_id` | `integer` | opcional, chave estrangeira para `departments` |
    | `usage_term_id` | `integer` | opcional, chave estrangeira para `usage_terms` |
    | `name` | `string` | `null: false` |
-   | `description` | `text` | opcional |
+   | `description` | `text` | `null: false` (RN15, D11) |
    | `requires_approval` | `boolean` | `null: false`, padrão `false` |
    | `status` | `string` | `null: false`, padrão `"available"` (D2, D8; não está na Issue) |
    | `unavailability_reason` | `string` | opcional; preenchido só enquanto o espaço está indisponível (RN13) |
@@ -48,7 +50,7 @@ acompanham a troca de campus do bloco (D4).
 2. **Modelo `Space`.**
    - `belongs_to :campus`; `belongs_to :building`, `:department` e `:usage_term` com `optional: true`.
    - `normalizes :name, with: ->(name) { name.squish }` (RN3).
-   - `validates :name, presence: true` (RN3).
+   - `validates :name, presence: true` (RN3) e `validates :description, presence: true` (RN15).
    - Unicidade (RN4, RN5, D5), padrão do Rails, em duas validações que não se sobrepõem:
      `uniqueness: { case_sensitive: false, scope: :building_id }` quando há bloco, e
      `uniqueness: { case_sensitive: false, scope: :campus_id, conditions: -> { where(building_id: nil) } }`
@@ -112,9 +114,9 @@ acompanham a troca de campus do bloco (D4).
    - `space_params`: `campus_id`, `building_id`, `department_id`, `usage_term_id`, `name`,
      `description`, `requires_approval`. `status` e `unavailability_reason` ficam de fora: só mudam
      pelas ações de situação.
-   - `set_form_options` (só nas ações que mostram o formulário): campi por nome, blocos
-     (`Building.sorted`, que já carrega o campus), departamentos (`Department.sorted`) e termos
-     (`UsageTerm.ordered_by_title`).
+   - `set_form_options` (só nas ações que mostram o formulário): campi por nome, os campi que têm blocos
+     (`Campus.having_buildings_ordered_by_name`, que já carrega os blocos em ordem de nome),
+     departamentos (`Department.sorted`) e termos (`UsageTerm.ordered_by_title`).
    - `set_breadcrumbs`: Espaços › Novo, nome do espaço, ou nome do espaço › Editar, com
      `name_in_database`, como nos termos.
 
@@ -138,12 +140,20 @@ acompanham a troca de campus do bloco (D4).
    erro embaixo. O componente chama o helper da view, não o do builder, para não entrar em recursão
    (mesmo cuidado do `SelectComponent`). No Rails 8.1 o nome canônico é `checkbox`, com `check_box`
    como alias (conferido no código do Action View 8.1.4.1); o builder sobrescreve os dois.
+
+   Na revisão da PR #88, o builder ganhou também o `grouped_collection_select`, com a assinatura do
+   Rails. Ele transforma a coleção nos grupos de opções e renderiza o `select` estilizado. Com
+   `group_filter_key: :metodo` nas opções, cada `<optgroup>` leva `data-filter-key` com esse valor do
+   grupo. O `grouped_collection_select` do próprio Rails não aceita atributos no grupo nem nas opções,
+   que o filtro do campo Bloco precisa.
 8. **Escolha do bloco (RF4, D1).**
-   - O servidor monta o campo com todos os blocos agrupados por campus (`<optgroup>`), mais
-     "Sem bloco". Cada `<option>` leva `data-filter-key` com o campus. É o que funciona sem JavaScript.
+   - O servidor monta o campo com
+     `f.grouped_collection_select :building_id, campi_with_buildings, :buildings, :name, :id, :name`,
+     com "Sem bloco" e `group_filter_key: :id`: um `<optgroup>` por campus, com `data-filter-key` com o
+     campus. É o que funciona sem JavaScript.
    - Um controller Stimulus novo, `ui/filtered_select_controller.js`, liga o campo Campus (origem) ao
      campo Bloco (alvo). Ao conectar, guarda as opções originais. Sem campus escolhido, mantém a lista
-     agrupada. Com campus, reconstrói o campo só com "Sem bloco" e os blocos daquele campus; se o
+     agrupada. Com campus, reconstrói o campo só com "Sem bloco" e os blocos do grupo daquele campus; se o
      bloco escolhido for de outro campus, volta para "Sem bloco". As opções são removidas e
      recolocadas, em vez de escondidas: o Safari do iPhone não esconde `<option>`. Antes de o Turbo
      guardar a página em cache (`turbo:before-cache`), a lista completa é recolocada, para o filtro
@@ -163,14 +173,18 @@ acompanham a troca de campus do bloco (D4).
      (`_deactivate_button`) é `button_to` com `POST` e `data-turbo-confirm`.
    - `unavailabilities/new`, `edit` e `_form`: um campo, Motivo, com `maxlength`, exemplo, dica e
      ações Cancelar e Salvar (RF16).
-   - `new`, `edit`, `_form`: campos na ordem da tarefa T1. Descrição com `type: :textarea`. A dica da
+   - `new`, `edit`, `_form`: campos na ordem da tarefa T1. Descrição com `type: :textarea`; a página do
+     espaço não precisa mais do texto "Sem descrição.". A dica da
      caixa de aprovação explica a regra de liberação com e sem departamento (RF5).
    - Parciais `_status_badge`, `_unavailability_reason` e `_usage_term`, para as views não terem `if`
      longo. A confirmação de exclusão traz o nome do espaço e o lembrete da desativação (RF7).
-   - `Admin::SpacesHelper`: `space_location`, `space_building_name`, `space_department_name`,
-     `space_approval_label`, `space_status_label`, `space_building_options` (blocos agrupados por
-     campus) e `space_approval_description`, que devolve a frase da RF5 (três casos: sem aprovação, com
-     departamento, sem departamento).
+   - `Admin::SpacePresenter` (`app/presenters/admin/space_presenter.rb`), no lugar do
+     `Admin::SpacesHelper` da primeira versão, que misturava apresentação, a regra de quem libera e as
+     opções do formulário (revisão da PR #88): `location`, `building_name`, `department_name`,
+     `approval_label`, `status_label` e `approval_description`, que devolve a frase da RF5 (três casos:
+     sem aprovação, com departamento, sem departamento). A regra de quem libera fica no presenter
+     enquanto só a página do espaço a usa; quando o fluxo de liberação existir, ela vai para o modelo.
+     As views criam o presenter, e `Admin::Spaces::BaseController` o usa no aviso "Nada foi alterado".
 10. **Atalho (RF10).** `admin/home/partials/_registrations.html.erb` ganha o item Espaços, depois de
     Blocos, com um ícone novo em `IconsHelper` (`:door`, desenhado em traço como `:building_office`,
     com `stroke="currentColor"`).
@@ -200,7 +214,8 @@ acompanham a troca de campus do bloco (D4).
 | Form builder | `app/form_builders/tailwind_form_builder.rb`; `app/components/form/input/checkbox_component.rb` e `.html.erb` (novos) |
 | JavaScript | `app/javascript/controllers/ui/filtered_select_controller.js` (novo) |
 | Views | `app/views/admin/spaces/*` (novas); `admin/buildings/_form.html.erb`; `admin/home/partials/_registrations.html.erb` |
-| Helpers | `app/helpers/admin/spaces_helper.rb` e `admin/buildings_helper.rb` (novos); `app/helpers/icons_helper.rb` |
+| Presenters | `app/presenters/admin/space_presenter.rb` (novo) |
+| Helpers | `app/helpers/admin/buildings_helper.rb` (novo); `app/helpers/icons_helper.rb` |
 | Textos | `config/locales/pt-BR/models.pt-BR.yml`, `errors.pt-BR.yml`, `views.pt-BR.yml` |
 | Populate | `lib/tasks/db/populate/populator.rb` |
 | Testes | ver Estratégia de testes |
@@ -209,7 +224,7 @@ acompanham a troca de campus do bloco (D4).
 
 - **Modelo:** Espaço / Espaços; atributos Campus, Bloco, Nome, Descrição, Departamento responsável,
   Termo de uso, "A reserva precisa de aprovação", Situação, Motivo.
-- **Erros de `Space`:** as mensagens das RN1–RN7 e RN13 da especificação.
+- **Erros de `Space`:** as mensagens das RN1–RN7, RN13 e RN15 da especificação.
 - **Exclusões recusadas (D3):** as mensagens usam `%{record}`, o nome do que está vinculado.
   - Campus: "Não é possível excluir o campus porque ele tem blocos (ou espaços) cadastrados. Mova-os
     para outro campus ou exclua-os antes." Substitui o texto da RN9 de blocos.
@@ -240,6 +255,9 @@ acompanham a troca de campus do bloco (D4).
   `bin/rails db:migrate:redo VERSION=20261112133836` (apaga os espaços locais) e, se quiser os
   exemplos de volta, `bin/rails db:populate`. O banco de teste é recriado sozinho a partir do
   `schema.rb`.
+- A revisão da PR #88 (2026-11-18) também alterou a `CreateSpaces` no lugar, para `description` ficar
+  `null: false`, porque a tabela ainda não está na `main`. Quem já rodou a migration refaz a tabela com
+  o mesmo comando.
 - Campus e bloco iguais são garantidos na aplicação (validação em `Space` e callback em `Building`),
   não no banco. Uma chave estrangeira composta (`building_id`, `campus_id`) foi considerada e
   descartada: exigiria um índice único novo em `buildings` e não é o padrão do projeto.
@@ -251,10 +269,11 @@ acompanham a troca de campus do bloco (D4).
 | `test/models/space/space_associations_test.rb` | Modelo | `belong_to` campus (obrigatório) e bloco, departamento e termo (opcionais), com shoulda | CA2 |
 | `test/models/space/space_normalize_test.rb` | Modelo | Espaços do nome e do motivo normalizados; motivo em branco vira nulo | CA1, CA11 |
 | `test/models/space/space_status_test.rb` | Modelo | Enum com valores em texto (shoulda); motivo obrigatório e com até 100 caracteres só no indisponível (shoulda); marcar, alterar o motivo, tornar disponível, desativar e reativar; cada mudança fora das situações de partida levanta `StatusConflict` sem mudar nada; uma cópia carregada antes de outra mudança não a desfaz; motivo apagado ao sair de indisponível; editar mantém a situação | CA11 |
-| `test/models/space/space_validations_test.rb` | Modelo | Presença do nome (shoulda); unicidade no bloco e entre espaços sem bloco, sem diferenciar maiúsculas; mesmo nome em blocos diferentes e entre espaço com e sem bloco aceito; bloco de outro campus recusado; bloco, departamento e termo inexistentes recusados; mensagens próprias | CA2–CA5 |
-| `test/models/space/space_constraints_test.rb` | Modelo | O banco recusa nome, campus, aprovação e situação nulos, situação desconhecida, indisponível sem motivo e motivo fora de indisponível, nome repetido no bloco e nome repetido sem bloco no campus, sem validação | CA4, CA5, CA11 |
+| `test/models/space/space_validations_test.rb` | Modelo | Presença do nome e da descrição (shoulda); unicidade no bloco e entre espaços sem bloco, sem diferenciar maiúsculas; mesmo nome em blocos diferentes e entre espaço com e sem bloco aceito; bloco de outro campus recusado; bloco, departamento e termo inexistentes recusados; mensagens próprias | CA2–CA5 |
+| `test/models/space/space_constraints_test.rb` | Modelo | O banco recusa nome, descrição, campus, aprovação e situação nulos, situação desconhecida, indisponível sem motivo e motivo fora de indisponível, nome repetido no bloco e nome repetido sem bloco no campus, sem validação | CA4, CA5, CA11 |
 | `test/models/space/space_ordered_by_campus_building_and_name_test.rb` | Modelo | Ordem por campus, bloco e nome, com "sem bloco" depois dos blocos | CA7 |
 | `test/models/{campus,building,department,usage_term}/*_associations_test.rb` | Modelo | `have_many(:spaces).dependent(:restrict_with_error)`; a exclusão com espaços (inclusive desativados) falha com a mensagem; sem espaços, passa | CA6 |
+| `test/models/campus/campus_having_buildings_ordered_by_name_test.rb` | Modelo | Campi e blocos em ordem de nome, sem os campi sem blocos, com os blocos carregados | CA2, CA3 |
 | `test/models/building/building_campus_change_test.rb` | Modelo | Trocar o campus do bloco move os espaços dele e não mexe nos espaços sem bloco; troca recusada (nome repetido no destino) não move nada | CA12 |
 | `test/controllers/admin/spaces_controller_test.rb` | Integração | Listagem em ordem, com localização, departamento, aprovação e selos Indisponível e Desativado; lista vazia; título, subtítulo e trilha em todas as páginas; página do espaço com todos os dados, a situação, a frase de quem libera e o link do termo; ações de situação certas para cada situação, com a confirmação da desativação; formulário com os campos na ordem, bloco agrupado e caixa desmarcada; cadastro e edição com toast; 422 com valores mantidos para cada regra; situação e motivo forjados no envio são ignorados; editar mantém situação e motivo; exclusão em qualquer situação e confirmação; 404 | CA1–CA5, CA7, CA11 |
 | `test/controllers/admin/spaces/unavailabilities_controller_test.rb` | Integração | Formulário do motivo (título, trilha, dica, limite, exemplo, Cancelar); marcar, alterar e tornar disponível com toast; motivo em branco ou longo → 422 sem mudar a situação nem o motivo salvo; envio sem o campo → 400; cada ação e formulário na situação errada → aviso com a situação atual, sem mudança; 404 | CA11 |
@@ -262,12 +281,13 @@ acompanham a troca de campus do bloco (D4).
 | `test/controllers/admin/spaces_controller_access_test.rb` | Integração | Visitante → `/login` e usuário comum → 403 nas catorze ações, sem alterar dados; 403 antes de procurar o espaço | CA8 |
 | `test/controllers/admin/{campi,buildings,departments,usage_terms}_controller_test.rb` | Integração | Exclusão com espaços recusada, com a mensagem e o próximo passo, e nada apagado; blocos: aviso no formulário e confirmação com a contagem ao trocar o campus | CA6, CA12 |
 | `test/controllers/admin/home_controller_test.rb` | Integração | Atalho para `/admin/spaces` | CA1 |
-| `test/form_builders/tailwind_form_builder_test.rb` | Unidade | Caixa com rótulo ligado, valor marcado e desmarcado, dica, erro e área de toque | CA1 |
+| `test/form_builders/tailwind_form_builder_test.rb` | Unidade | Caixa com rótulo ligado, valor marcado e desmarcado, dica, erro e área de toque; `grouped_collection_select` com um grupo por registro, valor escolhido, `data-filter-key` no grupo e as opções do Rails | CA1 |
+| `test/presenters/admin/space_presenter_test.rb` | Unidade | Localização com e sem bloco, departamento ou "Sem departamento", aprovação, as três frases de quem libera e as três situações | CA7 |
 | `test/lib/tasks/db/populate/populator_test.rb` | Unidade | O populate cria espaços com e sem bloco, um indisponível com motivo e um desativado, e roda duas vezes sem erro | CA9 |
 | `test/system/admin/spaces/manage_spaces_test.rb` | Sistema | Cadastro escolhendo o campus e vendo o campo Bloco reduzido; troca de campus limpa o bloco; cadastro sem bloco; edição; marcar como indisponível (com erro de motivo vazio), alterar o motivo e tornar disponível; cancelar o formulário do motivo; desativar com confirmação aceita e recusada, e reativar; exclusão com confirmação aceita e recusada; uso só pelo teclado no formulário | CA1–CA3, CA11 |
 | `test/system/admin/spaces/manage_spaces_on_phone_test.rb` | Sistema | Em 320 × 640, listagem e página do espaço sem rolagem horizontal, ações com 44 px (inclusive "Alterar motivo"), cadastro e indisponibilidade pelo celular | CA1, CA7, CA11 |
 
-- Factory `:space` com `campus`, nome em sequência e traits `:with_building` (bloco do mesmo campus),
+- Factory `:space` com `campus`, nome em sequência, descrição do Faker e traits `:with_building` (bloco do mesmo campus),
   `:requiring_approval`, `:unavailable` (com o motivo "Sala em reforma") e `:deactivated`.
 - As respostas HTML verificam `assert_no_match(/translation missing/i, response.body)`.
 - A verificação de uso da especificação (T1–T7, heurísticas e WCAG) é feita na aplicação rodando, em
@@ -313,6 +333,9 @@ acompanham a troca de campus do bloco (D4).
   indisponível", nada muda, e o segundo vê o aviso com a situação atual. Como a situação é relida com
   `with_lock` dentro da transação da mudança, isso vale também para duas requisições ao mesmo tempo
   (achado da revisão independente de 2026-11-17).
+- **Troca de campus do bloco.** Na revisão da PR #88, o professor indicou que não permitiria a troca e
+  que o `update_all` esconde uma mudança importante: move os espaços sem passar pelas validações e
+  callbacks deles. O comportamento fica como está nesta PR e sai na Issue própria.
 - **Tamanho.** É a maior Issue de cadastro até aqui (form builder, JavaScript, quatro cadastros
   vizinhos). As tarefas são fatiadas para cada commit ficar verificável sozinho.
 
@@ -321,7 +344,7 @@ acompanham a troca de campus do bloco (D4).
 ```bash
 bin/rails db:migrate
 bin/rails db:migrate:down VERSION=<versão> && bin/rails db:migrate
-bin/rails test test/models/space test/models/building test/controllers/admin test/controllers/admin/spaces test/form_builders test/lib
+bin/rails test test/models/space test/models/building test/models/campus test/controllers/admin test/controllers/admin/spaces test/form_builders test/presenters test/lib
 bin/rails test
 bin/rails test:system test/system/admin/spaces test/system/admin/buildings
 bin/rubocop

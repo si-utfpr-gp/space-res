@@ -5,7 +5,9 @@ Issue: #61 — Cadastro de espaços
 Status: aprovada pelo desenvolvedor em 2026-11-12, com as decisões D1 a D7 (seção "Decisões"). Em
 2026-11-13, o professor confirmou D1, D3, D4 e D5 e, na D2, pediu que se separassem duas situações: a
 indisponibilidade temporária e a desativação definitiva. A revisão de 2026-11-17 (T6, T7, RF14, RF16,
-RN12–RN14 e as decisões D8 a D10) aguarda a aprovação do desenvolvedor.
+RN12–RN14 e as decisões D8 a D10) aguarda a aprovação do desenvolvedor. Na revisão da PR #88, também
+em 2026-11-17, o professor pediu a descrição obrigatória (RN15, D11) e mandou os outros pontos para
+Issues próprias (ver "Fora do escopo").
 
 ## Objetivo
 
@@ -15,7 +17,7 @@ que depois aparece para reserva (Issue #63) e pode ser dividido em partes (Issue
 
 ## Escopo
 
-- Um espaço tem nome, campus, bloco (opcional), descrição (opcional), departamento responsável
+- Um espaço tem nome, campus, bloco (opcional), descrição, departamento responsável
   (opcional), termo de uso (opcional), a indicação de que a reserva precisa de aprovação e uma
   situação: disponível, indisponível (com o motivo) ou desativado.
 - Administradores encontram, cadastram, conferem, corrigem, marcam como indisponíveis, desativam,
@@ -47,7 +49,7 @@ quais regras se aplicam e que resultado e retorno aparecem.
 - **Ações:** escolher o campus; escolher o bloco ou "Sem bloco"; informar o nome; descrever o espaço
   (tipo, capacidade, andar, equipamentos); escolher o departamento responsável ou "Sem departamento";
   marcar se a reserva precisa de aprovação; escolher o termo de uso ou "Sem termo de uso"; salvar.
-- **Regras:** RN1–RN8.
+- **Regras:** RN1–RN8, RN15.
 - **Resultado e retorno:** o administrador volta para a listagem, vê o espaço novo e uma mensagem de
   confirmação. Com dados inválidos, o formulário volta com o que foi preenchido e o erro junto ao campo.
 
@@ -242,6 +244,9 @@ quais regras se aplicam e que resultado e retorno aparecem.
 - **RN14 — Desativação definitiva.** O espaço desativado deixa de aparecer na listagem de reservas.
   Pode ser reativado e volta como disponível. O nome dele continua ocupado: outro espaço do mesmo bloco,
   ou sem bloco no mesmo campus, não pode usar o mesmo nome (RN4, RN5, decisão D10).
+- **RN15 — Descrição obrigatória.** Todo espaço tem uma descrição, com o que o solicitante precisa para
+  escolhê-lo, como tipo, capacidade, andar e equipamentos. Uma descrição vazia, ou só com espaços, é
+  recusada com "Informe a descrição do espaço." (decisão D11).
 - Todo texto de interface é traduzido em português do Brasil.
 
 ## Regras de acesso
@@ -256,20 +261,22 @@ quais regras se aplicam e que resultado e retorno aparecem.
 ## Decisões
 
 D1 a D7 foram tomadas pelo desenvolvedor em 2026-11-12; D1 a D5 foram levadas ao professor, que
-respondeu em 2026-11-13. D8 a D10 são da revisão de 2026-11-17, feita a partir da resposta à D2.
+respondeu em 2026-11-13. D8 a D10 são da revisão de 2026-11-17, feita a partir da resposta à D2. D11
+veio da revisão da PR #88 pelo professor, também em 2026-11-17.
 
 | ID | Pergunta | Decisão |
 | --- | --- | --- |
 | D1 | Como evitar que o administrador escolha um bloco de outro campus? | Ao escolher o campus, o campo Bloco mostra só os blocos daquele campus; o servidor valida de qualquer forma (RF4, RN2). A Issue previa só a lista agrupada por campus. Confirmada pelo professor. |
 | D2 | Excluir ou desativar um espaço? | Os dois. O professor confirmou e pediu que se separassem duas situações: a indisponibilidade temporária, em que o espaço continua na listagem de reservas, não pode ser reservado e mostra o motivo (por exemplo, "Sala em reforma"), e a desativação definitiva, em que o espaço sai da listagem de reservas (por exemplo, quando duas salas são unificadas e uma delas deixa de existir). A exclusão continua para cadastros feitos por engano (RN9). A Issue não previa a situação (T6, T7, RF14, RN12–RN14). |
 | D3 | O que dizer quando a exclusão de um campus, bloco, departamento ou termo é recusada? | O motivo e o próximo passo (RN10). Confirmada pelo professor. |
-| D4 | O que acontece ao trocar o campus de um bloco que tem espaços? | A troca continua livre, como decidido pelo professor em 2026-10-23, e os espaços do bloco passam junto para o novo campus (RF15, RN11). Confirmada pelo professor. |
+| D4 | O que acontece ao trocar o campus de um bloco que tem espaços? | A troca continua livre, como decidido pelo professor em 2026-10-23, e os espaços do bloco passam junto para o novo campus (RF15, RN11). Confirmada pelo professor. Na revisão da PR #88, ele indicou que não permitiria mais a troca de campus de um bloco; a mudança fica para uma Issue própria, e esta PR mantém o comportamento atual. |
 | D5 | Como comparar nomes repetidos? | Padrão do Rails, sem diferenciar maiúsculas de minúsculas, como pedido na revisão dos termos de uso em 2026-11-03 (RN4, RN5). O professor manteve o padrão mesmo com a limitação do SQLite, que só converte letras sem acento ("Auditório" e "AUDITÓRIO" contam como nomes diferentes), porque o banco vai migrar para PostgreSQL, possivelmente depois do primeiro deploy. |
 | D6 | Como encontrar um espaço quando houver muitos? | Só a ordenação por campus, bloco e nome. Busca e filtro ficam fora desta Issue. |
 | D7 | Os espaços também são cadastrados a partir da página de um bloco? | Não nesta Issue. |
 | D8 | Como representar as duas situações pedidas na D2? | Uma única situação com três valores que se excluem: disponível, indisponível e desativado. Duas marcações independentes ("ativo" e "indisponível") permitiriam combinações sem sentido, como um espaço desativado e indisponível por reforma (RN12). |
 | D9 | Como o administrador muda a situação? | Por ações próprias na página do espaço, fora do formulário de edição, que continua só com os dados do cadastro. "Marcar como indisponível" abre um formulário só com o motivo, limitado a 100 caracteres por aparecer na listagem de reservas. "Desativar" pede confirmação, porque tira o espaço da reserva e pode ser confundida com a indisponibilidade. "Tornar disponível" e "Reativar" não pedem (T6, T7, RF14, RF16, RN13). |
 | D10 | O nome de um espaço desativado continua ocupado? | Sim. Para usar o nome em outro espaço, o administrador renomeia ou exclui o desativado. Assim não ficam dois espaços com o mesmo nome no mesmo bloco, o que confundiria quem consultar reservas antigas (RN14). |
+| D11 | A descrição é obrigatória? | Sim, a pedido do professor na revisão da PR #88. A Issue e a primeira versão a deixavam opcional (RN15). |
 
 ## Critérios de aceitação
 
@@ -340,6 +347,8 @@ rótulos e mensagens de erro). O resultado é registrado em `tasks.md`.
 - Cadastrar sem campus mostra o formulário de novo, com erro no campo Campus, e nada é gravado.
 - Cadastrar com o nome vazio mostra o formulário de novo, com erro no campo Nome e os outros campos
   preenchidos.
+- Cadastrar sem descrição, ou com uma descrição só de espaços, mostra o formulário de novo, com erro no
+  campo Descrição, e nada é gravado.
 - Enviar um bloco de outro campus é recusado com erro no campo Bloco.
 - Com "Sala 101" no Bloco B, cadastrar "sala 101" no Bloco B é recusado com erro de nome já em uso.
 - Com "Planetário" sem bloco em Guarapuava, cadastrar outro "Planetário" sem bloco em Guarapuava é
@@ -393,3 +402,6 @@ rótulos e mensagens de erro). O resultado é registrado em `tasks.md`.
 - Página de um bloco com os seus espaços (decisão D7).
 - Campos estruturados para tipo, capacidade, andar e equipamentos: ficam na descrição livre.
 - Criar espaços fora do ambiente local de desenvolvimento (por exemplo, dados iniciais de produção).
+- Pontos da revisão da PR #88 que vão para Issues próprias: departamento e termo de uso por campus;
+  administrador geral e administração delegada por campus; layout e navegação organizados por campus,
+  com protótipos antes; e o fim da troca de campus de um bloco (D4, RN11).
