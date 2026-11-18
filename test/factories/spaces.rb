@@ -2,6 +2,7 @@ FactoryBot.define do
   factory :space do
     campus
     sequence(:name) { |n| "Sala #{n}" }
+    description { Faker::Lorem.sentence }
 
     trait :with_building do
       building { association :building, campus: campus }

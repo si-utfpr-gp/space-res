@@ -50,7 +50,7 @@
     </div>
     <div class="sm:col-span-2">
       <dt class="font-medium text-gray-500"><%= Space.human_attribute_name(:description) %></dt>
-      <dd id="space_description" class="whitespace-pre-line break-words text-dark"><%= @space.description.presence || t(".no_description") %></dd>
+      <dd id="space_description" class="whitespace-pre-line break-words text-dark"><%= @space.description %></dd>
     </div>
   </dl>
 </div>

@@ -12,6 +12,7 @@ class SpaceValidationsTest < ActiveSupport::TestCase
   end
 
   should validate_presence_of(:name)
+  should validate_presence_of(:description)
   should validate_uniqueness_of(:name).scoped_to(:building_id).case_insensitive.with_message(TAKEN_IN_BUILDING)
 
   test "requires a campus" do
@@ -33,6 +34,13 @@ class SpaceValidationsTest < ActiveSupport::TestCase
 
     assert_not space.valid?
     assert_equal [ "Informe o nome do espaço." ], space.errors[:name]
+  end
+
+  test "rejects a blank description with its own message" do
+    space = build(:space, description: "  ")
+
+    assert_not space.valid?
+    assert_equal [ "Informe a descrição do espaço." ], space.errors[:description]
   end
 
   test "accepts a space without building, department and usage term" do

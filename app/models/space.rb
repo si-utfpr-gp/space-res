@@ -17,6 +17,7 @@ class Space < ApplicationRecord
   normalizes :unavailability_reason, with: ->(reason) { reason.squish.presence }
 
   validates :name, presence: true
+  validates :description, presence: true
   validates :name, uniqueness: { case_sensitive: false, scope: :building_id }, unless: :without_building?
   validates :name, uniqueness: { case_sensitive: false, scope: :campus_id, conditions: -> { where(building_id: nil) },
                                  message: :taken_without_building }, if: :without_building?

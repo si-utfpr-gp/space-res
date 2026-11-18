@@ -7,7 +7,7 @@ class CreateSpaces < ActiveRecord::Migration[8.1]
       t.references :department, foreign_key: true
       t.references :usage_term, foreign_key: true
       t.string :name, null: false
-      t.text :description
+      t.text :description, null: false
       t.boolean :requires_approval, null: false, default: false
       t.string :status, null: false, default: "available"
       t.string :unavailability_reason

@@ -40,6 +40,8 @@ pt-BR:
               blank: Informe o nome do espaço.
               taken: Já existe um espaço com este nome neste bloco.
               taken_without_building: Já existe um espaço sem bloco com este nome neste campus.
+            description:
+              blank: Informe a descrição do espaço.
             requires_approval:
               inclusion: Informe se a reserva precisa de aprovação.
             unavailability_reason:

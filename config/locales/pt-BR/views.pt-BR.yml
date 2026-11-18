@@ -239,7 +239,6 @@ pt-BR:
           available: O espaço aparece na reserva e pode ser reservado.
           unavailable: O espaço aparece na reserva, mas não pode ser reservado. Quem tenta reservar vê o motivo.
           deactivated: O espaço não aparece na reserva. O cadastro continua guardado.
-        no_description: Sem descrição.
         mark_unavailable: Marcar como indisponível
         change_reason: Alterar motivo
         end_unavailability: Tornar disponível

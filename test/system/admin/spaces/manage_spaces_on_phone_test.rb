@@ -72,6 +72,7 @@ class ManageSpacesOnPhoneTest < ApplicationSystemTestCase
     select "Guarapuava", from: "Campus"
     select "Bloco B", from: "Bloco"
     fill_in "Nome", with: "Sala 1"
+    fill_in "Descrição", with: "Sala de aula com 40 carteiras."
     select LONG_DEPARTMENT, from: "Departamento responsável"
     assert_operator find("label", text: "A reserva precisa de aprovação").rect.height, :>=, MIN_TOUCH_TARGET
     find("label", text: "A reserva precisa de aprovação").click

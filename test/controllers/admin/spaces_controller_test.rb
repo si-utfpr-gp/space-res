@@ -150,7 +150,7 @@ class Admin::SpacesControllerTest < ActionDispatch::IntegrationTest
     assert_select "#space_approval", text: "Não. As reservas são confirmadas sem liberação."
   end
 
-  test "shows the placeholders of a space without building, department, usage term and description" do
+  test "shows the placeholders of a space without building, department and usage term" do
     space = create(:space, campus: @guarapuava, name: "Quadra")
 
     get admin_space_path(space)
@@ -158,7 +158,6 @@ class Admin::SpacesControllerTest < ActionDispatch::IntegrationTest
     assert_select "#space_details dd", text: "Sem bloco"
     assert_select "#space_details dd", text: "Sem departamento"
     assert_select "#space_usage_term", text: "Sem termo de uso"
-    assert_select "#space_description", text: "Sem descrição."
   end
 
   test "shows HTML typed in the name and in the description as text" do
@@ -249,7 +248,7 @@ class Admin::SpacesControllerTest < ActionDispatch::IntegrationTest
   test "creates a space without building, department, approval and usage term" do
     assert_difference("Space.count", 1) do
       post admin_spaces_path, params: { space: {
-        campus_id: @guarapuava.id, building_id: "", name: "Quadra poliesportiva", description: "",
+        campus_id: @guarapuava.id, building_id: "", name: "Quadra poliesportiva", description: "Quadra coberta.",
         department_id: "", requires_approval: "0", usage_term_id: ""
       } }
     end
@@ -260,8 +259,8 @@ class Admin::SpacesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "ignores a forged status or reason when creating and updating a space" do
-    post admin_spaces_path, params: { space: { campus_id: @guarapuava.id, name: "Sala 1", status: "deactivated",
-                                               unavailability_reason: "Sala em reforma" } }
+    post admin_spaces_path, params: { space: { campus_id: @guarapuava.id, name: "Sala 1", description: "Térreo",
+                                               status: "deactivated", unavailability_reason: "Sala em reforma" } }
     space = Space.last
     assert_equal [ "available", nil ], [ space.status, space.unavailability_reason ]
 
@@ -293,6 +292,18 @@ class Admin::SpacesControllerTest < ActionDispatch::IntegrationTest
     assert_response :unprocessable_content
     assert_field_error :name, "Informe o nome do espaço."
     assert_select "select[name='space[campus_id]'] option[selected][value='#{@guarapuava.id}']"
+    assert_select "select[name='space[building_id]'] option[selected][value='#{@bloco_b.id}']"
+  end
+
+  test "rejects a space without a description and keeps what was typed" do
+    assert_no_difference("Space.count") do
+      post admin_spaces_path, params: { space: { campus_id: @guarapuava.id, building_id: @bloco_b.id, name: "Sala 1",
+                                                 description: "  " } }
+    end
+
+    assert_response :unprocessable_content
+    assert_field_error :description, "Informe a descrição do espaço."
+    assert_select "input[name='space[name]'][value='Sala 1']"
     assert_select "select[name='space[building_id]'] option[selected][value='#{@bloco_b.id}']"
   end
 
@@ -338,7 +349,8 @@ class Admin::SpacesControllerTest < ActionDispatch::IntegrationTest
     assert_field_error :name, "Já existe um espaço com este nome neste bloco."
 
     assert_difference("Space.count", 1) do
-      post admin_spaces_path, params: { space: { campus_id: @guarapuava.id, building_id: bloco_c.id, name: "Sala 101" } }
+      post admin_spaces_path, params: { space: { campus_id: @guarapuava.id, building_id: bloco_c.id, name: "Sala 101",
+                                                 description: "Térreo" } }
     end
   end
 

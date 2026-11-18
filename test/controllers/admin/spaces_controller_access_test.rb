@@ -7,8 +7,8 @@ class Admin::SpacesControllerAccessTest < ActionDispatch::IntegrationTest
   setup do
     @campus = create(:campus, name: "Guarapuava")
     @space = create(:space, campus: @campus, name: "Sala 1", description: "Sala do térreo.")
-    @unavailable_space = create(:space, :unavailable, campus: @campus, name: "Sala 2")
-    @deactivated_space = create(:space, :deactivated, campus: @campus, name: "Sala 4")
+    @unavailable_space = create(:space, :unavailable, campus: @campus, name: "Sala 2", description: "Sala do 1º andar.")
+    @deactivated_space = create(:space, :deactivated, campus: @campus, name: "Sala 4", description: "Sala unificada.")
   end
 
   test "redirects visitors to sign in on every action" do
@@ -91,8 +91,8 @@ class Admin::SpacesControllerAccessTest < ActionDispatch::IntegrationTest
     end
 
     def assert_spaces_unchanged
-      assert_equal [ [ "Sala 1", "Sala do térreo.", "available", nil ], [ "Sala 2", nil, "unavailable", "Sala em reforma" ],
-                     [ "Sala 4", nil, "deactivated", nil ] ],
+      assert_equal [ [ "Sala 1", "Sala do térreo.", "available", nil ], [ "Sala 2", "Sala do 1º andar.", "unavailable", "Sala em reforma" ],
+                     [ "Sala 4", "Sala unificada.", "deactivated", nil ] ],
                    Space.order(:name).map { |space| [ space.name, space.description, space.status, space.unavailability_reason ] }
     end
 end

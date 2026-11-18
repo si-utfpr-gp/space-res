@@ -1,9 +1,11 @@
 require "test_helper"
 
 class SpaceConstraintsTest < ActiveSupport::TestCase
-  test "database rejects a null name" do
-    assert_raises(ActiveRecord::NotNullViolation) do
-      build(:space, name: nil).save!(validate: false)
+  test "database rejects a null name and a null description" do
+    %i[ name description ].each do |column|
+      assert_raises(ActiveRecord::NotNullViolation, "expected #{column} to be required") do
+        build(:space, column => nil).save!(validate: false)
+      end
     end
   end
 

@@ -87,7 +87,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_12_133836) do
     t.integer "department_id"
     t.integer "usage_term_id"
     t.string "name", null: false
-    t.text "description"
+    t.text "description", null: false
     t.boolean "requires_approval", default: false, null: false
     t.string "status", default: "available", null: false
     t.string "unavailability_reason"

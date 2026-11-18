@@ -108,6 +108,7 @@ class ManageSpacesTest < ApplicationSystemTestCase
     visit new_admin_space_path
     select "Guarapuava", from: "Campus"
     fill_in "Nome", with: "Quadra poliesportiva"
+    fill_in "Descrição", with: "Quadra coberta, ao lado do estacionamento."
     click_on "Salvar"
 
     assert_flash_message "Espaço cadastrado com sucesso."
