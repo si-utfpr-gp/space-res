@@ -3,6 +3,8 @@ pt-BR:
     errors:
       models:
         building:
+          restrict_dependent_destroy:
+            has_many: Não é possível excluir o bloco porque ele tem %{record} cadastrados. Mova os %{record} para outro bloco ou exclua-os antes.
           attributes:
             campus:
               required: Selecione o campus.
@@ -11,23 +13,47 @@ pt-BR:
               taken: Já existe um bloco com este nome neste campus.
         campus:
           restrict_dependent_destroy:
-            has_many: Não é possível excluir o campus porque ele tem %{record} cadastrados.
+            has_many: Não é possível excluir o campus porque ele tem %{record} cadastrados. Mova-os para outro campus ou exclua-os antes.
           attributes:
             name:
               blank: Informe o nome do campus.
               taken: Já existe um campus cadastrado com este nome.
         department:
           restrict_dependent_destroy:
-            has_many: Não é possível excluir o departamento porque ele tem %{record} vinculados.
+            has_many: Não é possível excluir o departamento porque ele tem %{record} vinculados. Troque ou remova o departamento desses %{record} antes.
           attributes:
             name:
               blank: Informe o nome do departamento.
               taken: Já existe um departamento cadastrado com este nome.
+        space:
+          attributes:
+            campus:
+              required: Selecione o campus.
+            building:
+              blank: Selecione um bloco do campus escolhido.
+              other_campus: Selecione um bloco do campus escolhido.
+            department:
+              blank: Selecione um departamento cadastrado.
+            usage_term:
+              blank: Selecione um termo de uso cadastrado.
+            name:
+              blank: Informe o nome do espaço.
+              taken: Já existe um espaço com este nome neste bloco.
+              taken_without_building: Já existe um espaço sem bloco com este nome neste campus.
+            description:
+              blank: Informe a descrição do espaço.
+            requires_approval:
+              inclusion: Informe se a reserva precisa de aprovação.
+            unavailability_reason:
+              blank: Informe o motivo da indisponibilidade.
+              too_long: O motivo deve ter no máximo %{count} caracteres.
         user:
           attributes:
             department:
               blank: Selecione um departamento cadastrado.
         usage_term:
+          restrict_dependent_destroy:
+            has_many: Não é possível excluir o termo porque ele é usado por %{record}. Troque ou remova o termo de uso desses %{record} antes.
           attributes:
             title:
               blank: Informe o título do termo.

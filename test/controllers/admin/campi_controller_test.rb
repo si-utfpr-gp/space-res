@@ -167,8 +167,22 @@ class Admin::CampiControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to admin_campi_path
     follow_redirect!
     assert_select "[data-controller='ui--toast'][data-ui--toast-message-type-value='alert']" \
-                  "[data-ui--toast-message-text-value='Não é possível excluir o campus porque ele tem blocos cadastrados.']"
+                  "[data-ui--toast-message-text-value='Não é possível excluir o campus porque ele tem blocos cadastrados. Mova-os para outro campus ou exclua-os antes.']"
     assert_equal [ "Guarapuava" ], listed_campus_names
+  end
+
+  test "refuses to delete a campus that has spaces and tells the next step" do
+    campus = create(:campus, name: "Guarapuava")
+    create(:space, campus: campus)
+
+    assert_no_difference([ "Campus.count", "Space.count" ]) do
+      delete admin_campus_path(campus)
+    end
+
+    assert_redirected_to admin_campi_path
+    follow_redirect!
+    assert_select "[data-controller='ui--toast'][data-ui--toast-message-type-value='alert']" \
+                  "[data-ui--toast-message-text-value='Não é possível excluir o campus porque ele tem espaços cadastrados. Mova-os para outro campus ou exclua-os antes.']"
   end
 
   test "responds not found for a campus that does not exist" do

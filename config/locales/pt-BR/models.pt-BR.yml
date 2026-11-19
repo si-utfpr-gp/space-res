@@ -22,6 +22,9 @@ pt-BR:
       department:
         one: Departamento
         other: Departamentos
+      space:
+        one: Espaço
+        other: Espaços
       usage_term:
         one: Termo de uso
         other: Termos de uso
@@ -36,16 +39,34 @@ pt-BR:
         <<: *defaults
         campus: Campus
         campus_id: Campus
+        spaces: Espaços
       campus:
         <<: *defaults
         buildings: Blocos
+        spaces: Espaços
       department:
         <<: *defaults
         users: Usuários
+        spaces: Espaços
+      space:
+        <<: *defaults
+        campus: Campus
+        campus_id: Campus
+        building: Bloco
+        building_id: Bloco
+        department: Departamento responsável
+        department_id: Departamento responsável
+        usage_term: Termo de uso
+        usage_term_id: Termo de uso
+        description: Descrição
+        requires_approval: A reserva precisa de aprovação
+        status: Situação
+        unavailability_reason: Motivo
       usage_term:
         <<: *defaults
         title: Título
         content: Texto
+        spaces: Espaços
       user:
         <<: *defaults
         admin: Administrador

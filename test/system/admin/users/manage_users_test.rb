@@ -44,7 +44,8 @@ class ManageUsersTest < ApplicationSystemTestCase
       within("tbody tr", text: "Biblioteca") { click_on "Excluir" }
     end
 
-    assert_flash_message "Não é possível excluir o departamento porque ele tem usuários vinculados."
+    assert_flash_message "Não é possível excluir o departamento porque ele tem usuários vinculados. " \
+                         "Troque ou remova o departamento desses usuários antes."
     assert_selector "tbody tr", text: "Biblioteca"
   end
 end

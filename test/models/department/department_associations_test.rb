@@ -4,6 +4,7 @@ class DepartmentAssociationsTest < ActiveSupport::TestCase
   subject { create(:department) }
 
   should have_many(:users).dependent(:restrict_with_error)
+  should have_many(:spaces).dependent(:restrict_with_error)
 
   test "refuses to delete a department that has users and explains why" do
     department = create(:department)
@@ -11,7 +12,17 @@ class DepartmentAssociationsTest < ActiveSupport::TestCase
 
     assert_not department.destroy
     assert Department.exists?(department.id)
-    assert_equal [ "Não é possível excluir o departamento porque ele tem usuários vinculados." ],
+    assert_equal [ "Não é possível excluir o departamento porque ele tem usuários vinculados. Troque ou remova o departamento desses usuários antes." ],
+                 department.errors.full_messages
+  end
+
+  test "refuses to delete a department that answers for spaces and explains why" do
+    department = create(:department)
+    create(:space, department: department)
+
+    assert_not department.destroy
+    assert Department.exists?(department.id)
+    assert_equal [ "Não é possível excluir o departamento porque ele tem espaços vinculados. Troque ou remova o departamento desses espaços antes." ],
                  department.errors.full_messages
   end
 

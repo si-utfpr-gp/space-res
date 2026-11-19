@@ -51,7 +51,8 @@ class ManageCampiTest < ApplicationSystemTestCase
       click_on "Excluir"
     end
 
-    assert_flash_message "Não é possível excluir o campus porque ele tem blocos cadastrados."
+    assert_flash_message "Não é possível excluir o campus porque ele tem blocos cadastrados. " \
+                         "Mova-os para outro campus ou exclua-os antes."
     assert_selector "tbody tr", text: "Guarapuava"
   end
 

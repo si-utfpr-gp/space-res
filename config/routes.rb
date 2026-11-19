@@ -30,6 +30,12 @@ Rails.application.routes.draw do
     resources :buildings, except: :show
     resources :departments, except: :show
     resources :usage_terms
+    resources :spaces do
+      scope module: :spaces do
+        resource :unavailability, only: [ :new, :create, :edit, :update, :destroy ]
+        resource :deactivation, only: [ :create, :destroy ]
+      end
+    end
     resources :users, only: [ :index, :edit, :update ]
   end
 

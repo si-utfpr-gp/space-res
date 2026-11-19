@@ -4,13 +4,23 @@ class CampusAssociationsTest < ActiveSupport::TestCase
   subject { build(:campus) }
 
   should have_many(:buildings).dependent(:restrict_with_error)
+  should have_many(:spaces).dependent(:restrict_with_error)
 
   test "keeps a campus that has buildings and explains why" do
     campus = create(:building).campus
 
     assert_not campus.destroy
     assert Campus.exists?(campus.id)
-    assert_equal [ "Não é possível excluir o campus porque ele tem blocos cadastrados." ],
+    assert_equal [ "Não é possível excluir o campus porque ele tem blocos cadastrados. Mova-os para outro campus ou exclua-os antes." ],
+                 campus.errors.full_messages
+  end
+
+  test "keeps a campus that has spaces, even deactivated ones, and explains why" do
+    campus = create(:space, :deactivated).campus
+
+    assert_not campus.destroy
+    assert Campus.exists?(campus.id)
+    assert_equal [ "Não é possível excluir o campus porque ele tem espaços cadastrados. Mova-os para outro campus ou exclua-os antes." ],
                  campus.errors.full_messages
   end
 

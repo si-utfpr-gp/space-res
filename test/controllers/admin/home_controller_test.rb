@@ -32,6 +32,15 @@ class Admin::HomeControllerTest < ActionDispatch::IntegrationTest
     assert_no_match(/translation missing/i, response.body)
   end
 
+  test "shows the spaces shortcut to administrators" do
+    sign_in create(:user, :admin)
+
+    get admin_root_path
+
+    assert_select "main a[href='#{admin_spaces_path}']", text: /Espaços/
+    assert_no_match(/translation missing/i, response.body)
+  end
+
   test "shows the departments shortcut to administrators" do
     sign_in create(:user, :admin)
 

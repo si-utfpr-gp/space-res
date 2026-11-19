@@ -1,0 +1,12 @@
+<%# locals: (space:, method:) %>
+<%= form_with model: space, url: admin_space_unavailability_path(space), method: method,
+              class: "rounded-xl border border-gray-200 bg-white p-4 sm:p-6" do |f| %>
+  <%= f.input :unavailability_reason, autofocus: true, placeholder: true,
+              maxlength: Space::UNAVAILABILITY_REASON_MAX_LENGTH,
+              hint: t(".reason_hint", count: Space::UNAVAILABILITY_REASON_MAX_LENGTH) %>
+
+  <div class="mt-6 flex flex-col-reverse gap-3 border-t border-gray-200 pt-4 sm:flex-row sm:justify-between">
+    <%= link_to t("actions.cancel"), admin_space_path(space), class: "btn btn-md btn-outline w-full no-underline sm:w-auto" %>
+    <%= f.submit t("actions.save"), class: "w-full sm:w-auto" %>
+  </div>
+<% end %>

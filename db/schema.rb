@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_09_141609) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_12_133836) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -81,6 +81,27 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_09_141609) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
+  create_table "spaces", force: :cascade do |t|
+    t.integer "campus_id", null: false
+    t.integer "building_id"
+    t.integer "department_id"
+    t.integer "usage_term_id"
+    t.string "name", null: false
+    t.text "description", null: false
+    t.boolean "requires_approval", default: false, null: false
+    t.string "status", default: "available", null: false
+    t.string "unavailability_reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index "building_id, LOWER(name)", name: "index_spaces_on_building_id_and_lower_name", unique: true
+    t.index "campus_id, LOWER(name)", name: "index_spaces_on_campus_id_and_lower_name_without_building", unique: true, where: "building_id IS NULL"
+    t.index ["campus_id"], name: "index_spaces_on_campus_id"
+    t.index ["department_id"], name: "index_spaces_on_department_id"
+    t.index ["usage_term_id"], name: "index_spaces_on_usage_term_id"
+    t.check_constraint "(status = 'unavailable') = (unavailability_reason IS NOT NULL)", name: "spaces_unavailability_reason_matches_status"
+    t.check_constraint "status IN ('available', 'unavailable', 'deactivated')", name: "spaces_status_known"
+  end
+
   create_table "usage_terms", force: :cascade do |t|
     t.string "title", null: false
     t.datetime "created_at", null: false
@@ -104,5 +125,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_09_141609) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "buildings", "campi"
   add_foreign_key "sessions", "users"
+  add_foreign_key "spaces", "buildings"
+  add_foreign_key "spaces", "campi"
+  add_foreign_key "spaces", "departments"
+  add_foreign_key "spaces", "usage_terms"
   add_foreign_key "users", "departments"
 end

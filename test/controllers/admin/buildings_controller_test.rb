@@ -139,6 +139,72 @@ class Admin::BuildingsControllerTest < ActionDispatch::IntegrationTest
     assert_success_toast "Bloco atualizado com sucesso."
   end
 
+  test "moves the spaces of a building along with its campus and tells how many moved" do
+    pato_branco = create(:campus, name: "Pato Branco")
+    building = create(:building, campus: @guarapuava, name: "Bloco R")
+    spaces = create_list(:space, 2, campus: @guarapuava, building: building)
+
+    patch admin_building_path(building), params: { building: { campus_id: pato_branco.id, name: "Bloco R" } }
+
+    assert_redirected_to admin_buildings_path
+    assert_equal [ pato_branco, pato_branco ], spaces.map { |space| space.reload.campus }
+    follow_redirect!
+    assert_success_toast "Bloco atualizado com sucesso. 2 espaços passaram para o campus Pato Branco."
+  end
+
+  test "tells that one space moved, in the singular" do
+    pato_branco = create(:campus, name: "Pato Branco")
+    building = create(:building, campus: @guarapuava, name: "Bloco R")
+    create(:space, campus: @guarapuava, building: building)
+
+    patch admin_building_path(building), params: { building: { campus_id: pato_branco.id, name: "Bloco R" } }
+
+    follow_redirect!
+    assert_success_toast "Bloco atualizado com sucesso. 1 espaço passou para o campus Pato Branco."
+  end
+
+  test "does not mention spaces when the building keeps its campus or has no spaces" do
+    building = create(:building, campus: @guarapuava, name: "Bloco R")
+    create(:space, campus: @guarapuava, building: building)
+
+    patch admin_building_path(building), params: { building: { campus_id: @guarapuava.id, name: "Bloco S" } }
+
+    follow_redirect!
+    assert_success_toast "Bloco atualizado com sucesso."
+  end
+
+  test "warns on the edit form that the spaces of the building follow a campus change" do
+    building = create(:building, campus: @guarapuava, name: "Bloco R")
+    create_list(:space, 2, campus: @guarapuava, building: building)
+
+    get edit_admin_building_path(building)
+
+    assert_select ".building_campus_id p",
+                  text: "Este bloco tem 2 espaços. Ao trocar o campus, eles passam para o novo campus."
+  end
+
+  test "shows no warning on the form of a new building or of a building without spaces" do
+    building = create(:building, campus: @guarapuava, name: "Bloco R")
+
+    get edit_admin_building_path(building)
+    assert_select ".building_campus_id p", count: 0
+
+    get new_admin_building_path
+    assert_select ".building_campus_id p", count: 0
+  end
+
+  test "moves no space when the campus change is refused" do
+    pato_branco = create(:campus, name: "Pato Branco")
+    create(:building, campus: pato_branco, name: "Bloco R")
+    building = create(:building, campus: @guarapuava, name: "Bloco R")
+    space = create(:space, campus: @guarapuava, building: building)
+
+    patch admin_building_path(building), params: { building: { campus_id: pato_branco.id, name: "Bloco R" } }
+
+    assert_response :unprocessable_content
+    assert_equal [ @guarapuava, @guarapuava ], [ building.reload.campus, space.reload.campus ]
+  end
+
   test "rejects renaming a building to a name taken in its campus" do
     create(:building, campus: @guarapuava, name: "Bloco B")
     building = create(:building, campus: @guarapuava, name: "Bloco R")
@@ -176,6 +242,22 @@ class Admin::BuildingsControllerTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_success_toast "Bloco excluído com sucesso."
     assert_select "p", text: "Nenhum bloco cadastrado."
+  end
+
+  test "refuses to delete a building that has spaces and tells the next step" do
+    building = create(:building, name: "Bloco B")
+    create(:space, campus: building.campus, building: building)
+
+    assert_no_difference([ "Building.count", "Space.count" ]) do
+      delete admin_building_path(building)
+    end
+
+    assert_response :see_other
+    assert_redirected_to admin_buildings_path
+    follow_redirect!
+    assert_select "[data-controller='ui--toast'][data-ui--toast-message-type-value='alert']" \
+                  "[data-ui--toast-message-text-value='Não é possível excluir o bloco porque ele tem espaços cadastrados. Mova os espaços para outro bloco ou exclua-os antes.']"
+    assert_select "tbody tr", count: 1
   end
 
   test "responds not found for a building that does not exist" do
