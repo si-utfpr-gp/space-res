@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Área administrativa · Protótipo #89</title>
+  <link rel="stylesheet" href="assets/prototype.css">
+  <script src="assets/prototype.js" defer></script>
+</head>
+<body data-tela class="flex h-screen flex-col bg-neutral">
+  <nav class="flex items-center justify-between gap-2 bg-dark px-4 py-3 sm:px-8">
+    <button type="button" data-menu-toggle class="inline-flex h-11 w-11 items-center justify-center text-white lg:hidden"
+            aria-label="Menu de navegação" aria-expanded="false" aria-controls="menu-lateral">
+      <svg aria-hidden="true" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
+    </button>
+    <img src="assets/logo.png" alt="UTFPR" class="h-9 sm:h-12">
+    <div class="flex items-center gap-2 text-white sm:gap-4">
+      <div class="hidden text-right sm:block">
+        <p class="font-semibold">Olá, <span data-perfil="geral">Admin Demo</span><span data-perfil="campus" hidden>Maria Souza</span></p>
+        <p class="text-xs font-medium text-secondary">Seja bem-vindo!</p>
+      </div>
+      <span aria-hidden="true" class="flex h-9 w-9 items-center justify-center rounded-full border-2 border-secondary bg-white text-xs font-semibold text-dark">
+        <span data-perfil="geral">AD</span><span data-perfil="campus" hidden>MS</span>
+      </span>
+    </div>
+  </nav>
+
+  <div class="relative flex min-h-0 flex-1">
+    <div data-backdrop class="fixed inset-0 z-20 hidden bg-dark/40 lg:hidden"></div>
+    <aside id="menu-lateral" data-sidebar class="sidebar absolute inset-y-0 left-0 z-30 flex w-64 shrink-0 -translate-x-full flex-col bg-white shadow-lg transition-transform duration-300 ease-in-out lg:relative lg:w-56 lg:translate-x-0">
+      <nav aria-label="Menu principal" class="flex flex-1 flex-col overflow-y-auto px-3 py-4">
+        <ul class="space-y-1 text-sm">
+          <li>
+            <a href="#" data-nao-prototipada="O Dashboard não muda." class="flex items-center gap-2 rounded-lg px-3 py-2 no-underline">
+              <svg aria-hidden="true" class="h-4 w-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/></svg>
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="#" data-nao-prototipada="As reservas não mudam." class="flex items-center gap-2 rounded-lg px-3 py-2 no-underline">
+              <svg aria-hidden="true" class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2m-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5"/></svg>
+              Minhas reservas
+            </a>
+          </li>
+          <li>
+            <a href="admin.html" aria-current="page" class="active flex items-center gap-2 rounded-lg px-3 py-2 no-underline">
+              <svg aria-hidden="true" class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>
+              Área administrativa
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 lg:p-10">
+      <header class="mb-6 border-b border-gray-200 pb-4 sm:mb-8 sm:pb-6">
+        <nav aria-label="Trilha de navegação" class="mb-2">
+          <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs sm:text-sm">
+            <li aria-current="page" class="font-semibold text-dark">Área administrativa</li>
+          </ol>
+        </nav>
+        <h1 class="text-2xl font-bold text-dark sm:text-3xl">Área administrativa</h1>
+        <p class="mt-1 text-sm text-gray-500 sm:text-base">Escolha o campus que você quer gerenciar.</p>
+      </header>
+
+      <div class="space-y-8 sm:space-y-10">
+        <aside data-nota data-perfil="campus" hidden role="note" class="rounded-lg border border-dashed border-amber-400 bg-amber-50 p-3 text-sm text-amber-900">
+          <p class="font-semibold">Nota do protótipo</p>
+          <p>Proposta: quem administra um só campus vai direto para a página dele ao clicar em “Área administrativa”. Esta tela só aparece para quem administra mais de um campus, e mostra só os campi dessa pessoa.</p>
+        </aside>
+
+        <section aria-labelledby="titulo-campi" class="space-y-4">
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <h2 id="titulo-campi" class="text-sm font-semibold uppercase tracking-widest text-dark">Campi</h2>
+            <a href="#" data-perfil="geral" data-nao-prototipada="O cadastro de campus continua só com o nome."
+               class="btn btn-md btn-primary w-full no-underline sm:w-auto">
+              <svg aria-hidden="true" class="btn-icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/></svg>
+              <span>Cadastrar campus</span>
+            </a>
+          </div>
+
+          <aside data-nota data-perfil="geral" role="note" class="rounded-lg border border-dashed border-amber-400 bg-amber-50 p-3 text-sm text-amber-900">
+            <p class="font-semibold">Nota do protótipo</p>
+            <p>A entrada passa a ser a escolha do campus. Blocos, espaços, departamentos e termos de uso ficam dentro da página do campus, e não mais em cadastros soltos.</p>
+          </aside>
+
+          <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            <li>
+              <article class="flex h-full flex-col rounded-xl border border-gray-200 bg-white p-4 sm:p-5">
+                <div class="flex items-center gap-3">
+                  <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary text-white">
+                    <svg aria-hidden="true" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 256a64 64 0 1 1 0-128a64 64 0 1 1 0 128z"/></svg>
+                  </span>
+                  <h3 class="text-lg font-semibold text-dark">Guarapuava</h3>
+                </div>
+
+                <dl class="mt-4 divide-y divide-gray-200 rounded-lg bg-neutral px-3 text-sm">
+                  <div class="flex items-center justify-between gap-3 py-1.5">
+                    <dt class="text-gray-600">Espaços</dt>
+                    <dd class="font-semibold text-dark">7</dd>
+                  </div>
+                  <div class="flex items-center justify-between gap-3 py-1.5">
+                    <dt class="text-gray-600">Blocos</dt>
+                    <dd class="font-semibold text-dark">3</dd>
+                  </div>
+                  <div class="flex items-center justify-between gap-3 py-1.5">
+                    <dt class="text-gray-600">Departamentos</dt>
+                    <dd class="font-semibold text-dark">25</dd>
+                  </div>
+                </dl>
+
+                <p class="mt-4 text-sm text-gray-600">
+                  <span class="font-medium text-dark">Administradores:</span> Maria Souza e João Lima
+                </p>
+                <p class="mt-1 text-sm text-gray-600">1 espaço indisponível</p>
+
+                <div class="mt-auto pt-4">
+                  <a href="campus.html" class="btn btn-md btn-primary w-full no-underline">
+                    <span>Gerenciar Guarapuava</span>
+                    <svg aria-hidden="true" class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32h306.7L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg>
+                  </a>
+                </div>
+              </article>
+            </li>
+
+            <li data-perfil="geral">
+              <article class="flex h-full flex-col rounded-xl border border-gray-200 bg-white p-4 sm:p-5">
+                <div class="flex items-center gap-3">
+                  <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary text-white">
+                    <svg aria-hidden="true" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 256a64 64 0 1 1 0-128a64 64 0 1 1 0 128z"/></svg>
+                  </span>
+                  <h3 class="text-lg font-semibold text-dark">Pato Branco</h3>
+                </div>
+
+                <dl class="mt-4 divide-y divide-gray-200 rounded-lg bg-neutral px-3 text-sm">
+                  <div class="flex items-center justify-between gap-3 py-1.5">
+                    <dt class="text-gray-600">Espaços</dt>
+                    <dd class="font-semibold text-dark">0</dd>
+                  </div>
+                  <div class="flex items-center justify-between gap-3 py-1.5">
+                    <dt class="text-gray-600">Blocos</dt>
+                    <dd class="font-semibold text-dark">0</dd>
+                  </div>
+                  <div class="flex items-center justify-between gap-3 py-1.5">
+                    <dt class="text-gray-600">Departamentos</dt>
+                    <dd class="font-semibold text-dark">0</dd>
+                  </div>
+                </dl>
+
+                <div class="mt-4 flex items-start gap-2 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900">
+                  <svg aria-hidden="true" class="mt-0.5 h-4 w-4 shrink-0" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 32c12 0 23.2 6.7 28.6 17.4l216 432c5 10 4.5 21.9-1.3 31.5S484 528 472 528H40c-12 0-23.1-6.3-29-16.9s-6.3-23.6-1.3-34.5l216-432C232.1 38.7 244 32 256 32zM256 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V152c0-13.3-10.7-24-24-24zm32 264a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>
+                  <p>Sem administradores. Por enquanto, só o administrador geral gerencia este campus.</p>
+                </div>
+
+                <div class="mt-auto flex flex-col gap-2 pt-4">
+                  <a href="#" data-nao-prototipada="É a mesma tela de Administradores, para o campus Pato Branco."
+                     class="btn btn-md btn-primary w-full no-underline">
+                    <svg aria-hidden="true" class="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M96 128a128 128 0 1 1 256 0a128 128 0 1 1-256 0zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM504 312v-64h-64c-13.3 0-24-10.7-24-24s10.7-24 24-24h64v-64c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24h-64v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
+                    <span>Definir administradores</span>
+                  </a>
+                  <a href="#" data-nao-prototipada="É a mesma página de campus, para Pato Branco."
+                     class="btn btn-md btn-outline w-full no-underline">Gerenciar Pato Branco</a>
+                </div>
+              </article>
+            </li>
+          </ul>
+        </section>
+
+        <section data-perfil="geral" aria-labelledby="titulo-gerais" class="space-y-4">
+          <div>
+            <h2 id="titulo-gerais" class="text-sm font-semibold uppercase tracking-widest text-dark">Cadastros gerais</h2>
+            <p class="mt-1 text-sm text-gray-600">Valem para todos os campi. Só o administrador geral vê esta seção.</p>
+          </div>
+
+          <aside data-nota role="note" class="rounded-lg border border-dashed border-amber-400 bg-amber-50 p-3 text-sm text-amber-900">
+            <p class="font-semibold">Nota do protótipo · decisão em aberto</p>
+            <p>Os cadastros que não pertencem a um campus ficam aqui: os próprios campi (na seção acima) e os usuários.</p>
+          </aside>
+
+          <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            <li>
+              <a href="#" data-nao-prototipada="A tela de usuários continua como está; a mudança dela fica para a Issue de usuários."
+                 class="flex h-full items-center gap-3 rounded-xl border border-gray-200 bg-white p-4 no-underline transition hover:shadow-sm">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary text-white">
+                  <svg aria-hidden="true" class="h-5 w-5" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M112 48a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm40 304l0 128c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-223.1L59.4 304.5c-9.1 15.1-28.8 20-43.9 10.9s-20-28.8-10.9-43.9l58.3-97c17.4-28.9 48.6-46.6 82.3-46.6l29.7 0c33.7 0 64.9 17.7 82.3 46.6l58.3 97c9.1 15.1 4.2 34.8-10.9 43.9s-34.8 4.2-43.9-10.9L232 256.9 232 480c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-128-16 0z"/></svg>
+                </span>
+                <span>
+                  <span class="block text-sm font-medium text-primary">Usuários</span>
+                  <span class="block text-xs font-normal text-dark">Defina o departamento de cada usuário</span>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
