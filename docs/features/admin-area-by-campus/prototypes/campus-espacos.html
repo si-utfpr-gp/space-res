@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Espaços · Guarapuava · Protótipo #89</title>
+  <link rel="stylesheet" href="assets/prototype.css">
+  <script src="assets/prototype.js" defer></script>
+</head>
+<body data-tela class="flex h-screen flex-col bg-neutral">
+  <nav class="flex items-center justify-between gap-2 bg-dark px-4 py-3 sm:px-8">
+    <button type="button" data-menu-toggle class="inline-flex h-11 w-11 items-center justify-center text-white lg:hidden"
+            aria-label="Menu de navegação" aria-expanded="false" aria-controls="menu-lateral">
+      <svg aria-hidden="true" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
+    </button>
+    <img src="assets/logo.png" alt="UTFPR" class="h-9 sm:h-12">
+    <div class="flex items-center gap-2 text-white sm:gap-4">
+      <div class="hidden text-right sm:block">
+        <p class="font-semibold">Olá, <span data-perfil="geral">Admin Demo</span><span data-perfil="campus" hidden>Maria Souza</span></p>
+        <p class="text-xs font-medium text-secondary">Seja bem-vindo!</p>
+      </div>
+      <span aria-hidden="true" class="flex h-9 w-9 items-center justify-center rounded-full border-2 border-secondary bg-white text-xs font-semibold text-dark">
+        <span data-perfil="geral">AD</span><span data-perfil="campus" hidden>MS</span>
+      </span>
+    </div>
+  </nav>
+
+  <div class="relative flex min-h-0 flex-1">
+    <div data-backdrop class="fixed inset-0 z-20 hidden bg-dark/40 lg:hidden"></div>
+    <aside id="menu-lateral" data-sidebar class="sidebar absolute inset-y-0 left-0 z-30 flex w-64 shrink-0 -translate-x-full flex-col bg-white shadow-lg transition-transform duration-300 ease-in-out lg:relative lg:w-56 lg:translate-x-0">
+      <nav aria-label="Menu do campus" class="flex flex-1 flex-col overflow-y-auto px-3 py-4">
+        <a href="admin.html" data-perfil="geral" class="mb-3 flex items-center gap-2 rounded-lg px-3 py-2 text-xs no-underline">
+          <svg aria-hidden="true" class="h-3 w-3 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32h306.7L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg>
+          Área administrativa
+        </a>
+
+        <div class="relative mb-4 border-b border-gray-200 pb-4">
+          <p id="rotulo-campus" class="px-3 text-xs font-semibold uppercase tracking-widest text-gray-500">Campus</p>
+          <button type="button" data-perfil="geral" data-disclosure aria-expanded="false" aria-controls="lista-campi" aria-describedby="rotulo-campus"
+                  class="mt-1 flex min-h-11 w-full items-center justify-between gap-2 rounded-lg px-3 py-2 text-left text-base font-semibold text-dark hover:bg-dark/10">
+            <span class="flex items-center gap-2">
+              <svg aria-hidden="true" class="h-4 w-4 text-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 256a64 64 0 1 1 0-128a64 64 0 1 1 0 128z"/></svg>
+              Guarapuava
+            </span>
+            <span class="sr-only">Trocar de campus</span>
+            <svg aria-hidden="true" class="h-2.5 w-2.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/></svg>
+          </button>
+          <p data-perfil="campus" hidden class="mt-1 flex min-h-11 items-center gap-2 px-3 py-2 text-base font-semibold text-dark">
+            <svg aria-hidden="true" class="h-4 w-4 text-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 256a64 64 0 1 1 0-128a64 64 0 1 1 0 128z"/></svg>
+            Guarapuava
+          </p>
+          <ul id="lista-campi" class="absolute inset-x-0 top-full z-10 -mt-3 hidden rounded-xl bg-white py-1 text-sm shadow-lg ring-1 ring-gray-200">
+            <li>
+              <a href="campus.html" aria-current="true" class="flex items-center justify-between px-4 py-2 font-semibold no-underline">
+                Guarapuava
+                <svg aria-hidden="true" class="h-3.5 w-3.5 text-primary" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+              </a>
+            </li>
+            <li><a href="#" data-nao-prototipada="Abre a mesma página, para o campus Pato Branco." class="block px-4 py-2 no-underline">Pato Branco</a></li>
+          </ul>
+        </div>
+
+        <ul class="space-y-1 text-sm">
+          <li>
+            <a href="campus.html" class="flex items-center gap-2 rounded-lg px-3 py-2 no-underline">
+              <svg aria-hidden="true" class="h-4 w-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm320 96c0-26.9-16.5-49.9-40-59.3L280 88c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 204.7c-23.5 9.5-40 32.5-40 59.3c0 35.3 28.7 64 64 64s64-28.7 64-64zM144 176a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm-16 80a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm288 32a32 32 0 1 0 0-64 32 32 0 1 0 0 64zM400 144a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>
+              Visão geral
+            </a>
+          </li>
+          <li>
+            <a href="campus-espacos.html" aria-current="page" class="active flex items-center gap-2 rounded-lg px-3 py-2 no-underline">
+              <svg aria-hidden="true" class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M6 21V4.5A1.5 1.5 0 0 1 7.5 3h9A1.5 1.5 0 0 1 18 4.5V21M14.25 12.75v-1.5"/></svg>
+              Espaços
+            </a>
+          </li>
+          <li>
+            <a href="#" data-nao-prototipada="Listagem de blocos do campus, no mesmo padrão da de espaços. O cadastro não pede o campus." class="flex items-center gap-2 rounded-lg px-3 py-2 no-underline">
+              <svg aria-hidden="true" class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg>
+              Blocos
+            </a>
+          </li>
+          <li>
+            <a href="#" data-nao-prototipada="Listagem de departamentos do campus, no mesmo padrão da de espaços (#90)." class="flex items-center gap-2 rounded-lg px-3 py-2 no-underline">
+              <svg aria-hidden="true" class="h-4 w-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M144 0a80 80 0 1 1 0 160A80 80 0 1 1 144 0zM512 0a80 80 0 1 1 0 160A80 80 0 1 1 512 0zM0 298.7C0 239.8 47.8 192 106.7 192l42.7 0c15.9 0 31 3.5 44.6 9.7c-1.3 7.2-1.9 14.7-1.9 22.3c0 38.2 16.8 72.5 43.3 96c-.2 0-.4 0-.7 0L21.3 320C9.6 320 0 310.4 0 298.7zM405.3 320c-.2 0-.4 0-.7 0c26.6-23.5 43.3-57.8 43.3-96c0-7.6-.7-15-1.9-22.3c13.6-6.3 28.7-9.7 44.6-9.7l42.7 0C592.2 192 640 239.8 640 298.7c0 11.8-9.6 21.3-21.3 21.3l-213.3 0zM224 224a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zM128 485.3C128 411.7 187.7 352 261.3 352l117.3 0C452.3 352 512 411.7 512 485.3c0 14.7-11.9 26.7-26.7 26.7l-330.7 0c-14.7 0-26.7-11.9-26.7-26.7z"/></svg>
+              Departamentos
+            </a>
+          </li>
+          <li>
+            <a href="#" data-nao-prototipada="Listagem de termos de uso do campus, no mesmo padrão da de espaços (#91)." class="flex items-center gap-2 rounded-lg px-3 py-2 no-underline">
+              <svg aria-hidden="true" class="h-4 w-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-288-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zM112 256l160 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-160 0c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64l160 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-160 0c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64l160 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-160 0c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg>
+              Termos de uso
+            </a>
+          </li>
+          <li data-perfil="geral">
+            <a href="campus-administradores.html" class="flex items-center gap-2 rounded-lg px-3 py-2 no-underline">
+              <svg aria-hidden="true" class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>
+              Administradores
+            </a>
+          </li>
+        </ul>
+
+        <ul class="mt-auto space-y-1 border-t border-gray-200 pt-4 text-sm">
+          <li>
+            <a href="#" data-nao-prototipada="O Dashboard não muda." class="flex items-center gap-2 rounded-lg px-3 py-2 no-underline">
+              <svg aria-hidden="true" class="h-4 w-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/></svg>
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="#" data-nao-prototipada="As reservas não mudam." class="flex items-center gap-2 rounded-lg px-3 py-2 no-underline">
+              <svg aria-hidden="true" class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2m-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5"/></svg>
+              Minhas reservas
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 lg:p-10">
+      <header class="mb-6 border-b border-gray-200 pb-4 sm:mb-8 sm:pb-6">
+        <nav aria-label="Trilha de navegação" class="mb-2">
+          <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs sm:text-sm">
+            <li class="flex items-center gap-2">
+              <a href="admin.html" class="text-xs text-primary sm:text-sm">Área administrativa</a>
+              <svg aria-hidden="true" class="h-2.5 w-1.5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/></svg>
+            </li>
+            <li class="flex items-center gap-2">
+              <a href="campus.html" class="text-xs text-primary sm:text-sm">Guarapuava</a>
+              <svg aria-hidden="true" class="h-2.5 w-1.5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/></svg>
+            </li>
+            <li aria-current="page" class="font-semibold text-dark">Espaços</li>
+          </ol>
+        </nav>
+        <h1 class="text-2xl font-bold text-dark sm:text-3xl">Espaços</h1>
+        <p class="mt-1 text-sm text-gray-500 sm:text-base">Gerencie as salas, os laboratórios e os outros espaços do campus Guarapuava que podem ser reservados.</p>
+      </header>
+      <div class="space-y-4 sm:space-y-6">
+        <aside data-nota role="note" class="rounded-lg border border-dashed border-amber-400 bg-amber-50 p-3 text-sm text-amber-900">
+          <p class="font-semibold">Nota do protótipo</p>
+          <p>A listagem mostra só os espaços deste campus, por isso a coluna Localização virou Bloco. Os filtros são uma proposta: a listagem atual não tem filtros.</p>
+        </aside>
+        <div class="flex sm:justify-end">
+          <a href="campus-espaco-novo.html" class="btn btn-md btn-primary w-full no-underline sm:w-auto">
+            <svg aria-hidden="true" class="btn-icon" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/></svg>
+            <span>Novo espaço</span>
+          </a>
+        </div>
+
+        <form data-filtro role="search" aria-label="Filtrar espaços" class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+          <div>
+            <label for="filtro-nome" class="block text-sm font-medium text-gray-700">Nome</label>
+            <input id="filtro-nome" data-filtro-nome type="search" placeholder="Buscar pelo nome" class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-base shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 min-h-11">
+          </div>
+          <div>
+            <label for="filtro-bloco" class="block text-sm font-medium text-gray-700">Bloco</label>
+            <select id="filtro-bloco" data-filtro-bloco class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-base shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 min-h-11 bg-white">
+              <option value="">Todos os blocos</option>
+              <option>Bloco B</option>
+              <option>Bloco C</option>
+              <option>Bloco R</option>
+              <option>Sem bloco</option>
+            </select>
+          </div>
+          <div>
+            <label for="filtro-situacao" class="block text-sm font-medium text-gray-700">Situação</label>
+            <select id="filtro-situacao" data-filtro-situacao class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-base shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 min-h-11 bg-white">
+              <option value="">Todas as situações</option>
+              <option value="disponivel">Disponível</option>
+              <option value="indisponivel">Indisponível</option>
+              <option value="desativado">Desativado</option>
+            </select>
+          </div>
+        </form>
+
+        <p data-filtro-contagem aria-live="polite" class="text-sm text-gray-600">7 espaços</p>
+
+        <div class="overflow-x-auto rounded-xl border border-gray-200 bg-white">
+          <table class="w-full text-left text-sm text-dark">
+            <caption class="sr-only">Espaços do campus Guarapuava</caption>
+            <thead class="bg-gray-50 text-xs font-semibold uppercase tracking-wider text-gray-500">
+              <tr>
+                <th scope="col" class="px-3 py-3 sm:px-4">Nome</th>
+                <th scope="col" class="hidden px-4 py-3 lg:table-cell">Bloco</th>
+                <th scope="col" class="hidden px-4 py-3 lg:table-cell">Departamento responsável</th>
+                <th scope="col" class="hidden px-4 py-3 lg:table-cell">Aprovação</th>
+                <th scope="col" class="px-3 py-3 text-right sm:px-4">Ações</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+  <tr data-filtro-linha data-nome="Auditório" data-bloco="Bloco R" data-situacao="disponivel">
+    <td class="break-words px-3 py-3 sm:px-4">
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="#" data-nao-prototipada="A página do espaço não muda." class="font-medium text-primary">Auditório</a>
+      </div>
+      <ul class="mt-1 space-y-0.5 text-xs text-gray-500 lg:hidden">
+        <li>Bloco R</li>
+        <li>Sem departamento</li>
+        <li>Precisa de aprovação</li>
+      </ul>
+    </td>
+    <td class="hidden whitespace-nowrap px-4 py-3 lg:table-cell">Bloco R</td>
+    <td class="hidden break-words px-4 py-3 lg:table-cell">Sem departamento</td>
+    <td class="hidden whitespace-nowrap px-4 py-3 lg:table-cell">Precisa de aprovação</td>
+    <td class="px-3 py-3 sm:px-4">
+      <div class="flex flex-wrap items-center justify-end gap-2 lg:flex-nowrap">
+        <a href="#" data-nao-prototipada="A página do espaço não muda." title="Ver"
+           class="btn btn-md btn-outline min-w-11 px-3 no-underline sm:px-4">
+          <svg aria-hidden="true" class="btn-icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg>
+          <span class="sr-only xl:not-sr-only">Ver</span>
+        </a>
+        <a href="#" data-nao-prototipada="O mesmo formulário do cadastro, já preenchido." title="Editar"
+           class="btn btn-md btn-outline min-w-11 px-3 no-underline sm:px-4">
+          <svg aria-hidden="true" class="btn-icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg>
+          <span class="sr-only xl:not-sr-only">Editar</span>
+        </a>
+        <a href="#" data-nao-prototipada="Pede confirmação, como hoje: “Excluir o espaço Auditório? A exclusão não pode ser desfeita.”" title="Excluir"
+           class="btn btn-md btn-delete min-w-11 px-3 no-underline sm:px-4">
+          <svg aria-hidden="true" class="btn-icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+          <span class="sr-only xl:not-sr-only">Excluir</span>
+        </a>
+      </div>
+    </td>
+  </tr>
+  <tr data-filtro-linha data-nome="Laboratório de Informática C3" data-bloco="Bloco C" data-situacao="disponivel">
+    <td class="break-words px-3 py-3 sm:px-4">
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="#" data-nao-prototipada="A página do espaço não muda." class="font-medium text-primary">Laboratório de Informática C3</a>
+      </div>
+      <ul class="mt-1 space-y-0.5 text-xs text-gray-500 lg:hidden">
+        <li>Bloco C</li>
+        <li>Coordenadoria de Tecnologia da Informação</li>
+        <li>Precisa de aprovação</li>
+      </ul>
+    </td>
+    <td class="hidden whitespace-nowrap px-4 py-3 lg:table-cell">Bloco C</td>
+    <td class="hidden break-words px-4 py-3 lg:table-cell">Coordenadoria de Tecnologia da Informação</td>
+    <td class="hidden whitespace-nowrap px-4 py-3 lg:table-cell">Precisa de aprovação</td>
+    <td class="px-3 py-3 sm:px-4">
+      <div class="flex flex-wrap items-center justify-end gap-2 lg:flex-nowrap">
+        <a href="#" data-nao-prototipada="A página do espaço não muda." title="Ver"
+           class="btn btn-md btn-outline min-w-11 px-3 no-underline sm:px-4">
+          <svg aria-hidden="true" class="btn-icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg>
+          <span class="sr-only xl:not-sr-only">Ver</span>
+        </a>
+        <a href="#" data-nao-prototipada="O mesmo formulário do cadastro, já preenchido." title="Editar"
+           class="btn btn-md btn-outline min-w-11 px-3 no-underline sm:px-4">
+          <svg aria-hidden="true" class="btn-icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg>
+          <span class="sr-only xl:not-sr-only">Editar</span>
+        </a>
+        <a href="#" data-nao-prototipada="Pede confirmação, como hoje: “Excluir o espaço Laboratório de Informática C3? A exclusão não pode ser desfeita.”" title="Excluir"
+           class="btn btn-md btn-delete min-w-11 px-3 no-underline sm:px-4">
+          <svg aria-hidden="true" class="btn-icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+          <span class="sr-only xl:not-sr-only">Excluir</span>
+        </a>
+      </div>
+    </td>
+  </tr>
+  <tr data-filtro-linha data-nome="Planetário" data-bloco="Sem bloco" data-situacao="disponivel">
+    <td class="break-words px-3 py-3 sm:px-4">
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="#" data-nao-prototipada="A página do espaço não muda." class="font-medium text-primary">Planetário</a>
+      </div>
+      <ul class="mt-1 space-y-0.5 text-xs text-gray-500 lg:hidden">
+        <li>Sem bloco</li>
+        <li>Sem departamento</li>
+        <li>Não precisa de aprovação</li>
+      </ul>
+    </td>
+    <td class="hidden whitespace-nowrap px-4 py-3 lg:table-cell">Sem bloco</td>
+    <td class="hidden break-words px-4 py-3 lg:table-cell">Sem departamento</td>
+    <td class="hidden whitespace-nowrap px-4 py-3 lg:table-cell">Não precisa de aprovação</td>
+    <td class="px-3 py-3 sm:px-4">
+      <div class="flex flex-wrap items-center justify-end gap-2 lg:flex-nowrap">
+        <a href="#" data-nao-prototipada="A página do espaço não muda." title="Ver"
+           class="btn btn-md btn-outline min-w-11 px-3 no-underline sm:px-4">
+          <svg aria-hidden="true" class="btn-icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg>
+          <span class="sr-only xl:not-sr-only">Ver</span>
+        </a>
+        <a href="#" data-nao-prototipada="O mesmo formulário do cadastro, já preenchido." title="Editar"
+           class="btn btn-md btn-outline min-w-11 px-3 no-underline sm:px-4">
+          <svg aria-hidden="true" class="btn-icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg>
+          <span class="sr-only xl:not-sr-only">Editar</span>
+        </a>
+        <a href="#" data-nao-prototipada="Pede confirmação, como hoje: “Excluir o espaço Planetário? A exclusão não pode ser desfeita.”" title="Excluir"
+           class="btn btn-md btn-delete min-w-11 px-3 no-underline sm:px-4">
+          <svg aria-hidden="true" class="btn-icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+          <span class="sr-only xl:not-sr-only">Excluir</span>
+        </a>
+      </div>
+    </td>
+  </tr>
+  <tr data-filtro-linha data-nome="Quadra poliesportiva" data-bloco="Sem bloco" data-situacao="disponivel">
+    <td class="break-words px-3 py-3 sm:px-4">
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="#" data-nao-prototipada="A página do espaço não muda." class="font-medium text-primary">Quadra poliesportiva</a>
+      </div>
+      <ul class="mt-1 space-y-0.5 text-xs text-gray-500 lg:hidden">
+        <li>Sem bloco</li>
+        <li>Departamento de Educação</li>
+        <li>Precisa de aprovação</li>
+      </ul>
+    </td>
+    <td class="hidden whitespace-nowrap px-4 py-3 lg:table-cell">Sem bloco</td>
+    <td class="hidden break-words px-4 py-3 lg:table-cell">Departamento de Educação</td>
+    <td class="hidden whitespace-nowrap px-4 py-3 lg:table-cell">Precisa de aprovação</td>
+    <td class="px-3 py-3 sm:px-4">
+      <div class="flex flex-wrap items-center justify-end gap-2 lg:flex-nowrap">
+        <a href="#" data-nao-prototipada="A página do espaço não muda." title="Ver"
+           class="btn btn-md btn-outline min-w-11 px-3 no-underline sm:px-4">
+          <svg aria-hidden="true" class="btn-icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg>
+          <span class="sr-only xl:not-sr-only">Ver</span>
+        </a>
+        <a href="#" data-nao-prototipada="O mesmo formulário do cadastro, já preenchido." title="Editar"
+           class="btn btn-md btn-outline min-w-11 px-3 no-underline sm:px-4">
+          <svg aria-hidden="true" class="btn-icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg>
+          <span class="sr-only xl:not-sr-only">Editar</span>
+        </a>
+        <a href="#" data-nao-prototipada="Pede confirmação, como hoje: “Excluir o espaço Quadra poliesportiva? A exclusão não pode ser desfeita.”" title="Excluir"
+           class="btn btn-md btn-delete min-w-11 px-3 no-underline sm:px-4">
+          <svg aria-hidden="true" class="btn-icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+          <span class="sr-only xl:not-sr-only">Excluir</span>
+        </a>
+      </div>
+    </td>
+  </tr>
+  <tr data-filtro-linha data-nome="Sala B101" data-bloco="Bloco B" data-situacao="disponivel">
+    <td class="break-words px-3 py-3 sm:px-4">
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="#" data-nao-prototipada="A página do espaço não muda." class="font-medium text-primary">Sala B101</a>
+      </div>
+      <ul class="mt-1 space-y-0.5 text-xs text-gray-500 lg:hidden">
+        <li>Bloco B</li>
+        <li>Sem departamento</li>
+        <li>Não precisa de aprovação</li>
+      </ul>
+    </td>
+    <td class="hidden whitespace-nowrap px-4 py-3 lg:table-cell">Bloco B</td>
+    <td class="hidden break-words px-4 py-3 lg:table-cell">Sem departamento</td>
+    <td class="hidden whitespace-nowrap px-4 py-3 lg:table-cell">Não precisa de aprovação</td>
+    <td class="px-3 py-3 sm:px-4">
+      <div class="flex flex-wrap items-center justify-end gap-2 lg:flex-nowrap">
+        <a href="#" data-nao-prototipada="A página do espaço não muda." title="Ver"
+           class="btn btn-md btn-outline min-w-11 px-3 no-underline sm:px-4">
+          <svg aria-hidden="true" class="btn-icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg>
+          <span class="sr-only xl:not-sr-only">Ver</span>
+        </a>
+        <a href="#" data-nao-prototipada="O mesmo formulário do cadastro, já preenchido." title="Editar"
+           class="btn btn-md btn-outline min-w-11 px-3 no-underline sm:px-4">
+          <svg aria-hidden="true" class="btn-icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg>
+          <span class="sr-only xl:not-sr-only">Editar</span>
+        </a>
+        <a href="#" data-nao-prototipada="Pede confirmação, como hoje: “Excluir o espaço Sala B101? A exclusão não pode ser desfeita.”" title="Excluir"
+           class="btn btn-md btn-delete min-w-11 px-3 no-underline sm:px-4">
+          <svg aria-hidden="true" class="btn-icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+          <span class="sr-only xl:not-sr-only">Excluir</span>
+        </a>
+      </div>
+    </td>
+  </tr>
+  <tr data-filtro-linha data-nome="Sala B102" data-bloco="Bloco B" data-situacao="indisponivel">
+    <td class="break-words px-3 py-3 sm:px-4">
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="#" data-nao-prototipada="A página do espaço não muda." class="font-medium text-primary">Sala B102</a>
+          <span class="rounded-full border border-gray-300 bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-700">Indisponível</span>
+      </div>
+      <ul class="mt-1 space-y-0.5 text-xs text-gray-500 lg:hidden">
+        <li>Bloco B</li>
+        <li>Sem departamento</li>
+        <li>Não precisa de aprovação</li>
+      </ul>
+    </td>
+    <td class="hidden whitespace-nowrap px-4 py-3 lg:table-cell">Bloco B</td>
+    <td class="hidden break-words px-4 py-3 lg:table-cell">Sem departamento</td>
+    <td class="hidden whitespace-nowrap px-4 py-3 lg:table-cell">Não precisa de aprovação</td>
+    <td class="px-3 py-3 sm:px-4">
+      <div class="flex flex-wrap items-center justify-end gap-2 lg:flex-nowrap">
+        <a href="#" data-nao-prototipada="A página do espaço não muda." title="Ver"
+           class="btn btn-md btn-outline min-w-11 px-3 no-underline sm:px-4">
+          <svg aria-hidden="true" class="btn-icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg>
+          <span class="sr-only xl:not-sr-only">Ver</span>
+        </a>
+        <a href="#" data-nao-prototipada="O mesmo formulário do cadastro, já preenchido." title="Editar"
+           class="btn btn-md btn-outline min-w-11 px-3 no-underline sm:px-4">
+          <svg aria-hidden="true" class="btn-icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg>
+          <span class="sr-only xl:not-sr-only">Editar</span>
+        </a>
+        <a href="#" data-nao-prototipada="Pede confirmação, como hoje: “Excluir o espaço Sala B102? A exclusão não pode ser desfeita.”" title="Excluir"
+           class="btn btn-md btn-delete min-w-11 px-3 no-underline sm:px-4">
+          <svg aria-hidden="true" class="btn-icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+          <span class="sr-only xl:not-sr-only">Excluir</span>
+        </a>
+      </div>
+    </td>
+  </tr>
+  <tr data-filtro-linha data-nome="Sala B103" data-bloco="Bloco B" data-situacao="desativado">
+    <td class="break-words px-3 py-3 sm:px-4">
+      <div class="flex flex-wrap items-center gap-2">
+        <a href="#" data-nao-prototipada="A página do espaço não muda." class="font-medium text-primary">Sala B103</a>
+          <span class="rounded-full border border-gray-300 bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-700">Desativado</span>
+      </div>
+      <ul class="mt-1 space-y-0.5 text-xs text-gray-500 lg:hidden">
+        <li>Bloco B</li>
+        <li>Sem departamento</li>
+        <li>Não precisa de aprovação</li>
+      </ul>
+    </td>
+    <td class="hidden whitespace-nowrap px-4 py-3 lg:table-cell">Bloco B</td>
+    <td class="hidden break-words px-4 py-3 lg:table-cell">Sem departamento</td>
+    <td class="hidden whitespace-nowrap px-4 py-3 lg:table-cell">Não precisa de aprovação</td>
+    <td class="px-3 py-3 sm:px-4">
+      <div class="flex flex-wrap items-center justify-end gap-2 lg:flex-nowrap">
+        <a href="#" data-nao-prototipada="A página do espaço não muda." title="Ver"
+           class="btn btn-md btn-outline min-w-11 px-3 no-underline sm:px-4">
+          <svg aria-hidden="true" class="btn-icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"/></svg>
+          <span class="sr-only xl:not-sr-only">Ver</span>
+        </a>
+        <a href="#" data-nao-prototipada="O mesmo formulário do cadastro, já preenchido." title="Editar"
+           class="btn btn-md btn-outline min-w-11 px-3 no-underline sm:px-4">
+          <svg aria-hidden="true" class="btn-icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M362.7 19.3L314.3 67.7 444.3 197.7l48.4-48.4c25-25 25-65.5 0-90.5L453.3 19.3c-25-25-65.5-25-90.5 0zm-71 71L58.6 323.5c-10.4 10.4-18 23.3-22.2 37.4L1 481.2C-1.5 489.7 .8 498.8 7 505s15.3 8.5 23.7 6.1l120.3-35.4c14.1-4.2 27-11.8 37.4-22.2L421.7 220.3 291.7 90.3z"/></svg>
+          <span class="sr-only xl:not-sr-only">Editar</span>
+        </a>
+        <a href="#" data-nao-prototipada="Pede confirmação, como hoje: “Excluir o espaço Sala B103? A exclusão não pode ser desfeita.”" title="Excluir"
+           class="btn btn-md btn-delete min-w-11 px-3 no-underline sm:px-4">
+          <svg aria-hidden="true" class="btn-icon-sm" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"/></svg>
+          <span class="sr-only xl:not-sr-only">Excluir</span>
+        </a>
+      </div>
+    </td>
+  </tr>
+  <tr data-filtro-vazio hidden>
+    <td colspan="5" class="px-4 py-10 text-center text-sm text-dark">Nenhum espaço encontrado com esses filtros.</td>
+  </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

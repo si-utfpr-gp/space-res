@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Novo espaço · Guarapuava · Protótipo #89</title>
+  <link rel="stylesheet" href="assets/prototype.css">
+  <script src="assets/prototype.js" defer></script>
+</head>
+<body data-tela data-com-erros class="flex h-screen flex-col bg-neutral">
+  <nav class="flex items-center justify-between gap-2 bg-dark px-4 py-3 sm:px-8">
+    <button type="button" data-menu-toggle class="inline-flex h-11 w-11 items-center justify-center text-white lg:hidden"
+            aria-label="Menu de navegação" aria-expanded="false" aria-controls="menu-lateral">
+      <svg aria-hidden="true" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
+    </button>
+    <img src="assets/logo.png" alt="UTFPR" class="h-9 sm:h-12">
+    <div class="flex items-center gap-2 text-white sm:gap-4">
+      <div class="hidden text-right sm:block">
+        <p class="font-semibold">Olá, <span data-perfil="geral">Admin Demo</span><span data-perfil="campus" hidden>Maria Souza</span></p>
+        <p class="text-xs font-medium text-secondary">Seja bem-vindo!</p>
+      </div>
+      <span aria-hidden="true" class="flex h-9 w-9 items-center justify-center rounded-full border-2 border-secondary bg-white text-xs font-semibold text-dark">
+        <span data-perfil="geral">AD</span><span data-perfil="campus" hidden>MS</span>
+      </span>
+    </div>
+  </nav>
+
+  <div class="relative flex min-h-0 flex-1">
+    <div data-backdrop class="fixed inset-0 z-20 hidden bg-dark/40 lg:hidden"></div>
+    <aside id="menu-lateral" data-sidebar class="sidebar absolute inset-y-0 left-0 z-30 flex w-64 shrink-0 -translate-x-full flex-col bg-white shadow-lg transition-transform duration-300 ease-in-out lg:relative lg:w-56 lg:translate-x-0">
+      <nav aria-label="Menu do campus" class="flex flex-1 flex-col overflow-y-auto px-3 py-4">
+        <a href="admin.html" data-perfil="geral" class="mb-3 flex items-center gap-2 rounded-lg px-3 py-2 text-xs no-underline">
+          <svg aria-hidden="true" class="h-3 w-3 rotate-180" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224H32c-17.7 0-32 14.3-32 32s14.3 32 32 32h306.7L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"/></svg>
+          Área administrativa
+        </a>
+
+        <div class="relative mb-4 border-b border-gray-200 pb-4">
+          <p id="rotulo-campus" class="px-3 text-xs font-semibold uppercase tracking-widest text-gray-500">Campus</p>
+          <button type="button" data-perfil="geral" data-disclosure aria-expanded="false" aria-controls="lista-campi" aria-describedby="rotulo-campus"
+                  class="mt-1 flex min-h-11 w-full items-center justify-between gap-2 rounded-lg px-3 py-2 text-left text-base font-semibold text-dark hover:bg-dark/10">
+            <span class="flex items-center gap-2">
+              <svg aria-hidden="true" class="h-4 w-4 text-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 256a64 64 0 1 1 0-128a64 64 0 1 1 0 128z"/></svg>
+              Guarapuava
+            </span>
+            <span class="sr-only">Trocar de campus</span>
+            <svg aria-hidden="true" class="h-2.5 w-2.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/></svg>
+          </button>
+          <p data-perfil="campus" hidden class="mt-1 flex min-h-11 items-center gap-2 px-3 py-2 text-base font-semibold text-dark">
+            <svg aria-hidden="true" class="h-4 w-4 text-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 256a64 64 0 1 1 0-128a64 64 0 1 1 0 128z"/></svg>
+            Guarapuava
+          </p>
+          <ul id="lista-campi" class="absolute inset-x-0 top-full z-10 -mt-3 hidden rounded-xl bg-white py-1 text-sm shadow-lg ring-1 ring-gray-200">
+            <li>
+              <a href="campus.html" aria-current="true" class="flex items-center justify-between px-4 py-2 font-semibold no-underline">
+                Guarapuava
+                <svg aria-hidden="true" class="h-3.5 w-3.5 text-primary" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg>
+              </a>
+            </li>
+            <li><a href="#" data-nao-prototipada="Abre a mesma página, para o campus Pato Branco." class="block px-4 py-2 no-underline">Pato Branco</a></li>
+          </ul>
+        </div>
+
+        <ul class="space-y-1 text-sm">
+          <li>
+            <a href="campus.html" class="flex items-center gap-2 rounded-lg px-3 py-2 no-underline">
+              <svg aria-hidden="true" class="h-4 w-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M0 256a256 256 0 1 1 512 0A256 256 0 1 1 0 256zm320 96c0-26.9-16.5-49.9-40-59.3L280 88c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 204.7c-23.5 9.5-40 32.5-40 59.3c0 35.3 28.7 64 64 64s64-28.7 64-64zM144 176a32 32 0 1 0 0-64 32 32 0 1 0 0 64zm-16 80a32 32 0 1 0 -64 0 32 32 0 1 0 64 0zm288 32a32 32 0 1 0 0-64 32 32 0 1 0 0 64zM400 144a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>
+              Visão geral
+            </a>
+          </li>
+          <li>
+            <a href="campus-espacos.html" class="active flex items-center gap-2 rounded-lg px-3 py-2 no-underline">
+              <svg aria-hidden="true" class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M6 21V4.5A1.5 1.5 0 0 1 7.5 3h9A1.5 1.5 0 0 1 18 4.5V21M14.25 12.75v-1.5"/></svg>
+              Espaços
+            </a>
+          </li>
+          <li>
+            <a href="#" data-nao-prototipada="Listagem de blocos do campus, no mesmo padrão da de espaços. O cadastro não pede o campus." class="flex items-center gap-2 rounded-lg px-3 py-2 no-underline">
+              <svg aria-hidden="true" class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21"/></svg>
+              Blocos
+            </a>
+          </li>
+          <li>
+            <a href="#" data-nao-prototipada="Listagem de departamentos do campus, no mesmo padrão da de espaços (#90)." class="flex items-center gap-2 rounded-lg px-3 py-2 no-underline">
+              <svg aria-hidden="true" class="h-4 w-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path d="M144 0a80 80 0 1 1 0 160A80 80 0 1 1 144 0zM512 0a80 80 0 1 1 0 160A80 80 0 1 1 512 0zM0 298.7C0 239.8 47.8 192 106.7 192l42.7 0c15.9 0 31 3.5 44.6 9.7c-1.3 7.2-1.9 14.7-1.9 22.3c0 38.2 16.8 72.5 43.3 96c-.2 0-.4 0-.7 0L21.3 320C9.6 320 0 310.4 0 298.7zM405.3 320c-.2 0-.4 0-.7 0c26.6-23.5 43.3-57.8 43.3-96c0-7.6-.7-15-1.9-22.3c13.6-6.3 28.7-9.7 44.6-9.7l42.7 0C592.2 192 640 239.8 640 298.7c0 11.8-9.6 21.3-21.3 21.3l-213.3 0zM224 224a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zM128 485.3C128 411.7 187.7 352 261.3 352l117.3 0C452.3 352 512 411.7 512 485.3c0 14.7-11.9 26.7-26.7 26.7l-330.7 0c-14.7 0-26.7-11.9-26.7-26.7z"/></svg>
+              Departamentos
+            </a>
+          </li>
+          <li>
+            <a href="#" data-nao-prototipada="Listagem de termos de uso do campus, no mesmo padrão da de espaços (#91)." class="flex items-center gap-2 rounded-lg px-3 py-2 no-underline">
+              <svg aria-hidden="true" class="h-4 w-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M64 0C28.7 0 0 28.7 0 64L0 448c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-288-128 0c-17.7 0-32-14.3-32-32L224 0 64 0zM256 0l0 128 128 0L256 0zM112 256l160 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-160 0c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64l160 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-160 0c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64l160 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-160 0c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg>
+              Termos de uso
+            </a>
+          </li>
+          <li data-perfil="geral">
+            <a href="campus-administradores.html" class="flex items-center gap-2 rounded-lg px-3 py-2 no-underline">
+              <svg aria-hidden="true" class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"/></svg>
+              Administradores
+            </a>
+          </li>
+        </ul>
+
+        <ul class="mt-auto space-y-1 border-t border-gray-200 pt-4 text-sm">
+          <li>
+            <a href="#" data-nao-prototipada="O Dashboard não muda." class="flex items-center gap-2 rounded-lg px-3 py-2 no-underline">
+              <svg aria-hidden="true" class="h-4 w-4" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/></svg>
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="#" data-nao-prototipada="As reservas não mudam." class="flex items-center gap-2 rounded-lg px-3 py-2 no-underline">
+              <svg aria-hidden="true" class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16"><path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2m-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5"/></svg>
+              Minhas reservas
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 lg:p-10">
+      <header class="mb-6 border-b border-gray-200 pb-4 sm:mb-8 sm:pb-6">
+        <nav aria-label="Trilha de navegação" class="mb-2">
+          <ol class="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs sm:text-sm">
+            <li class="flex items-center gap-2">
+              <a href="admin.html" class="text-xs text-primary sm:text-sm">Área administrativa</a>
+              <svg aria-hidden="true" class="h-2.5 w-1.5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/></svg>
+            </li>
+            <li class="flex items-center gap-2">
+              <a href="campus.html" class="text-xs text-primary sm:text-sm">Guarapuava</a>
+              <svg aria-hidden="true" class="h-2.5 w-1.5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/></svg>
+            </li>
+            <li class="flex items-center gap-2">
+              <a href="campus-espacos.html" class="text-xs text-primary sm:text-sm">Espaços</a>
+              <svg aria-hidden="true" class="h-2.5 w-1.5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/></svg>
+            </li>
+            <li aria-current="page" class="font-semibold text-dark">Novo</li>
+          </ol>
+        </nav>
+        <h1 class="text-2xl font-bold text-dark sm:text-3xl">Novo espaço</h1>
+        <p class="mt-1 text-sm text-gray-500 sm:text-base">Preencha as informações do novo espaço do campus Guarapuava.</p>
+      </header>
+      <div class="space-y-4 sm:space-y-6">
+        <aside data-nota role="note" class="rounded-lg border border-dashed border-amber-400 bg-amber-50 p-3 text-sm text-amber-900">
+          <p class="font-semibold">Nota do protótipo</p>
+          <p>O campus deixou de ser um campo: ele vem da página. Bloco, departamento e termo de uso só listam os do campus Guarapuava (#90 e #91), então o filtro de blocos por campus do formulário atual não é mais necessário. Use “Com erros” na barra do protótipo para ver as mensagens de validação.</p>
+        </aside>
+        <form data-salvar-para="campus-espacos.html" data-aviso="Espaço cadastrado com sucesso." novalidate
+              class="rounded-xl border border-gray-200 bg-white p-4 sm:p-6">
+          <p class="mb-4 flex items-center gap-2 rounded-lg bg-neutral px-3 py-2 text-sm text-dark">
+            <svg aria-hidden="true" class="h-4 w-4 shrink-0 text-primary" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 256a64 64 0 1 1 0-128a64 64 0 1 1 0 128z"/></svg>
+            <span>Campus <strong class="font-semibold">Guarapuava</strong></span>
+          </p>
+
+          <div class="mb-4">
+            <label for="space_building_id" class="block text-sm font-medium text-gray-700">Bloco</label>
+            <select id="space_building_id" aria-describedby="space_building_id_hint" class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-base shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 min-h-11 bg-white">
+              <option>Sem bloco</option>
+              <option>Bloco B</option>
+              <option>Bloco C</option>
+              <option>Bloco R</option>
+            </select>
+            <p id="space_building_id_hint" class="mt-1 text-xs text-gray-500">Só aparecem os blocos deste campus. Escolha "Sem bloco" para espaços fora de blocos, como a quadra e o planetário.</p>
+          </div>
+
+          <div class="mb-4">
+            <label for="space_name" class="block text-sm font-medium text-gray-700">Nome</label>
+            <input id="space_name" data-erro type="text" placeholder="Ex.: Laboratório de Informática B3"
+                   aria-describedby="space_name_error" class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-base shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500">
+            <p id="space_name_error" data-estado="erros" hidden class="mt-1 text-sm text-red-600">Informe o nome do espaço.</p>
+          </div>
+
+          <div class="mb-4">
+            <label for="space_description" class="block text-sm font-medium text-gray-700">Descrição</label>
+            <textarea id="space_description" data-erro rows="3" placeholder="Ex.: Laboratório com 20 computadores e projetor, no 1º andar."
+                      aria-describedby="space_description_error" class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-base shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"></textarea>
+            <p id="space_description_error" data-estado="erros" hidden class="mt-1 text-sm text-red-600">Informe a descrição do espaço.</p>
+          </div>
+
+          <div class="mb-4">
+            <label for="space_department_id" class="block text-sm font-medium text-gray-700">Departamento responsável</label>
+            <select id="space_department_id" aria-describedby="space_department_id_hint" class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-base shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 min-h-11 bg-white">
+              <option>Sem departamento</option>
+                <option>Assessoria de Comunicação</option>
+                <option>Biblioteca</option>
+                <option>Coordenação de Gestão de Recursos Humanos</option>
+                <option>Coordenação do Curso de Arquitetura e Urbanismo</option>
+                <option>Coordenação do Curso de Engenharia Civil</option>
+                <option>Coordenação do Curso de Engenharia Mecânica</option>
+                <option>Coordenação do Curso de Engenharia Mecatrônica</option>
+                <option>Coordenação do Curso de Tecnologia em Sistemas para a Internet</option>
+                <option>Coordenadoria de Tecnologia da Informação</option>
+                <option>Departamento Acadêmico de Engenharia</option>
+                <option>Departamento Acadêmico de Exatas</option>
+                <option>Departamento de Educação</option>
+                <option>Departamento de Extensão</option>
+                <option>Departamento de Registros Acadêmicos</option>
+                <option>Diretoria de Graduação e Educação Profissional</option>
+                <option>Diretoria de Pesquisa e Pós-Graduação</option>
+                <option>Diretoria de Planejamento e Administração</option>
+                <option>Setor de Gestão de Espaços Acadêmicos</option>
+            </select>
+            <p id="space_department_id_hint" class="mt-1 text-xs text-gray-500">Só aparecem os departamentos deste campus.</p>
+          </div>
+
+          <div class="mb-4">
+            <div class="flex items-center gap-3">
+              <input id="space_requires_approval" type="checkbox" aria-describedby="space_requires_approval_hint"
+                     class="h-5 w-5 shrink-0 rounded border-gray-300 text-primary focus:ring-2 focus:ring-primary/40">
+              <label for="space_requires_approval" class="flex min-h-11 flex-1 cursor-pointer items-center text-sm font-medium text-gray-700">Precisa de aprovação</label>
+            </div>
+            <p id="space_requires_approval_hint" class="mt-1 text-xs text-gray-500">Com departamento responsável, os usuários do departamento liberam as reservas. Sem departamento, só os administradores.</p>
+          </div>
+
+          <div class="mb-4">
+            <label for="space_usage_term_id" class="block text-sm font-medium text-gray-700">Termo de uso</label>
+            <select id="space_usage_term_id" aria-describedby="space_usage_term_id_hint" class="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-base shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 min-h-11 bg-white">
+              <option>Sem termo de uso</option>
+              <option>Termo de uso do laboratório de informática</option>
+            </select>
+            <p id="space_usage_term_id_hint" class="mt-1 text-xs text-gray-500">Quem reservar o espaço precisará aceitar este termo. Só aparecem os termos deste campus.</p>
+          </div>
+
+          <div class="mt-6 flex flex-col-reverse gap-3 border-t border-gray-200 pt-4 sm:flex-row sm:justify-between">
+            <a href="campus-espacos.html" class="btn btn-md btn-outline w-full no-underline sm:w-auto">Cancelar</a>
+            <button type="submit" class="btn btn-md btn-primary w-full sm:w-auto">Salvar</button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

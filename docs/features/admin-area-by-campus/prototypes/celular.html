@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Celular · Protótipo #89</title>
+  <link rel="stylesheet" href="assets/prototype.css">
+  <script src="assets/prototype.js" defer></script>
+</head>
+<body class="min-h-screen bg-gray-100">
+  <div data-celular-barra aria-label="Barra do protótipo"
+       class="flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-amber-300 bg-amber-50 px-4 py-2 text-xs text-amber-900">
+    <a href="index.html" class="text-xs font-semibold text-amber-900 underline">Protótipo #89 · índice</a>
+    <label class="flex items-center gap-1">
+      <span class="font-semibold">Tela:</span>
+      <select data-celular-tela class="rounded-md border-amber-300 bg-white py-1 pl-2 pr-8 text-xs"></select>
+    </label>
+    <label class="flex items-center gap-1">
+      <span class="font-semibold">Largura:</span>
+      <select data-celular-largura class="rounded-md border-amber-300 bg-white py-1 pl-2 pr-8 text-xs">
+        <option value="320">320 px</option>
+        <option value="360">360 px</option>
+        <option value="390">390 px</option>
+      </select>
+    </label>
+    <a data-celular-tela-grande href="#" class="text-xs font-semibold text-amber-900 underline">Ver em tela grande</a>
+  </div>
+
+  <div class="flex justify-center px-4 py-6">
+    <div class="rounded-[2.5rem] border-[12px] border-gray-900 bg-gray-900 shadow-xl">
+      <iframe data-celular-frame title="Tela do protótipo na largura de um celular"
+              class="block h-[720px] max-h-[calc(100vh-9rem)] rounded-[1.75rem] bg-white"></iframe>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+/*
+  Entrada do CSS dos protótipos: o mesmo tema e as mesmas classes (.btn, .sidebar...) do sistema,
+  mais as classes usadas nos HTML desta pasta. Para gerar prototype.css de novo, na raiz do projeto:
+
+  bundle exec tailwindcss -i docs/features/admin-area-by-campus/prototypes/assets/prototype.tailwind.css \
+    -o docs/features/admin-area-by-campus/prototypes/assets/prototype.css --minify
+*/
+@import "../../../../../app/assets/tailwind/application.css";
+
+@source "../";

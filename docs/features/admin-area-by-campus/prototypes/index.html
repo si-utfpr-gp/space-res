@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Protótipos · Área administrativa por campus</title>
+  <link rel="stylesheet" href="assets/prototype.css">
+  <script src="assets/prototype.js" defer></script>
+</head>
+<body class="min-h-screen bg-neutral text-dark">
+  <header class="flex items-center gap-4 bg-dark px-4 py-3 sm:px-8">
+    <img src="assets/logo.png" alt="UTFPR" class="h-9 sm:h-12">
+    <p class="text-sm font-semibold text-white">Protótipos · Issue #89</p>
+  </header>
+
+  <main class="mx-auto max-w-6xl space-y-10 p-4 sm:p-8">
+    <section class="space-y-2">
+      <h1 class="text-2xl font-bold sm:text-3xl">Área administrativa organizada por campus</h1>
+      <p class="text-sm text-gray-600 sm:text-base">
+        Protótipos navegáveis para conversar com os professores antes de implementar. As telas usam o mesmo tema do
+        sistema (cores, botões, formulários e menu) e dados de exemplo do campus Guarapuava.
+      </p>
+    </section>
+
+    <section aria-labelledby="titulo-como-usar" class="rounded-xl border border-gray-200 bg-white p-4 sm:p-6">
+      <h2 id="titulo-como-usar" class="text-base font-semibold">Como usar</h2>
+      <ul class="mt-3 list-disc space-y-1 pl-5 text-sm text-gray-700">
+        <li>Abra uma tela abaixo e navegue pelos links, pelos botões e pelo menu lateral.</li>
+        <li>A barra amarela no topo de cada tela troca o perfil (administrador geral ou de campus), mostra ou esconde as notas e abre a tela numa moldura de celular.</li>
+        <li>As caixas tracejadas em amarelo são notas do protótipo: explicam as propostas e não fazem parte do sistema.</li>
+        <li>Links para telas que não foram prototipadas mostram um aviso em vez de navegar.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="titulo-telas" class="space-y-4">
+      <h2 id="titulo-telas" class="text-sm font-semibold uppercase tracking-widest">Telas</h2>
+      <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        <li class="flex flex-col rounded-xl border border-gray-200 bg-white p-4">
+          <h3 class="font-semibold">1. Entrada na área administrativa</h3>
+          <p class="mt-1 text-sm text-gray-600">Escolha do campus e cadastros que valem para todos os campi.</p>
+          <div class="mt-auto flex gap-2 pt-4">
+            <a href="admin.html" class="btn btn-md btn-primary flex-1 no-underline">Abrir</a>
+            <a href="celular.html?tela=admin.html" class="btn btn-md btn-outline flex-1 no-underline">No celular</a>
+          </div>
+        </li>
+        <li class="flex flex-col rounded-xl border border-gray-200 bg-white p-4">
+          <h3 class="font-semibold">2. Página do campus</h3>
+          <p class="mt-1 text-sm text-gray-600">Menu lateral do campus, resumo dos cadastros, espaços indisponíveis e administradores.</p>
+          <div class="mt-auto flex gap-2 pt-4">
+            <a href="campus.html" class="btn btn-md btn-primary flex-1 no-underline">Abrir</a>
+            <a href="celular.html?tela=campus.html" class="btn btn-md btn-outline flex-1 no-underline">No celular</a>
+          </div>
+        </li>
+        <li class="flex flex-col rounded-xl border border-gray-200 bg-white p-4">
+          <h3 class="font-semibold">3. Listagem: espaços do campus</h3>
+          <p class="mt-1 text-sm text-gray-600">Filtros por nome, bloco e situação. No celular, as colunas viram linhas embaixo do nome.</p>
+          <div class="mt-auto flex gap-2 pt-4">
+            <a href="campus-espacos.html" class="btn btn-md btn-primary flex-1 no-underline">Abrir</a>
+            <a href="celular.html?tela=campus-espacos.html" class="btn btn-md btn-outline flex-1 no-underline">No celular</a>
+          </div>
+        </li>
+        <li class="flex flex-col rounded-xl border border-gray-200 bg-white p-4">
+          <h3 class="font-semibold">4. Formulário: novo espaço</h3>
+          <p class="mt-1 text-sm text-gray-600">Sem o campo Campus, com listas só do campus. Tem a versão com erros de validação.</p>
+          <div class="mt-auto flex gap-2 pt-4">
+            <a href="campus-espaco-novo.html" class="btn btn-md btn-primary flex-1 no-underline">Abrir</a>
+            <a href="celular.html?tela=campus-espaco-novo.html" class="btn btn-md btn-outline flex-1 no-underline">No celular</a>
+          </div>
+        </li>
+        <li class="flex flex-col rounded-xl border border-gray-200 bg-white p-4">
+          <h3 class="font-semibold">5. Administradores do campus</h3>
+          <p class="mt-1 text-sm text-gray-600">Adicionar e remover administradores (#93). O administrador de campus recebe acesso negado.</p>
+          <div class="mt-auto flex gap-2 pt-4">
+            <a href="campus-administradores.html" class="btn btn-md btn-primary flex-1 no-underline">Abrir</a>
+            <a href="celular.html?tela=campus-administradores.html" class="btn btn-md btn-outline flex-1 no-underline">No celular</a>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="titulo-tarefas" class="space-y-4">
+      <div>
+        <h2 id="titulo-tarefas" class="text-sm font-semibold uppercase tracking-widest">Tarefas de cada perfil</h2>
+        <p class="mt-1 text-sm text-gray-600">O caminho de cada tarefa nas telas. O fluxo completo, com regras e mensagens, está no <code>spec.md</code> desta pasta.</p>
+      </div>
+      <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <article class="rounded-xl border border-gray-200 bg-white p-4 sm:p-6">
+          <h3 class="font-semibold">Administrador geral</h3>
+          <p class="mt-1 text-sm text-gray-600">Cuida de todos os campi e dos cadastros que valem para todos.</p>
+          <ol class="mt-4 list-decimal space-y-3 pl-5 text-sm text-gray-700">
+            <li><span class="font-medium text-dark">Colocar um novo campus em uso.</span><br>
+              <a href="admin.html">Entrada</a> › Cadastrar campus › <a href="campus-administradores.html">Administradores do campus</a> › Adicionar.</li>
+            <li><span class="font-medium text-dark">Definir ou remover os administradores de um campus.</span><br>
+              <a href="admin.html">Entrada</a> › <a href="campus.html">campus</a> › <a href="campus-administradores.html">Administradores</a>.</li>
+            <li><span class="font-medium text-dark">Gerenciar os usuários.</span><br>
+              <a href="admin.html">Entrada</a> › Cadastros gerais › Usuários (tela atual, sem mudanças).</li>
+            <li><span class="font-medium text-dark">Cuidar de qualquer campus.</span><br>
+              <a href="admin.html">Entrada</a> › Gerenciar o campus › as mesmas tarefas do administrador de campus.</li>
+          </ol>
+        </article>
+        <article class="rounded-xl border border-gray-200 bg-white p-4 sm:p-6">
+          <h3 class="font-semibold">Administrador de campus</h3>
+          <p class="mt-1 text-sm text-gray-600">Cuida dos cadastros do campus que recebeu.</p>
+          <ol class="mt-4 list-decimal space-y-3 pl-5 text-sm text-gray-700">
+            <li><span class="font-medium text-dark">Disponibilizar um espaço para reserva.</span><br>
+              <a href="campus.html">Campus</a> › <a href="campus-espacos.html">Espaços</a> › <a href="campus-espaco-novo.html">Novo espaço</a> › Salvar.</li>
+            <li><span class="font-medium text-dark">Cadastrar um bloco antes dos espaços dele.</span><br>
+              <a href="campus.html">Campus</a> › Blocos › Cadastrar.</li>
+            <li><span class="font-medium text-dark">Tirar um espaço de uso por um tempo ou de vez.</span><br>
+              <a href="campus.html">Campus</a> › <a href="campus-espacos.html">Espaços</a> › espaço › Marcar como indisponível ou Desativar.</li>
+            <li><span class="font-medium text-dark">Cadastrar os departamentos que respondem pelos espaços.</span><br>
+              <a href="campus.html">Campus</a> › Departamentos › Cadastrar.</li>
+            <li><span class="font-medium text-dark">Publicar um termo de uso e ligá-lo aos espaços.</span><br>
+              <a href="campus.html">Campus</a> › Termos de uso › Cadastrar; depois, no espaço, escolher o termo.</li>
+            <li><span class="font-medium text-dark">Ver o que precisa de atenção.</span><br>
+              <a href="campus.html">Campus</a> › Visão geral › Espaços indisponíveis.</li>
+          </ol>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="titulo-decisoes" class="space-y-4">
+      <h2 id="titulo-decisoes" class="text-sm font-semibold uppercase tracking-widest">Decisões para a conversa</h2>
+      <div class="overflow-x-auto rounded-xl border border-gray-200 bg-white">
+        <table class="w-full text-left text-sm">
+          <thead class="bg-gray-50 text-xs font-semibold uppercase tracking-wider text-gray-500">
+            <tr>
+              <th scope="col" class="px-4 py-3">Pergunta</th>
+              <th scope="col" class="px-4 py-3">Proposta</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200 align-top">
+            <tr>
+              <td class="px-4 py-3">Em que ferramenta fazer os protótipos? (#89)</td>
+              <td class="px-4 py-3"><span class="font-medium">Decidido:</span> HTML, a pedido do professor Marczal em 19/11/2026.</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3">Onde ficam os cadastros que não pertencem a um campus? (#89)</td>
+              <td class="px-4 py-3">Os campi ficam na própria entrada; os usuários, em “Cadastros gerais”. Os dois só para o administrador geral.</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3">Quem administra um só campus precisa passar pela entrada?</td>
+              <td class="px-4 py-3">Não: “Área administrativa” abre direto a página do campus.</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3">Um usuário pode administrar mais de um campus? (#93)</td>
+              <td class="px-4 py-3">Sim. O seletor de campus no menu lateral mostra só os campi dele.</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3">O administrador de campus define outros administradores? (#93)</td>
+              <td class="px-4 py-3">Não, só o administrador geral.</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3">A listagem de espaços ganha filtros?</td>
+              <td class="px-4 py-3">Sim: nome, bloco e situação.</td>
+            </tr>
+            <tr>
+              <td class="px-4 py-3">O que mais a visão geral do campus deve mostrar?</td>
+              <td class="px-4 py-3">Por enquanto, o resumo dos cadastros, os espaços indisponíveis e os administradores.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
