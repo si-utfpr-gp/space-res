@@ -18,12 +18,12 @@ class ManageSpacesOnPhoneTest < ApplicationSystemTestCase
   end
 
   # 320 CSS px is the width WCAG 1.4.10 (Reflow) requires to work without horizontal scrolling.
-  test "fits a long name in the list on a 320px wide screen, with the location, department and approval" do
+  test "fits a long name in the list on a 320px wide screen, with the building, department and approval" do
     create(:space, :requiring_approval, :unavailable, campus: @campus, building: @building, department: @department, name: LONG_NAME)
-    visit admin_spaces_path
+    visit admin_campus_spaces_path(@campus)
 
     within("tbody tr", text: LONG_NAME) do
-      assert_text "Guarapuava · Bloco B"
+      assert_text "Bloco B"
       assert_text LONG_DEPARTMENT
       assert_text "Precisa de aprovação"
       assert_text "Indisponível"
@@ -37,10 +37,20 @@ class ManageSpacesOnPhoneTest < ApplicationSystemTestCase
     assert_no_horizontal_scroll
   end
 
+  test "fits the filters on a 320px wide screen with comfortable fields" do
+    create(:space, campus: @campus, name: "Sala 1")
+    visit admin_campus_spaces_path(@campus)
+
+    [ find_field("Bloco"), find_field("Situação") ].each do |field|
+      assert_operator field.rect.height, :>=, MIN_TOUCH_TARGET
+    end
+    assert_no_horizontal_scroll
+  end
+
   test "fits the space page on a 320px wide screen" do
     space = create(:space, :requiring_approval, campus: @campus, building: @building, department: @department, name: LONG_NAME,
                    description: "Reservas pelo endereço https://www.utfpr.edu.br/campus/guarapuava/laboratorios/informatica/reservas")
-    visit admin_space_path(space)
+    visit admin_campus_space_path(@campus, space)
 
     assert_selector "h1", text: LONG_NAME
     assert_text LONG_DEPARTMENT
@@ -52,7 +62,7 @@ class ManageSpacesOnPhoneTest < ApplicationSystemTestCase
 
   test "admin marks a space as unavailable on a phone and finds the actions easy to tap" do
     space = create(:space, campus: @campus, building: @building, name: LONG_NAME)
-    visit admin_space_path(space)
+    visit admin_campus_space_path(@campus, space)
 
     click_on "Marcar como indisponível"
     fill_in "Motivo", with: "Sala interditada pela Defesa Civil até a conclusão da reforma do telhado do Bloco B"
@@ -67,9 +77,9 @@ class ManageSpacesOnPhoneTest < ApplicationSystemTestCase
   end
 
   test "admin registers a space on a phone, with a comfortable checkbox" do
-    visit admin_spaces_path
+    visit admin_campus_spaces_path(@campus)
     click_on "Novo espaço"
-    select "Guarapuava", from: "Campus"
+    assert_selector "#space_campus", text: "Campus Guarapuava"
     select "Bloco B", from: "Bloco"
     fill_in "Nome", with: "Sala 1"
     fill_in "Descrição", with: "Sala de aula com 40 carteiras."
@@ -82,6 +92,18 @@ class ManageSpacesOnPhoneTest < ApplicationSystemTestCase
     assert_flash_message "Espaço cadastrado com sucesso."
     within("tbody tr", text: "Sala 1") { assert_text "Precisa de aprovação" }
     assert_no_horizontal_scroll
+  end
+
+  test "admin opens the menu and goes from the spaces to the buildings of the campus" do
+    visit admin_campus_spaces_path(@campus)
+
+    click_on "Menu de navegação", enable_aria_label: true
+    within("nav[aria-label='Menu do campus']") do
+      assert_selector "a[aria-current='page']", text: "Espaços"
+      click_on "Blocos"
+    end
+
+    assert_current_path admin_campus_buildings_path(@campus)
   end
 
   private

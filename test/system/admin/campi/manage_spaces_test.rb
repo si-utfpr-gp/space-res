@@ -13,11 +13,10 @@ class ManageSpacesTest < ApplicationSystemTestCase
   end
 
   test "admin registers a space, checks it, edits it and deletes it" do
-    visit admin_root_path
-    click_on "Espaços"
+    visit admin_campus_path(@guarapuava)
+    within("#spaces_summary") { click_on "Cadastrar" }
 
-    click_on "Novo espaço"
-    select "Guarapuava", from: "Campus"
+    assert_selector "#space_campus", text: "Campus Guarapuava"
     select "Bloco B", from: "Bloco"
     fill_in "Nome", with: "Laboratório B3"
     fill_in "Descrição", with: "20 computadores."
@@ -27,8 +26,9 @@ class ManageSpacesTest < ApplicationSystemTestCase
     click_on "Salvar"
 
     assert_flash_message "Espaço cadastrado com sucesso."
+    assert_current_path admin_campus_spaces_path(@guarapuava)
     within("tbody tr", text: "Laboratório B3") do
-      assert_text "Guarapuava · Bloco B"
+      assert_text "Bloco B"
       assert_text "Biblioteca"
       assert_text "Precisa de aprovação"
       click_on "Laboratório B3"
@@ -52,83 +52,70 @@ class ManageSpacesTest < ApplicationSystemTestCase
     end
 
     assert_flash_message "Espaço excluído com sucesso."
-    assert_text "Nenhum espaço cadastrado."
+    assert_text "Nenhum espaço cadastrado neste campus."
   end
 
-  test "offers only the buildings of the chosen campus" do
-    visit new_admin_space_path
+  test "the form shows the campus and offers only its buildings" do
+    visit new_admin_campus_space_path(@guarapuava)
 
-    assert_equal [ "Sem bloco", "Bloco B", "Bloco C", "Bloco V" ], building_options
-
-    select "Guarapuava", from: "Campus"
+    assert_selector "#space_campus", text: "Campus Guarapuava"
+    assert_no_field "Campus"
     assert_equal [ "Sem bloco", "Bloco B", "Bloco C" ], building_options
 
-    select "Bloco C", from: "Bloco"
-    select "Pato Branco", from: "Campus"
-    assert_equal [ "Sem bloco", "Bloco V" ], building_options
-    assert_select "Bloco", selected: "Sem bloco"
+    visit new_admin_campus_space_path(@pato_branco)
 
-    select "Selecione o campus", from: "Campus"
-    assert_equal [ "Sem bloco", "Bloco B", "Bloco C", "Bloco V" ], building_options
+    assert_selector "#space_campus", text: "Campus Pato Branco"
+    assert_equal [ "Sem bloco", "Bloco V" ], building_options
   end
 
   test "offers only the option without building for a campus without buildings" do
-    create(:campus, name: "Apucarana")
-    visit new_admin_space_path
+    apucarana = create(:campus, name: "Apucarana")
+    visit new_admin_campus_space_path(apucarana)
 
-    select "Apucarana", from: "Campus"
     assert_equal [ "Sem bloco" ], building_options
   end
 
   test "keeps the chosen building when the form comes back with an error and when a space is edited" do
-    visit new_admin_space_path
-    select "Guarapuava", from: "Campus"
+    visit new_admin_campus_space_path(@guarapuava)
     select "Bloco C", from: "Bloco"
     click_on "Salvar"
 
     assert_text "Informe o nome do espaço."
-    assert_select "Campus", selected: "Guarapuava"
     assert_select "Bloco", selected: "Bloco C"
     assert_equal [ "Sem bloco", "Bloco B", "Bloco C" ], building_options
 
     space = create(:space, campus: @guarapuava, building: @bloco_b, name: "Sala 1")
-    visit edit_admin_space_path(space)
+    visit edit_admin_campus_space_path(@guarapuava, space)
 
     assert_select "Bloco", selected: "Bloco B"
     assert_equal [ "Sem bloco", "Bloco B", "Bloco C" ], building_options
   end
 
-  test "offers every building again after coming back to the form with the browser" do
-    visit new_admin_space_path
-    select "Guarapuava", from: "Campus"
-    assert_equal [ "Sem bloco", "Bloco B", "Bloco C" ], building_options
-
-    click_on "Cancelar"
-    assert_selector "h1", text: "Espaços"
-    page.go_back
-
-    assert_selector "h1", text: "Novo espaço"
-    select "Pato Branco", from: "Campus"
-    assert_equal [ "Sem bloco", "Bloco V" ], building_options
-  end
-
   test "admin registers a space without building" do
-    visit new_admin_space_path
-    select "Guarapuava", from: "Campus"
+    visit new_admin_campus_space_path(@guarapuava)
     fill_in "Nome", with: "Quadra poliesportiva"
     fill_in "Descrição", with: "Quadra coberta, ao lado do estacionamento."
     click_on "Salvar"
 
     assert_flash_message "Espaço cadastrado com sucesso."
     within("tbody tr", text: "Quadra poliesportiva") do
-      assert_text "Guarapuava · Sem bloco"
+      assert_text "Sem bloco"
       assert_text "Não precisa de aprovação"
     end
   end
 
+  test "cancelling the form goes back to the spaces of the campus" do
+    visit new_admin_campus_space_path(@guarapuava)
+
+    click_on "Cancelar"
+
+    assert_current_path admin_campus_spaces_path(@guarapuava)
+    assert_selector "h1", text: "Espaços"
+  end
+
   test "admin marks a space as unavailable, changes the reason and makes it available again" do
     space = create(:space, campus: @guarapuava, building: @bloco_b, name: "Sala 1")
-    visit admin_space_path(space)
+    visit admin_campus_space_path(@guarapuava, space)
 
     click_on "Marcar como indisponível"
     click_on "Salvar"
@@ -148,10 +135,16 @@ class ManageSpacesTest < ApplicationSystemTestCase
 
     assert_flash_message "Motivo da indisponibilidade alterado."
     within("#space_status") { assert_text "Motivo: Sala em reforma até março" }
-    visit admin_spaces_path
+
+    visit admin_campus_path(@guarapuava)
+    within("#unavailable_spaces") do
+      assert_text "Sala 1"
+      assert_text "Motivo: Sala em reforma até março"
+    end
+    visit admin_campus_spaces_path(@guarapuava)
     within("tbody tr", text: "Sala 1") { assert_text "Indisponível" }
 
-    visit admin_space_path(space)
+    visit admin_campus_space_path(@guarapuava, space)
     click_on "Tornar disponível"
 
     assert_flash_message "Espaço disponível de novo."
@@ -161,21 +154,31 @@ class ManageSpacesTest < ApplicationSystemTestCase
     end
   end
 
+  test "admin reaches an unavailable space from the campus page" do
+    space = create(:space, :unavailable, campus: @guarapuava, name: "Sala 1")
+    visit admin_campus_path(@guarapuava)
+
+    within("#unavailable_spaces") { click_on "Ver espaço" }
+
+    assert_current_path admin_campus_space_path(@guarapuava, space)
+    assert_selector "h1", text: "Sala 1"
+  end
+
   test "admin cancels marking a space as unavailable" do
     space = create(:space, campus: @guarapuava, name: "Sala 1")
-    visit admin_space_path(space)
+    visit admin_campus_space_path(@guarapuava, space)
 
     click_on "Marcar como indisponível"
     fill_in "Motivo", with: "Sala em reforma"
     click_on "Cancelar"
 
-    assert_current_path admin_space_path(space)
+    assert_current_path admin_campus_space_path(@guarapuava, space)
     within("#space_status") { assert_text "Disponível" }
   end
 
   test "admin deactivates a space after confirming and reactivates it" do
     space = create(:space, campus: @guarapuava, building: @bloco_b, name: "Sala 1")
-    visit admin_space_path(space)
+    visit admin_campus_space_path(@guarapuava, space)
 
     accept_confirm(/Desativar o espaço Sala 1\? Ele deixará de aparecer na reserva/) do
       click_on "Desativar"
@@ -187,10 +190,10 @@ class ManageSpacesTest < ApplicationSystemTestCase
     assert_no_button "Desativar"
     assert_no_link "Marcar como indisponível"
 
-    visit admin_spaces_path
+    visit admin_campus_spaces_path(@guarapuava)
     within("tbody tr", text: "Sala 1") { assert_text "Desativado" }
 
-    visit admin_space_path(space)
+    visit admin_campus_space_path(@guarapuava, space)
     click_on "Reativar"
 
     assert_flash_message "Espaço reativado. Ele volta a aparecer na reserva e pode ser reservado."
@@ -200,7 +203,7 @@ class ManageSpacesTest < ApplicationSystemTestCase
 
   test "keeps the status when the deactivation is not confirmed" do
     space = create(:space, :unavailable, campus: @guarapuava, name: "Sala 1")
-    visit admin_space_path(space)
+    visit admin_campus_space_path(@guarapuava, space)
 
     dismiss_confirm(/Para impedir as reservas só por um tempo/) do
       click_on "Desativar"
@@ -212,55 +215,28 @@ class ManageSpacesTest < ApplicationSystemTestCase
 
   test "keeps the space when the deletion is not confirmed" do
     space = create(:space, campus: @guarapuava, name: "Sala 1")
-    visit admin_space_path(space)
+    visit admin_campus_space_path(@guarapuava, space)
 
     dismiss_confirm(/A exclusão não pode ser desfeita/) do
       click_on "Excluir"
     end
 
-    visit admin_spaces_path
+    visit admin_campus_spaces_path(@guarapuava)
     assert_selector "tbody tr", text: "Sala 1"
   end
 
   test "admin fills in the form using only the keyboard" do
-    visit new_admin_space_path
+    visit new_admin_campus_space_path(@guarapuava)
 
-    assert_equal "space_campus_id", page.evaluate_script("document.activeElement.id")
-    send_keys "Guarapuava", :tab, "Bloco B", :tab, "Sala 7", :tab, "Térreo", :tab, "Biblioteca", :tab, :space, :tab, :tab, :tab, :enter
+    assert_equal "space_building_id", page.evaluate_script("document.activeElement.id")
+    send_keys "Bloco B", :tab, "Sala 7", :tab, "Térreo", :tab, "Biblioteca", :tab, :space, :tab, :tab, :tab, :enter
 
     assert_flash_message "Espaço cadastrado com sucesso."
     within("tbody tr", text: "Sala 7") do
-      assert_text "Guarapuava · Bloco B"
+      assert_text "Bloco B"
       assert_text "Biblioteca"
       assert_text "Precisa de aprovação"
     end
-  end
-
-  test "explains why a building with spaces cannot be deleted" do
-    create(:space, campus: @guarapuava, building: @bloco_b, name: "Sala 1")
-    visit admin_buildings_path
-
-    accept_confirm "Excluir o bloco Bloco B do campus Guarapuava?" do
-      within("tbody tr", text: "Bloco B") { click_on "Excluir" }
-    end
-
-    assert_flash_message "Não é possível excluir o bloco porque ele tem espaços cadastrados. " \
-                         "Mova os espaços para outro bloco ou exclua-os antes."
-    assert_selector "tbody tr", text: "Bloco B"
-  end
-
-  test "moves the spaces of a building along when its campus changes" do
-    create(:space, campus: @guarapuava, building: @bloco_b, name: "Sala 1")
-    visit admin_buildings_path
-    within("tbody tr", text: "Bloco B") { click_on "Editar" }
-
-    assert_text "Este bloco tem 1 espaço. Ao trocar o campus, ele passa para o novo campus."
-    select "Pato Branco", from: "Campus"
-    click_on "Salvar"
-
-    assert_flash_message "Bloco atualizado com sucesso. 1 espaço passou para o campus Pato Branco."
-    visit admin_spaces_path
-    within("tbody tr", text: "Sala 1") { assert_text "Pato Branco · Bloco B" }
   end
 
   private
