@@ -2,18 +2,10 @@ class NormalizedUniquenessValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     return if value.blank?
 
-    key = comparison_key(value)
+    name = ComparableName.from(value)
     scope = Array(options[:scope]).index_with { |column| record.read_attribute(column) }
     other_values = record.class.where(scope).where.not(id: record.id).pluck(attribute)
 
-    record.errors.add(attribute, :taken) if other_values.any? { |other| comparison_key(other) == key }
+    record.errors.add(attribute, :taken) if other_values.any? { |other| ComparableName.from(other) == name }
   end
-
-  private
-
-    # Compares only letters and digits, ignoring case and accents. Runs in Ruby because
-    # SQLite's LOWER() and NOCASE only fold ASCII letters and keep accents.
-    def comparison_key(value)
-      value.unicode_normalize(:nfkd).gsub(/\p{Mn}/, "").downcase(:fold).gsub(/[^\p{Alnum}]/, "")
-    end
 end
