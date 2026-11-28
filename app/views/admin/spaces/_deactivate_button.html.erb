@@ -1,4 +1,0 @@
-<%# locals: (space:) %>
-<%= button_to t("admin.spaces.show.deactivate"), admin_space_deactivation_path(space),
-              class: "btn btn-md btn-outline w-full", form_class: "flex-1 sm:flex-none",
-              form: { data: { turbo_confirm: t("admin.spaces.confirm_deactivation", name: space.name) } } %>

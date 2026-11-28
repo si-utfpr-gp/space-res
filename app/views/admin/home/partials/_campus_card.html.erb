@@ -1,0 +1,33 @@
+<%# locals: (summary:) %>
+<li>
+  <article id="<%= dom_id(summary.campus) %>" class="flex h-full flex-col rounded-xl border border-gray-200 bg-white p-4 sm:p-5">
+    <div class="flex items-center gap-3">
+      <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary text-white">
+        <%= icon(:location_dot, class: "h-5 w-5") %>
+      </span>
+      <h3 class="min-w-0 break-words text-lg font-semibold text-dark"><%= summary.campus.name %></h3>
+    </div>
+
+    <dl class="mt-4 divide-y divide-gray-200 rounded-lg bg-neutral px-3 text-sm">
+      <div class="flex items-center justify-between gap-3 py-1.5">
+        <dt class="text-gray-600"><%= t("admin.home.index.spaces") %></dt>
+        <dd class="font-semibold text-dark"><%= summary.spaces_count %></dd>
+      </div>
+      <div class="flex items-center justify-between gap-3 py-1.5">
+        <dt class="text-gray-600"><%= t("admin.home.index.buildings") %></dt>
+        <dd class="font-semibold text-dark"><%= summary.buildings_count %></dd>
+      </div>
+    </dl>
+
+    <% if summary.unavailable_spaces_count.positive? %>
+      <p class="mt-4 text-sm text-gray-600"><%= t("admin.home.index.unavailable_spaces", count: summary.unavailable_spaces_count) %></p>
+    <% end %>
+
+    <div class="mt-auto pt-4">
+      <%= link_to admin_campus_path(summary.campus), class: "btn btn-md btn-primary w-full no-underline" do %>
+        <span class="min-w-0 break-words"><%= t("admin.home.index.manage", campus: summary.campus.name) %></span>
+        <%= icon(:arrow_right, class: "btn-icon-sm shrink-0") %>
+      <% end %>
+    </div>
+  </article>
+</li>

@@ -6,8 +6,5 @@ class Campus < ApplicationRecord
 
   validates :name, presence: true, normalized_uniqueness: true
 
-  # The groups of a building select: campi without buildings are left out, and both come in name order.
-  scope :having_buildings_ordered_by_name, -> {
-    eager_load(:buildings).where.not(buildings: { id: nil }).order(:name, "buildings.name")
-  }
+  scope :ordered_by_name, -> { order(:name) }
 end

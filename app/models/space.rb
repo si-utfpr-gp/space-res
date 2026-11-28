@@ -4,6 +4,11 @@ class Space < ApplicationRecord
   belongs_to :department, optional: true
   belongs_to :usage_term, optional: true
 
+  # A space stays in the campus it was registered in; one in the wrong campus is deleted and registered
+  # again. Writing the campus of a saved space raises ActiveRecord::ReadonlyAttributeError, even with
+  # the same campus (assign_attributes(campus:), campus.spaces << space).
+  attr_readonly :campus_id
+
   UNAVAILABILITY_REASON_MAX_LENGTH = 100
 
   # A change of status asked from a status it does not start from: a repeated action, or a page opened
@@ -37,6 +42,11 @@ class Space < ApplicationRecord
     eager_load(:campus, :building)
       .order("campi.name", Arel.sql("buildings.name IS NULL"), "buildings.name", "spaces.name")
   }
+
+  # How many spaces are in each status, leaving out the statuses without spaces.
+  def self.counts_by_status
+    group(:status).count
+  end
 
   def without_building?
     building_id.nil?

@@ -1,0 +1,57 @@
+<% provide :title, @space.name %>
+<% provide :head_title, @space.name %>
+<% provide :head_subtitle, t(".subtitle") %>
+<% presenter = Admin::SpacePresenter.new(@space) %>
+
+<div class="space-y-4 sm:space-y-6">
+  <div class="flex flex-wrap gap-2 sm:justify-end">
+    <%= link_to edit_admin_campus_space_path(@campus, @space), class: "btn btn-md btn-outline flex-1 no-underline sm:flex-none" do %>
+      <%= icon(:pen, class: "btn-icon-sm") %>
+      <span><%= t("actions.edit") %></span>
+    <% end %>
+
+    <%= render "status_actions", space: @space %>
+
+    <%= button_to admin_campus_space_path(@campus, @space), method: :delete,
+                  class: "btn btn-md btn-delete w-full", form_class: "flex-1 sm:flex-none",
+                  form: { data: { turbo_confirm: t("admin.campi.spaces.confirm_destroy", name: @space.name) } } do %>
+      <%= icon(:trash, class: "btn-icon-sm") %>
+      <span><%= t("actions.destroy") %></span>
+    <% end %>
+  </div>
+
+  <dl id="space_details" class="grid gap-4 rounded-xl border border-gray-200 bg-white p-4 text-sm sm:grid-cols-2 sm:p-6">
+    <div>
+      <dt class="font-medium text-gray-500"><%= Space.human_attribute_name(:status) %></dt>
+      <dd id="space_status" class="text-dark">
+        <span class="font-medium"><%= presenter.status_label %></span>
+        <span class="block text-xs text-gray-500"><%= t(".status_hint.#{@space.status}") %></span>
+        <%= render "unavailability_reason", space: @space if @space.unavailable? %>
+      </dd>
+    </div>
+    <div>
+      <dt class="font-medium text-gray-500"><%= Space.human_attribute_name(:requires_approval) %></dt>
+      <dd id="space_approval" class="text-dark"><%= presenter.approval_description %></dd>
+    </div>
+    <div>
+      <dt class="font-medium text-gray-500"><%= Space.human_attribute_name(:campus) %></dt>
+      <dd class="break-words text-dark"><%= @space.campus.name %></dd>
+    </div>
+    <div>
+      <dt class="font-medium text-gray-500"><%= Space.human_attribute_name(:building) %></dt>
+      <dd class="break-words text-dark"><%= presenter.building_name %></dd>
+    </div>
+    <div>
+      <dt class="font-medium text-gray-500"><%= Space.human_attribute_name(:department) %></dt>
+      <dd class="break-words text-dark"><%= presenter.department_name %></dd>
+    </div>
+    <div>
+      <dt class="font-medium text-gray-500"><%= Space.human_attribute_name(:usage_term) %></dt>
+      <dd id="space_usage_term" class="break-words text-dark"><%= render "usage_term", usage_term: @space.usage_term %></dd>
+    </div>
+    <div class="sm:col-span-2">
+      <dt class="font-medium text-gray-500"><%= Space.human_attribute_name(:description) %></dt>
+      <dd id="space_description" class="whitespace-pre-line break-words text-dark"><%= @space.description %></dd>
+    </div>
+  </dl>
+</div>

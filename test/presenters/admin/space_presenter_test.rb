@@ -7,18 +7,12 @@ class Admin::SpacePresenterTest < ActiveSupport::TestCase
     @department = create(:department, name: "Biblioteca")
   end
 
-  test "shows the campus and the building of a space" do
-    presenter = present(building: @building)
-
-    assert_equal "Guarapuava · Bloco B", presenter.location
-    assert_equal "Bloco B", presenter.building_name
+  test "shows the building of a space" do
+    assert_equal "Bloco B", present(building: @building).building_name
   end
 
-  test "shows the campus of a space without building" do
-    presenter = present(building: nil)
-
-    assert_equal "Guarapuava · Sem bloco", presenter.location
-    assert_equal "Sem bloco", presenter.building_name
+  test "shows a placeholder for a space without building" do
+    assert_equal "Sem bloco", present(building: nil).building_name
   end
 
   test "shows the department, or a placeholder when there is none" do

@@ -1,0 +1,18 @@
+<%# locals: (campus_summaries:) %>
+<section aria-labelledby="campi_title" class="space-y-4">
+  <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <h2 id="campi_title" class="text-sm font-semibold uppercase tracking-widest text-dark"><%= t("admin.home.index.campi") %></h2>
+    <%= link_to new_admin_campus_path, class: "btn btn-md btn-primary w-full no-underline sm:w-auto" do %>
+      <%= icon(:add, class: "btn-icon") %>
+      <span><%= t("admin.home.index.new_campus") %></span>
+    <% end %>
+  </div>
+
+  <% if campus_summaries.any? %>
+    <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      <%= render partial: "admin/home/partials/campus_card", collection: campus_summaries, as: :summary %>
+    </ul>
+  <% else %>
+    <%= render "shared/empty_state", icon_name: :location_dot, message: t("admin.home.index.no_campi") %>
+  <% end %>
+</section>

@@ -11,7 +11,7 @@ class CampusAssociationsTest < ActiveSupport::TestCase
 
     assert_not campus.destroy
     assert Campus.exists?(campus.id)
-    assert_equal [ "Não é possível excluir o campus porque ele tem blocos cadastrados. Mova-os para outro campus ou exclua-os antes." ],
+    assert_equal [ "Não é possível excluir o campus porque ele tem blocos cadastrados. Exclua-os antes." ],
                  campus.errors.full_messages
   end
 
@@ -20,7 +20,7 @@ class CampusAssociationsTest < ActiveSupport::TestCase
 
     assert_not campus.destroy
     assert Campus.exists?(campus.id)
-    assert_equal [ "Não é possível excluir o campus porque ele tem espaços cadastrados. Mova-os para outro campus ou exclua-os antes." ],
+    assert_equal [ "Não é possível excluir o campus porque ele tem espaços cadastrados. Exclua-os antes." ],
                  campus.errors.full_messages
   end
 

@@ -8,12 +8,16 @@ class Users::BaseController < ActionController::Base
 
   add_flash_types :success, :warning
 
-  helper_method :can_access_admin_area?
+  helper_method :can_access_admin_area?, :can_manage_campus?
 
   private
 
     def can_access_admin_area?
       AdminPolicy.new(Current.user).access_area?
+    end
+
+    def can_manage_campus?(campus)
+      AdminPolicy.new(Current.user).manage_campus?(campus)
     end
 
     def default_breadcrumbs

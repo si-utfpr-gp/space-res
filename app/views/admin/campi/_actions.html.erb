@@ -1,0 +1,13 @@
+<%# locals: (campus:) %>
+<div class="flex flex-col gap-2 sm:flex-row sm:justify-end">
+  <%= link_to edit_admin_campus_path(campus), class: "btn btn-md btn-outline w-full no-underline sm:w-auto" do %>
+    <%= icon(:pen, class: "btn-icon-sm") %>
+    <span><%= t("admin.campi.show.edit") %></span>
+  <% end %>
+
+  <%= button_to admin_campus_path(campus), method: :delete, class: "btn btn-md btn-delete w-full", form_class: "sm:w-auto",
+                form: { data: { turbo_confirm: t("admin.campi.show.confirm_destroy", name: campus.name) } } do %>
+    <%= icon(:trash, class: "btn-icon-sm") %>
+    <span><%= t("admin.campi.show.destroy") %></span>
+  <% end %>
+</div>

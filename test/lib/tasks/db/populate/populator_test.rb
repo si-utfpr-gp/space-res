@@ -23,7 +23,7 @@ class Db::PopulatorTest < ActiveSupport::TestCase
     assert_output(/Database populated/) { Db::Populator.new.call }
 
     assert_equal [ [ "Guarapuava", "Bloco B" ], [ "Guarapuava", "Bloco C" ], [ "Guarapuava", "Bloco R" ] ],
-                 Building.sorted.map { |building| [ building.campus.name, building.name ] }
+                 Building.includes(:campus).ordered_by_name.map { |building| [ building.campus.name, building.name ] }
   end
 
   test "replaces the departments with the 25 Guarapuava departments" do
