@@ -1,0 +1,18 @@
+<%# locals: (campus:, spaces:, filters:) %>
+<div class="space-y-4">
+  <div class="flex flex-wrap items-center justify-between gap-2">
+    <p id="spaces_count" class="text-sm text-gray-600" data-filter-count>
+      <%= t("admin.campi.spaces.filters.count", count: spaces.size) %>
+    </p>
+    <% if filters.applied? %>
+      <%= link_to t("admin.campi.spaces.filters.clear"), admin_campus_spaces_path(campus),
+                  class: "btn btn-md btn-outline no-underline", data: { turbo_frame: "_top" } %>
+    <% end %>
+  </div>
+
+  <% if spaces.any? %>
+    <%= render "table", spaces: spaces %>
+  <% else %>
+    <%= render "shared/empty_state", icon_name: :door, message: t("admin.campi.spaces.filters.no_results") %>
+  <% end %>
+</div>

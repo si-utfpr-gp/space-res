@@ -26,16 +26,19 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root "home#index"
-    resources :campi, except: :show
-    resources :buildings, except: :show
-    resources :departments, except: :show
-    resources :usage_terms
-    resources :spaces do
-      scope module: :spaces do
-        resource :unavailability, only: [ :new, :create, :edit, :update, :destroy ]
-        resource :deactivation, only: [ :create, :destroy ]
+    resources :campi, except: :index do
+      scope module: :campi do
+        resources :buildings, except: :show
+        resources :spaces do
+          scope module: :spaces do
+            resource :unavailability, only: [ :new, :create, :edit, :update, :destroy ]
+            resource :deactivation, only: [ :create, :destroy ]
+          end
+        end
       end
     end
+    resources :departments, except: :show
+    resources :usage_terms
     resources :users, only: [ :index, :edit, :update ]
   end
 

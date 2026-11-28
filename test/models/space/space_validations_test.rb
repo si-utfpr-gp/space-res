@@ -47,7 +47,7 @@ class SpaceValidationsTest < ActiveSupport::TestCase
     assert build(:space, building: nil, department: nil, usage_term: nil).valid?
   end
 
-  test "accepts a building of the chosen campus" do
+  test "accepts a building of its campus" do
     assert build(:space, campus: @campus, building: @building).valid?
   end
 
@@ -55,14 +55,14 @@ class SpaceValidationsTest < ActiveSupport::TestCase
     space = build(:space, campus: create(:campus, name: "Pato Branco"), building: @building)
 
     assert_not space.valid?
-    assert_equal [ "Selecione um bloco do campus escolhido." ], space.errors[:building]
+    assert_equal [ "Selecione um bloco deste campus." ], space.errors[:building]
   end
 
   test "rejects a building that does not exist" do
     space = build(:space, campus: @campus, building_id: 0)
 
     assert_not space.valid?
-    assert_equal [ "Selecione um bloco do campus escolhido." ], space.errors[:building]
+    assert_equal [ "Selecione um bloco deste campus." ], space.errors[:building]
   end
 
   test "reports only the missing campus when the campus is missing and a building is chosen" do

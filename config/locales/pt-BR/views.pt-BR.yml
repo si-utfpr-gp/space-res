@@ -23,6 +23,16 @@ pt-BR:
       email_address: E-mail
       password: Senha
   components:
+    admin:
+      campus_menu:
+        label: Menu do campus
+        admin_area: Área administrativa
+        campus: Campus
+        change_campus: Trocar de campus
+        sections:
+          overview: Visão geral
+          spaces: Espaços
+          buildings: Blocos
     page:
       breadcrumbs:
         label: Trilha de navegação
@@ -114,65 +124,64 @@ pt-BR:
     home:
       index:
         title: Área administrativa
-        subtitle: Gerencie os cadastros e as configurações do sistema.
+        subtitle: Escolha o campus que você quer gerenciar.
         breadcrumb: Área administrativa
-        registrations: Cadastros
         campi: Campi
-        campi_description: Cadastre os campi da UTFPR
-        buildings: Blocos
-        buildings_description: Cadastre os blocos de cada campus
+        new_campus: Cadastrar campus
+        no_campi: Nenhum campus cadastrado.
         spaces: Espaços
-        spaces_description: Cadastre as salas, os laboratórios e os outros espaços reserváveis
+        buildings: Blocos
+        unavailable_spaces:
+          one: 1 espaço indisponível
+          other: "%{count} espaços indisponíveis"
+        manage: Gerenciar %{campus}
+        general_registrations: Cadastros gerais
+        general_registrations_description: Valem para todos os campi. Só o administrador geral vê esta seção.
+        users: Usuários
+        users_description: Defina o departamento de cada usuário
         departments: Departamentos
         departments_description: Cadastre os departamentos responsáveis pelos espaços
         usage_terms: Termos de uso
         usage_terms_description: Cadastre os termos de uso e responsabilidade dos espaços
-        users: Usuários
-        users_description: Defina o departamento de cada usuário
-    buildings:
-      index:
-        title: Blocos
-        subtitle: Gerencie os blocos de cada campus, que organizam os espaços.
-        breadcrumb: Blocos
-        new: Novo bloco
-        empty: Nenhum bloco cadastrado.
-        actions: Ações
-        confirm_destroy: Excluir o bloco %{name} do campus %{campus}?
-      new:
-        title: Novo bloco
-        subtitle: Preencha as informações do novo bloco.
-        breadcrumb: Novo
-      edit:
-        title: Editar bloco
-        subtitle: Altere as informações do bloco.
-        breadcrumb: Editar
-      form:
-        campus_prompt: Selecione o campus
-        campus_change_hint:
-          one: Este bloco tem 1 espaço. Ao trocar o campus, ele passa para o novo campus.
-          other: Este bloco tem %{count} espaços. Ao trocar o campus, eles passam para o novo campus.
-      create:
-        success: Bloco cadastrado com sucesso.
-      update:
-        success: Bloco atualizado com sucesso.
-        success_with_spaces:
-          one: Bloco atualizado com sucesso. 1 espaço passou para o campus %{campus}.
-          other: Bloco atualizado com sucesso. %{count} espaços passaram para o campus %{campus}.
-      destroy:
-        success: Bloco excluído com sucesso.
     campi:
-      index:
-        title: Campi
-        subtitle: Gerencie os campi da UTFPR que organizam os blocos e os espaços.
-        breadcrumb: Campi
-        new: Novo campus
-        empty: Nenhum campus cadastrado.
-        actions: Ações
+      show:
+        title: Campus %{name}
+        subtitle: Visão geral dos cadastros do campus e do que precisa de atenção.
+        edit: Editar campus
+        destroy: Excluir campus
         confirm_destroy: Excluir o campus %{name}?
+        summaries: Cadastros do campus
+        sentence: "%{list}."
+        spaces_summary:
+          title: Espaços
+          empty: Nenhum espaço cadastrado.
+          view_all_html: Ver todos<span class="sr-only"> os espaços</span>
+          new_html: Cadastrar<span class="sr-only"> espaço</span>
+        spaces_by_status:
+          available:
+            one: 1 disponível
+            other: "%{count} disponíveis"
+          unavailable:
+            one: 1 indisponível
+            other: "%{count} indisponíveis"
+          deactivated:
+            one: 1 desativado
+            other: "%{count} desativados"
+        buildings_summary:
+          title: Blocos
+          empty: Nenhum bloco cadastrado.
+          view_all_html: Ver todos<span class="sr-only"> os blocos</span>
+          new_html: Cadastrar<span class="sr-only"> bloco</span>
+        unavailable_spaces:
+          title: Espaços indisponíveis
+          description: Aparecem na reserva, mas não podem ser reservados até voltarem a ficar disponíveis.
+          empty: Nenhum espaço indisponível.
+          reason: "Motivo: %{reason}"
+          show_html: Ver espaço<span class="sr-only"> %{name}</span>
       new:
         title: Novo campus
         subtitle: Preencha as informações do novo campus.
-        breadcrumb: Novo
+        breadcrumb: Novo campus
       edit:
         title: Editar campus
         subtitle: Altere as informações do campus.
@@ -183,6 +192,116 @@ pt-BR:
         success: Campus atualizado com sucesso.
       destroy:
         success: Campus excluído com sucesso.
+      buildings:
+        index:
+          title: Blocos
+          subtitle: Gerencie os blocos do campus %{campus}, que organizam os espaços.
+          breadcrumb: Blocos
+          new: Novo bloco
+          empty: Nenhum bloco cadastrado neste campus.
+          actions: Ações
+          confirm_destroy: Excluir o bloco %{name}?
+        new:
+          title: Novo bloco
+          subtitle: Preencha as informações do novo bloco do campus %{campus}.
+          breadcrumb: Novo
+        edit:
+          title: Editar bloco
+          subtitle: Altere as informações do bloco do campus %{campus}.
+          breadcrumb: Editar
+        create:
+          success: Bloco cadastrado com sucesso.
+        update:
+          success: Bloco atualizado com sucesso.
+        destroy:
+          success: Bloco excluído com sucesso.
+      spaces:
+        confirm_destroy: Excluir o espaço %{name}? A exclusão não pode ser desfeita. Para só tirar o espaço de uso, desative-o na página do espaço.
+        confirm_deactivation: Desativar o espaço %{name}? Ele deixará de aparecer na reserva. Para impedir as reservas só por um tempo, use "Marcar como indisponível".
+        no_building: Sem bloco
+        no_department: Sem departamento
+        no_usage_term: Sem termo de uso
+        status:
+          available: Disponível
+          unavailable: Indisponível
+          deactivated: Desativado
+        status_unchanged: "Nada foi alterado: o espaço está %{status}."
+        approval:
+          required: Precisa de aprovação
+          not_required: Não precisa de aprovação
+          description:
+            not_required: Não. As reservas são confirmadas sem liberação.
+            by_department: Sim. As reservas são liberadas pelos usuários do departamento %{department}.
+            by_administrators: Sim. Como o espaço não tem departamento responsável, só os administradores liberam as reservas.
+        index:
+          title: Espaços
+          subtitle: Gerencie as salas, os laboratórios e os outros espaços do campus %{campus} que podem ser reservados.
+          breadcrumb: Espaços
+          new: Novo espaço
+          empty: Nenhum espaço cadastrado neste campus.
+          approval: Aprovação
+          actions: Ações
+        filters:
+          label: Filtrar espaços
+          name_placeholder: Buscar pelo nome
+          all_buildings: Todos os blocos
+          all_statuses: Todas as situações
+          submit: Filtrar
+          count:
+            one: 1 espaço
+            other: "%{count} espaços"
+          no_results: Nenhum espaço encontrado com estes filtros.
+          clear: Limpar filtros
+        show:
+          subtitle: Dados do espaço e de como ele é reservado.
+          status_hint:
+            available: O espaço aparece na reserva e pode ser reservado.
+            unavailable: O espaço aparece na reserva, mas não pode ser reservado. Quem tenta reservar vê o motivo.
+            deactivated: O espaço não aparece na reserva. O cadastro continua guardado.
+          mark_unavailable: Marcar como indisponível
+          change_reason: Alterar motivo
+          end_unavailability: Tornar disponível
+          deactivate: Desativar
+          reactivate: Reativar
+        new:
+          title: Novo espaço
+          subtitle: Preencha as informações do novo espaço do campus %{campus}.
+          breadcrumb: Novo
+        edit:
+          title: Editar espaço
+          subtitle: Altere as informações do espaço do campus %{campus}.
+          breadcrumb: Editar
+        form:
+          building_hint: Só aparecem os blocos deste campus. Escolha "Sem bloco" para espaços fora de blocos, como a quadra e o planetário.
+          approval_hint: Com departamento responsável, os usuários do departamento liberam as reservas. Sem departamento, só os administradores.
+          usage_term_hint: Quem reservar o espaço precisará aceitar este termo.
+        create:
+          success: Espaço cadastrado com sucesso.
+        update:
+          success: Espaço atualizado com sucesso.
+        destroy:
+          success: Espaço excluído com sucesso.
+        unavailabilities:
+          breadcrumb: Indisponibilidade
+          new:
+            title: Marcar como indisponível
+            subtitle: O espaço %{name} vai continuar aparecendo na reserva, mas não poderá ser reservado.
+          edit:
+            title: Alterar motivo
+            subtitle: O novo motivo aparece para quem tenta reservar o espaço %{name}.
+          form:
+            reason_hint: Aparece para quem tenta reservar o espaço. Até %{count} caracteres.
+          create:
+            success: Espaço marcado como indisponível. Ele continua aparecendo na reserva, mas não pode ser reservado.
+          update:
+            success: Motivo da indisponibilidade alterado.
+          destroy:
+            success: Espaço disponível de novo. Ele pode voltar a ser reservado.
+        deactivations:
+          create:
+            success: Espaço desativado. Ele deixa de aparecer na reserva.
+          destroy:
+            success: Espaço reativado. Ele volta a aparecer na reserva e pode ser reservado.
     departments:
       index:
         title: Departamentos
@@ -206,84 +325,6 @@ pt-BR:
         success: Departamento atualizado com sucesso.
       destroy:
         success: Departamento excluído com sucesso.
-    spaces:
-      confirm_destroy: Excluir o espaço %{name}? A exclusão não pode ser desfeita. Para só tirar o espaço de uso, desative-o na página do espaço.
-      confirm_deactivation: Desativar o espaço %{name}? Ele deixará de aparecer na reserva. Para impedir as reservas só por um tempo, use "Marcar como indisponível".
-      no_building: Sem bloco
-      no_department: Sem departamento
-      no_usage_term: Sem termo de uso
-      status:
-        available: Disponível
-        unavailable: Indisponível
-        deactivated: Desativado
-      status_unchanged: "Nada foi alterado: o espaço está %{status}."
-      approval:
-        required: Precisa de aprovação
-        not_required: Não precisa de aprovação
-        description:
-          not_required: Não. As reservas são confirmadas sem liberação.
-          by_department: Sim. As reservas são liberadas pelos usuários do departamento %{department}.
-          by_administrators: Sim. Como o espaço não tem departamento responsável, só os administradores liberam as reservas.
-      index:
-        title: Espaços
-        subtitle: Gerencie as salas, os laboratórios e os outros espaços que podem ser reservados.
-        breadcrumb: Espaços
-        new: Novo espaço
-        empty: Nenhum espaço cadastrado.
-        location: Localização
-        approval: Aprovação
-        actions: Ações
-      show:
-        subtitle: Dados do espaço e de como ele é reservado.
-        status_hint:
-          available: O espaço aparece na reserva e pode ser reservado.
-          unavailable: O espaço aparece na reserva, mas não pode ser reservado. Quem tenta reservar vê o motivo.
-          deactivated: O espaço não aparece na reserva. O cadastro continua guardado.
-        mark_unavailable: Marcar como indisponível
-        change_reason: Alterar motivo
-        end_unavailability: Tornar disponível
-        deactivate: Desativar
-        reactivate: Reativar
-      new:
-        title: Novo espaço
-        subtitle: Preencha as informações do novo espaço.
-        breadcrumb: Novo
-      edit:
-        title: Editar espaço
-        subtitle: Altere as informações do espaço.
-        breadcrumb: Editar
-      form:
-        campus_prompt: Selecione o campus
-        building_hint: Escolha "Sem bloco" para espaços fora de blocos, como a quadra e o planetário.
-        approval_hint: Com departamento responsável, os usuários do departamento liberam as reservas. Sem departamento, só os administradores.
-        usage_term_hint: Quem reservar o espaço precisará aceitar este termo.
-      create:
-        success: Espaço cadastrado com sucesso.
-      update:
-        success: Espaço atualizado com sucesso.
-      destroy:
-        success: Espaço excluído com sucesso.
-      unavailabilities:
-        breadcrumb: Indisponibilidade
-        new:
-          title: Marcar como indisponível
-          subtitle: O espaço %{name} vai continuar aparecendo na reserva, mas não poderá ser reservado.
-        edit:
-          title: Alterar motivo
-          subtitle: O novo motivo aparece para quem tenta reservar o espaço %{name}.
-        form:
-          reason_hint: Aparece para quem tenta reservar o espaço. Até %{count} caracteres.
-        create:
-          success: Espaço marcado como indisponível. Ele continua aparecendo na reserva, mas não pode ser reservado.
-        update:
-          success: Motivo da indisponibilidade alterado.
-        destroy:
-          success: Espaço disponível de novo. Ele pode voltar a ser reservado.
-      deactivations:
-        create:
-          success: Espaço desativado. Ele deixa de aparecer na reserva.
-        destroy:
-          success: Espaço reativado. Ele volta a aparecer na reserva e pode ser reservado.
     usage_terms:
       confirm_destroy: Excluir o termo %{title}?
       index:

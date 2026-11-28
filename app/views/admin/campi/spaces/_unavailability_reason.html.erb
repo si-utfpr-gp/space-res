@@ -1,0 +1,7 @@
+<%# locals: (space:) %>
+<p id="space_unavailability_reason" class="mt-2 break-words">
+  <span class="font-medium"><%= Space.human_attribute_name(:unavailability_reason) %>:</span>
+  <%= space.unavailability_reason %>
+</p>
+<%= link_to t("admin.campi.spaces.show.change_reason"), edit_admin_campus_space_unavailability_path(space.campus, space),
+            class: "inline-flex min-h-11 items-center text-primary" %>

@@ -59,13 +59,6 @@ class BuildingValidationsTest < ActiveSupport::TestCase
     assert_includes building.errors[:name], "Já existe um bloco com este nome neste campus."
   end
 
-  test "rejects moving a building to a campus that already has its name" do
-    building = create(:building, campus: create(:campus, name: "Pato Branco"), name: "Bloco Química")
-
-    assert_not building.update(campus: @campus)
-    assert_includes building.errors[:name], "Já existe um bloco com este nome neste campus."
-  end
-
   private
 
     def assert_name_taken(building)

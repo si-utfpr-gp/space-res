@@ -1,0 +1,14 @@
+<%# locals: (space:) %>
+<% case space.status %>
+<% when "available" %>
+  <%= link_to t("admin.campi.spaces.show.mark_unavailable"), new_admin_campus_space_unavailability_path(space.campus, space),
+              class: "btn btn-md btn-outline flex-1 no-underline sm:flex-none" %>
+  <%= render "deactivate_button", space: space %>
+<% when "unavailable" %>
+  <%= button_to t("admin.campi.spaces.show.end_unavailability"), admin_campus_space_unavailability_path(space.campus, space), method: :delete,
+                class: "btn btn-md btn-outline w-full", form_class: "flex-1 sm:flex-none" %>
+  <%= render "deactivate_button", space: space %>
+<% when "deactivated" %>
+  <%= button_to t("admin.campi.spaces.show.reactivate"), admin_campus_space_deactivation_path(space.campus, space), method: :delete,
+                class: "btn btn-md btn-outline w-full", form_class: "flex-1 sm:flex-none" %>
+<% end %>

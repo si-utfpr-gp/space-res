@@ -1,6 +1,10 @@
 pt-BR:
   activemodel:
     attributes:
+      space_filters:
+        name: Nome
+        building: Bloco
+        status: Situação
       space:
         space_id: Espaço
       schedule:

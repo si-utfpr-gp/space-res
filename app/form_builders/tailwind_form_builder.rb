@@ -20,7 +20,7 @@ class TailwindFormBuilder < ActionView::Helpers::FormBuilder
 
   # Rails' grouped_collection_select, styled like select; the methods are names, not procs. With
   # group_filter_key: :method in the options, each <optgroup> carries that method of its group in
-  # data-filter-key, for the ui--filtered-select controller.
+  # data-filter-key, for a script that filters the groups.
   def grouped_collection_select(attribute, collection, group_method, group_label_method, option_key_method,
                                 option_value_method, options = {}, html_options = {})
     filter_key = options[:group_filter_key]

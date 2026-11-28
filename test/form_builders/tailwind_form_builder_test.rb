@@ -87,9 +87,9 @@ class TailwindFormBuilderTest < ActionView::TestCase
     create(:building, campus: @pato_branco, name: "Bloco V")
 
     render_building_select(Space.new, { include_blank: "Sem bloco", group_filter_key: :id },
-                           hint: "Escolha o bloco.", data: { ui__filtered_select_target: "select" })
+                           hint: "Escolha o bloco.", data: { building_select: "true" })
 
-    assert_select "select[data-ui--filtered-select-target='select']" do
+    assert_select "select[data-building-select='true']" do
       assert_select "> option:first-child[value='']", text: "Sem bloco"
       assert_select "optgroup[label='Guarapuava'][data-filter-key='#{@guarapuava.id}']"
       assert_select "optgroup[label='Pato Branco'][data-filter-key='#{@pato_branco.id}']"

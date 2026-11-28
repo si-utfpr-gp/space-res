@@ -1,0 +1,66 @@
+<nav aria-label="<%= t("components.admin.campus_menu.label") %>" class="flex flex-1 flex-col overflow-y-auto px-3 py-4">
+  <%= link_to admin_root_path, class: "mb-3 flex min-h-11 items-center gap-2 rounded-lg px-3 py-2 text-xs no-underline" do %>
+    <%= helpers.icon(:shield_check, class: "h-4 w-4 shrink-0") %>
+    <%= t("components.admin.campus_menu.admin_area") %>
+  <% end %>
+
+  <div class="mb-4 border-b border-gray-200 pb-4">
+    <p class="px-3 text-xs font-semibold uppercase tracking-widest text-gray-500"><%= t("components.admin.campus_menu.campus") %></p>
+    <% if selector? %>
+      <details id="campus_selector" class="group mt-1">
+        <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-2 rounded-lg px-3 py-2 text-base font-semibold text-dark hover:bg-dark/10 [&::-webkit-details-marker]:hidden">
+          <span class="flex min-w-0 items-center gap-2">
+            <%= helpers.icon(:location_dot, class: "h-4 w-4 shrink-0 text-primary") %>
+            <span class="break-words"><%= campus_name %></span>
+          </span>
+          <span class="sr-only"><%= t("components.admin.campus_menu.change_campus") %></span>
+          <%= helpers.icon(:chevron_right, class: "h-2.5 w-1.5 shrink-0 rotate-90 transition-transform group-open:-rotate-90") %>
+        </summary>
+        <ul class="mt-1 space-y-1 text-sm">
+          <% @campi.each do |campus| %>
+            <li>
+              <%= link_to campus.name, section_path(@section, campus),
+                          aria: { current: ("true" if current_campus?(campus)) },
+                          class: class_names("flex min-h-11 items-center break-words rounded-lg px-3 py-2 no-underline",
+                                             "font-semibold" => current_campus?(campus)) %>
+            </li>
+          <% end %>
+        </ul>
+      </details>
+    <% else %>
+      <p class="mt-1 flex min-h-11 items-center gap-2 px-3 py-2 text-base font-semibold text-dark">
+        <%= helpers.icon(:location_dot, class: "h-4 w-4 shrink-0 text-primary") %>
+        <span class="break-words"><%= campus_name %></span>
+      </p>
+    <% end %>
+  </div>
+
+  <ul class="space-y-1 text-sm">
+    <% SECTIONS.each do |section, icon_name| %>
+      <li>
+        <%= link_to section_path(section),
+                    aria: { current: ("page" if current_section?(section)) },
+                    class: class_names("flex min-h-11 items-center gap-2 rounded-lg px-3 py-2 no-underline",
+                                       active: current_section?(section)) do %>
+          <%= helpers.icon(icon_name, class: "h-4 w-4 shrink-0") %>
+          <%= t("components.admin.campus_menu.sections.#{section}") %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+
+  <ul class="mt-auto space-y-1 border-t border-gray-200 pt-4 text-sm">
+    <li>
+      <%= link_to users_root_path, class: "flex min-h-11 items-center gap-2 rounded-lg px-3 py-2 no-underline" do %>
+        <%= helpers.icon(:home, class: "h-4 w-4 shrink-0") %>
+        <%= t("users.home.layouts.sidebar.home") %>
+      <% end %>
+    </li>
+    <li>
+      <%= link_to users_reservations_path, class: "flex min-h-11 items-center gap-2 rounded-lg px-3 py-2 no-underline" do %>
+        <%= helpers.icon(:calendar, class: "h-4 w-4 shrink-0") %>
+        <%= t("users.home.layouts.sidebar.reservations") %>
+      <% end %>
+    </li>
+  </ul>
+</nav>

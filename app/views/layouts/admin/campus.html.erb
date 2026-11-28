@@ -1,0 +1,5 @@
+<%# The pages of one campus: the application layout with the campus menu in the sidebar. %>
+<% content_for :sidebar_navigation do %>
+  <%= render Admin::CampusMenuComponent.new(campus: @campus, campi: selectable_campi, section: campus_section) %>
+<% end %>
+<%= render template: "layouts/users/application" %>

@@ -1,0 +1,22 @@
+<%# locals: (campus:, filters:) %>
+<%# The results go into the spaces_results frame and the URL keeps the filters (turbo_action advance). %>
+<%= form_with model: filters, scope: :filters, url: admin_campus_spaces_path(campus), method: :get,
+              html: { role: "search", aria: { label: t("admin.campi.spaces.filters.label") } },
+              data: { controller: "ui--filter-form", turbo_frame: "spaces_results", turbo_action: "advance",
+                      ui__filter_form_frame_value: "spaces_results",
+                      action: "turbo:frame-load@document->ui--filter-form#announce" },
+              class: "grid gap-x-4 rounded-xl border border-gray-200 bg-white p-4 sm:grid-cols-3" do |f| %>
+  <%= f.input :name, type: :search, placeholder: t("admin.campi.spaces.filters.name_placeholder"),
+                     autocomplete: "off", data: { action: "input->ui--filter-form#submitLater" } %>
+  <%= f.select :building, filters.building_options, { include_blank: t("admin.campi.spaces.filters.all_buildings") },
+               data: { action: "change->ui--filter-form#submit" } %>
+  <%= f.select :status, filters.status_options, { include_blank: t("admin.campi.spaces.filters.all_statuses") },
+               data: { action: "change->ui--filter-form#submit" } %>
+
+  <div class="sm:col-span-3">
+    <button type="submit" class="btn btn-md btn-outline w-full sm:w-auto" data-ui--filter-form-target="submit">
+      <%= t("admin.campi.spaces.filters.submit") %>
+    </button>
+  </div>
+  <p class="sr-only" aria-live="polite" data-ui--filter-form-target="status"></p>
+<% end %>

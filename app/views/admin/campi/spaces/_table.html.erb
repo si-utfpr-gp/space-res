@@ -1,0 +1,17 @@
+<%# locals: (spaces:) %>
+<div class="overflow-x-auto rounded-xl border border-gray-200 bg-white">
+  <table class="w-full text-left text-sm text-dark">
+    <thead class="bg-gray-50 text-xs font-semibold uppercase tracking-wider text-gray-500">
+      <tr>
+        <th scope="col" class="px-3 py-3 sm:px-4"><%= Space.human_attribute_name(:name) %></th>
+        <th scope="col" class="hidden px-4 py-3 lg:table-cell"><%= Space.human_attribute_name(:building) %></th>
+        <th scope="col" class="hidden px-4 py-3 lg:table-cell"><%= Space.human_attribute_name(:department) %></th>
+        <th scope="col" class="hidden px-4 py-3 lg:table-cell"><%= t("admin.campi.spaces.index.approval") %></th>
+        <th scope="col" class="px-3 py-3 text-right sm:px-4"><%= t("admin.campi.spaces.index.actions") %></th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+      <%= render spaces %>
+    </tbody>
+  </table>
+</div>

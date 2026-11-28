@@ -1,0 +1,12 @@
+<%# locals: (space:, campus:) %>
+<li id="<%= dom_id(space, :unavailable) %>" class="flex flex-col gap-3 py-3 sm:flex-row sm:items-center sm:justify-between">
+  <div class="min-w-0">
+    <p class="break-words font-medium text-dark">
+      <%= space.name %>
+      <span class="text-sm font-normal text-gray-600">· <%= Admin::SpacePresenter.new(space).building_name %></span>
+    </p>
+    <p class="break-words text-sm text-gray-600"><%= t("admin.campi.show.unavailable_spaces.reason", reason: space.unavailability_reason) %></p>
+  </div>
+  <%= link_to t("admin.campi.show.unavailable_spaces.show_html", name: space.name), admin_campus_space_path(campus, space),
+              class: "btn btn-md btn-outline w-full shrink-0 no-underline sm:w-auto" %>
+</li>

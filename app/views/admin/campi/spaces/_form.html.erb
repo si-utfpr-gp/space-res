@@ -1,0 +1,20 @@
+<%# locals: (campus:, space:, buildings:, departments:, usage_terms:, cancel_path:) %>
+<%= form_with model: [ :admin, campus, space ], class: "rounded-xl border border-gray-200 bg-white p-4 sm:p-6" do |f| %>
+  <%# The campus comes from the page, so it is shown, not asked. %>
+  <p id="space_campus" class="mb-4 text-sm text-gray-600">
+    <%= Space.human_attribute_name(:campus) %> <strong class="break-words font-semibold text-dark"><%= campus.name %></strong>
+  </p>
+  <%= f.select :building_id, buildings.pluck(:name, :id), { include_blank: t("admin.campi.spaces.no_building") },
+               autofocus: true, hint: t(".building_hint") %>
+  <%= f.input :name, placeholder: true %>
+  <%= f.input :description, type: :textarea, rows: 3, placeholder: true %>
+  <%= f.select :department_id, departments.pluck(:name, :id), { include_blank: t("admin.campi.spaces.no_department") } %>
+  <%= f.checkbox :requires_approval, hint: t(".approval_hint") %>
+  <%= f.select :usage_term_id, usage_terms.pluck(:title, :id), { include_blank: t("admin.campi.spaces.no_usage_term") },
+               hint: t(".usage_term_hint") %>
+
+  <div class="mt-6 flex flex-col-reverse gap-3 border-t border-gray-200 pt-4 sm:flex-row sm:justify-between">
+    <%= link_to t("actions.cancel"), cancel_path, class: "btn btn-md btn-outline w-full no-underline sm:w-auto" %>
+    <%= f.submit t("actions.save"), class: "w-full sm:w-auto" %>
+  </div>
+<% end %>

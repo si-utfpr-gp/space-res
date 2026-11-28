@@ -1,0 +1,24 @@
+<% provide :title, t(".title", name: @campus.name) %>
+<% provide :head_title, t(".title", name: @campus.name) %>
+<% provide :head_subtitle, t(".subtitle") %>
+<% presenter = Admin::CampusOverviewPresenter.new(space_counts: @space_counts, building_names: @building_names) %>
+
+<div class="space-y-4 sm:space-y-6">
+  <%= render "actions", campus: @campus %>
+
+  <section aria-labelledby="campus_summaries_title">
+    <h2 id="campus_summaries_title" class="sr-only"><%= t(".summaries") %></h2>
+    <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      <%= render "summary", id: "spaces_summary", title: t(".spaces_summary.title"), icon_name: :door,
+                            count: presenter.spaces_count, description: presenter.spaces_summary,
+                            index_path: admin_campus_spaces_path(@campus), index_label: t(".spaces_summary.view_all_html"),
+                            new_path: new_admin_campus_space_path(@campus), new_label: t(".spaces_summary.new_html") %>
+      <%= render "summary", id: "buildings_summary", title: t(".buildings_summary.title"), icon_name: :building_office,
+                            count: presenter.buildings_count, description: presenter.buildings_summary,
+                            index_path: admin_campus_buildings_path(@campus), index_label: t(".buildings_summary.view_all_html"),
+                            new_path: new_admin_campus_building_path(@campus), new_label: t(".buildings_summary.new_html") %>
+    </ul>
+  </section>
+
+  <%= render "unavailable_spaces", campus: @campus, spaces: @unavailable_spaces %>
+</div>

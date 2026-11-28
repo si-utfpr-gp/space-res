@@ -13,7 +13,7 @@ pt-BR:
               taken: Já existe um bloco com este nome neste campus.
         campus:
           restrict_dependent_destroy:
-            has_many: Não é possível excluir o campus porque ele tem %{record} cadastrados. Mova-os para outro campus ou exclua-os antes.
+            has_many: Não é possível excluir o campus porque ele tem %{record} cadastrados. Exclua-os antes.
           attributes:
             name:
               blank: Informe o nome do campus.
@@ -30,8 +30,8 @@ pt-BR:
             campus:
               required: Selecione o campus.
             building:
-              blank: Selecione um bloco do campus escolhido.
-              other_campus: Selecione um bloco do campus escolhido.
+              blank: Selecione um bloco deste campus.
+              other_campus: Selecione um bloco deste campus.
             department:
               blank: Selecione um departamento cadastrado.
             usage_term:

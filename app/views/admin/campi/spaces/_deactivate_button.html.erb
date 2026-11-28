@@ -1,0 +1,4 @@
+<%# locals: (space:) %>
+<%= button_to t("admin.campi.spaces.show.deactivate"), admin_campus_space_deactivation_path(space.campus, space),
+              class: "btn btn-md btn-outline w-full", form_class: "flex-1 sm:flex-none",
+              form: { data: { turbo_confirm: t("admin.campi.spaces.confirm_deactivation", name: space.name) } } %>
